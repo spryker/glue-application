@@ -5,10 +5,10 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Glue\GlueApplication\Plugin\Rest;
+namespace Spryker\Glue\GlueApplication\Plugin\DocumentationGeneratorRestApi;
 
+use Spryker\Glue\DocumentationGeneratorRestApiExtension\Dependency\Plugin\ResourceRoutePluginsProviderPluginInterface;
 use Spryker\Glue\Kernel\AbstractPlugin;
-use Spryker\Glue\RestApiDocumentationGeneratorExtension\Dependency\Plugin\ResourceRoutePluginsProviderPluginInterface;
 
 /**
  * @method \Spryker\Glue\GlueApplication\GlueApplicationFactory getFactory()
