@@ -12,6 +12,7 @@ use Spryker\Glue\GlueApplication\Rest\JsonApi\RestLinkInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
+use Spryker\Glue\GlueApplication\Rest\RequestConstantsInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ResponseBuilder implements ResponseBuilderInterface
@@ -122,7 +123,12 @@ class ResponseBuilder implements ResponseBuilderInterface
 
         foreach ($resources as $resource) {
             if (!$resource->hasLink(RestLinkInterface::LINK_SELF)) {
-                $link = $resource->getType();
+                $link = '';
+                if ($restRequest->getHttpRequest()->get(RequestConstantsInterface::ATTRIBUTE_IS_BACKEND)) {
+                    $link .= GlueApplicationConfig::BACKEND_RESOURCES_PREFIX . '/';
+                }
+
+                $link .= $resource->getType();
                 if ($resource->getId()) {
                     $link .= '/' . $resource->getId();
                 }

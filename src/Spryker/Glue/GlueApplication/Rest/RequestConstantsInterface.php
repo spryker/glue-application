@@ -20,6 +20,7 @@ interface RequestConstantsInterface
     public const ATTRIBUTE_CONTEXT = 'route-context';
     public const ATTRIBUTE_IS_PROTECTED = 'is-protected';
     public const ATTRIBUTE_RESOURCE_VERSION = 'resource-version';
+    public const ATTRIBUTE_IS_BACKEND = 'is-backend';
 
     public const HEADER_ACCEPT = 'accept';
     public const HEADER_ACCEPT_LANGUAGE = 'accept-language';

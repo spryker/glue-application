@@ -18,7 +18,7 @@ interface ResourceRouteLoaderInterface
      *
      * @return array|null
      */
-    public function load(string $resourceType, array $resources, Request $httpRequest): ?array;
+    public function load(string $resourceType, array $resources, Request $httpRequest, bool $isBackend = false): ?array;
 
     /**
      * @param string $resourceType

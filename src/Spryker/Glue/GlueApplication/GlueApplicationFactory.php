@@ -234,7 +234,11 @@ class GlueApplicationFactory extends AbstractFactory
      */
     public function createRestResourceRouteLoader(): ResourceRouteLoaderInterface
     {
-        return new ResourceRouteLoader($this->getResourceRoutePlugins(), $this->createRestVersionResolver());
+        return new ResourceRouteLoader(
+            $this->getResourceRoutePlugins(),
+            $this->getBackendResourceRoutePlugins(),
+            $this->createRestVersionResolver()
+        );
     }
 
     /**
@@ -548,5 +552,13 @@ class GlueApplicationFactory extends AbstractFactory
     public function getApplicationPlugins(): array
     {
         return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGINS_APPLICATION);
+    }
+
+    /**
+     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface[]
+     */
+    public function getBackendResourceRoutePlugins(): array
+    {
+        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_BACKEND_RESOURCE_ROUTES);
     }
 }

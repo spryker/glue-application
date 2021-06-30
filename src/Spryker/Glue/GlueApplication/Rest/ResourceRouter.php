@@ -7,6 +7,7 @@
 
 namespace Spryker\Glue\GlueApplication\Rest;
 
+use Spryker\Glue\GlueApplication\GlueApplicationConfig;
 use Spryker\Glue\GlueApplication\Rest\Request\HttpRequestValidatorInterface;
 use Spryker\Glue\GlueApplication\Rest\Uri\UriParserInterface;
 use Spryker\Glue\Kernel\BundleControllerAction;
@@ -68,22 +69,18 @@ class ResourceRouter implements ResourceRouterInterface
             return $this->createResourceNotFoundRoute();
         }
 
+        $isBackend = $resources[0][RequestConstantsInterface::ATTRIBUTE_TYPE] === GlueApplicationConfig::BACKEND_RESOURCES_PREFIX;
+
+        if($isBackend) {
+            array_shift($resources);
+        }
+
         $resourceType = $this->getMainResource($resources);
         if ($httpRequest->getMethod() === Request::METHOD_OPTIONS) {
             return $this->createOptionsRoute($resourceType, $resources);
         }
 
-        $route = $this->resourceRouteLoader->load(
-            $resourceType[RequestConstantsInterface::ATTRIBUTE_TYPE],
-            $resources,
-            $httpRequest
-        );
-
-        if (!$this->isValidRoute($route, $resources, $httpRequest)) {
-            return $this->createResourceNotFoundRoute();
-        }
-
-        return $this->buildRouteParameters($route, $resourceType, $resources);
+        return $this->createMatchedRequest($resources, $resourceType, $httpRequest, $isBackend);
     }
 
     /**
@@ -191,6 +188,7 @@ class ResourceRouter implements ResourceRouterInterface
                 RequestConstantsInterface::ATTRIBUTE_RESOURCE_FQCN => $route[RequestConstantsInterface::ATTRIBUTE_RESOURCE_FQCN],
                 RequestConstantsInterface::ATTRIBUTE_CONTEXT => $route[RequestConstantsInterface::ATTRIBUTE_CONFIGURATION]['context'],
                 RequestConstantsInterface::ATTRIBUTE_IS_PROTECTED => $route[RequestConstantsInterface::ATTRIBUTE_CONFIGURATION]['is_protected'],
+                RequestConstantsInterface::ATTRIBUTE_IS_BACKEND => $route[RequestConstantsInterface::ATTRIBUTE_IS_BACKEND],
             ]
         );
 
@@ -249,5 +247,29 @@ class ResourceRouter implements ResourceRouterInterface
         }
 
         return true;
+    }
+
+    /**
+     * @param array $resources
+     * @param array $resourceType
+     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
+     * @param bool $isBackend
+     *
+     * @return array
+     */
+    protected function createMatchedRequest(array $resources, array $resourceType, Request $httpRequest, bool $isBackend): array
+    {
+        $route = $this->resourceRouteLoader->load(
+            $resourceType[RequestConstantsInterface::ATTRIBUTE_TYPE],
+            $resources,
+            $httpRequest,
+            $isBackend
+        );
+
+        if (!$this->isValidRoute($route, $resources, $httpRequest)) {
+            return $this->createResourceNotFoundRoute();
+        }
+
+        return $this->buildRouteParameters($route, $resourceType, $resources);
     }
 }
