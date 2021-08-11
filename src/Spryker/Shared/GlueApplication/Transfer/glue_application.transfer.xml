@@ -34,4 +34,18 @@
         <property name="availableLocaleIsoCodes" type="array" singular="availableLocaleCode"/>
     </transfer>
 
+    <transfer name="SortCollection">
+        <property name="sorts" type="Sort[]" singular="sort" />
+    </transfer>
+
+    <transfer name="Sort">
+        <property name="field" type="string"/>
+        <property name="orderByAsc" type="bool"/>
+    </transfer>
+
+    <transfer name="Pagination">
+        <property name="limit" type="int" />
+        <property name="offset" type="int" />
+    </transfer>
+
 </transfers>
