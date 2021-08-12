@@ -99,7 +99,8 @@ class GlueApplicationFactory extends AbstractFactory
             $this->createRestControllerCallbacks(),
             $this->getConfig(),
             $this->createUserProvider(),
-            $this->createFormattedControllerBeforeAction()
+            $this->createFormattedControllerBeforeAction(),
+            $this->createRestResourceBuilder()
         );
     }
 
