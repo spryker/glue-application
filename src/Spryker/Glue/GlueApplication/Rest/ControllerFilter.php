@@ -293,6 +293,11 @@ class ControllerFilter implements ControllerFilterInterface
                     }
 
                 $actionParameters[] = $transfer;
+                continue;
+            }
+
+            if (str_starts_with($parameterType, 'Generated\Shared\Transfer\\')) {
+                $actionParameters[] = $restRequest->getResource()->getAttributes();
             }
         }
 
