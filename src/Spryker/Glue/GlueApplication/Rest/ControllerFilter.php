@@ -216,6 +216,13 @@ class ControllerFilter implements ControllerFilterInterface
         $reflectionMethod = new ReflectionMethod($controller, $action);
         $actionParameters = [];
         foreach ($reflectionMethod->getParameters() as $parameter) {
+            //TODO: Check for type
+
+            if ($parameter->getName() === 'id') {
+                $actionParameters[] = $restRequest->getResource()->getId();
+                continue;
+            }
+
             $parameterType = $parameter->getClass()->getName();
             if ($parameterType === RestRequestInterface::class) {
                 $actionParameters[] = $restRequest;
