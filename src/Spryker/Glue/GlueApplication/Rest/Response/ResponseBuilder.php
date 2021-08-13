@@ -214,6 +214,9 @@ class ResponseBuilder implements ResponseBuilderInterface
 
         if ($method === Request::METHOD_GET && ($idResource === null || $this->isCurrentUserCollectionResource($idResource))) {
             $linkParts = [];
+            if ($restRequest->getHttpRequest()->get(RequestConstantsInterface::ATTRIBUTE_IS_BACKEND)) {
+                $linkParts[] = GlueApplicationConfig::BACKEND_RESOURCES_PREFIX;
+            }
             foreach ($restRequest->getParentResources() as $parentResource) {
                 $linkParts[] = $parentResource->getType();
                 $linkParts[] = $parentResource->getId();

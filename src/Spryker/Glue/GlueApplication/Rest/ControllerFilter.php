@@ -216,9 +216,8 @@ class ControllerFilter implements ControllerFilterInterface
         $reflectionMethod = new ReflectionMethod($controller, $action);
         $actionParameters = [];
         foreach ($reflectionMethod->getParameters() as $parameter) {
-            //TODO: Check for type
-
-            if ($parameter->getName() === 'id') {
+            //TODO: Do parent IDs too
+            if ($parameter->getType() && $parameter->getType()->getName() === 'string') {
                 $actionParameters[] = $restRequest->getResource()->getId();
                 continue;
             }
