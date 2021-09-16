@@ -25,14 +25,16 @@ class GlueBootstrap
     use FactoryResolverAwareTrait;
 
     /**
+     * @param string|null $apiApplicationContextKey
+     *
      * @return \Spryker\Shared\Application\ApplicationInterface
      */
-    public function boot(): ApplicationInterface
+    public function boot(?string $apiApplicationContextKey = null): ApplicationInterface
     {
         $this->setUpSession();
 
         return $this->getFactory()
-            ->createApplication()
+            ->createApplication($apiApplicationContextKey)
             ->boot();
     }
 

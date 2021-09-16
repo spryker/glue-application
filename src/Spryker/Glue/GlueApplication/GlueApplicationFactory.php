@@ -8,6 +8,7 @@
 namespace Spryker\Glue\GlueApplication;
 
 use Negotiation\LanguageNegotiator;
+use Spryker\Glue\GlueApplication\Context\ApiApplicationContextDependencyResolver;
 use Spryker\Glue\GlueApplication\Dependency\Client\GlueApplicationToStoreClientInterface;
 use Spryker\Glue\GlueApplication\Dependency\Service\GlueApplicationToUtilEncodingServiceInterface;
 use Spryker\Glue\GlueApplication\Plugin\Rest\GlueControllerListenerPlugin;
@@ -114,7 +115,7 @@ class GlueApplicationFactory extends AbstractFactory
             $this->createRestRequestMetaDataExtractor(),
             $this->createRestRequestResourceExtractor(),
             $this->getConfig(),
-            $this->getFormatRequestPlugins()
+            $this->createApiApplicationContextDependencyResolver()->getFormatRequestPlugins()
         );
     }
 
@@ -126,7 +127,7 @@ class GlueApplicationFactory extends AbstractFactory
         return new ResponseFormatter(
             $this->createRestEncoderMatcher(),
             $this->createRestResponseBuilder(),
-            $this->getFormatResponseDataPlugins()
+            $this->createApiApplicationContextDependencyResolver()->getFormatResponseDataPlugins()
         );
     }
 
@@ -139,6 +140,14 @@ class GlueApplicationFactory extends AbstractFactory
     }
 
     /**
+     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRelationshipCollectionInterface
+     */
+    public function getResourceProviderPlugins(): ResourceRelationshipCollectionInterface
+    {
+        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_RESOURCE_RELATIONSHIP);
+    }
+
+    /**
      * @return \Spryker\Glue\GlueApplication\Rest\ResourceRouterInterface
      */
     public function createRestResourceRouter(): ResourceRouterInterface
@@ -148,7 +157,7 @@ class GlueApplicationFactory extends AbstractFactory
             $this->getGlueApplication(),
             $this->createRestUriParser(),
             $this->createRestResourceRouteLoader(),
-            $this->getRouterParameterExpanderPlugins()
+            $this->createApiApplicationContextDependencyResolver()->getRouterParameterExpanderPlugins()
         );
     }
 
@@ -170,7 +179,7 @@ class GlueApplicationFactory extends AbstractFactory
     public function createRestResponseHeaders(): ResponseHeadersInterface
     {
         return new ResponseHeaders(
-            $this->getFormatResponseHeadersPlugins(),
+            $this->createApiApplicationContextDependencyResolver()->getFormatResponseHeadersPlugins(),
             $this->createRestContentTypeResolver(),
             $this->getConfig()
         );
@@ -238,9 +247,9 @@ class GlueApplicationFactory extends AbstractFactory
     public function createRestResourceRouteLoader(): ResourceRouteLoaderInterface
     {
         return new ResourceRouteLoader(
-            $this->getResourceRoutePlugins(),
+            $this->createApiApplicationContextDependencyResolver()->getResourceRoutePlugins(),
             $this->createRestVersionResolver(),
-            $this->getRouterParameterExpanderPlugins()
+            $this->createApiApplicationContextDependencyResolver()->getRouterParameterExpanderPlugins()
         );
     }
 
@@ -250,7 +259,7 @@ class GlueApplicationFactory extends AbstractFactory
     public function createRestHttpRequestValidator(): HttpRequestValidatorInterface
     {
         return new HttpRequestValidator(
-            $this->getValidateRequestPlugins(),
+            $this->createApiApplicationContextDependencyResolver()->getValidateHttpRequestPlugins(),
             $this->createRestResourceRouteLoader(),
             $this->getConfig(),
             $this->createHeadersHttpRequestValidator()
@@ -262,7 +271,7 @@ class GlueApplicationFactory extends AbstractFactory
      */
     public function createFormattedControllerBeforeAction(): FormattedControllerBeforeActionInterface
     {
-        return new FormattedControllerBeforeAction($this->getFormattedControllerBeforeActionPlugins());
+        return new FormattedControllerBeforeAction($this->createApiApplicationContextDependencyResolver()->getFormattedControllerBeforeActionTerminatePlugins());
     }
 
     /**
@@ -288,7 +297,7 @@ class GlueApplicationFactory extends AbstractFactory
      */
     public function createRestRequestValidator(): RestRequestValidatorInterface
     {
-        return new RestRequestValidator($this->getValidateRestRequestPlugins(), $this->getRestRequestValidatorPlugins());
+        return new RestRequestValidator($this->createApiApplicationContextDependencyResolver()->getValidateRestRequestPlugins(), $this->createApiApplicationContextDependencyResolver()->getRestRequestValidatorPlugins());
     }
 
     /**
@@ -296,7 +305,7 @@ class GlueApplicationFactory extends AbstractFactory
      */
     public function createRestControllerCallbacks(): ControllerCallbacksInterface
     {
-        return new ControllerCallbacks($this->getControllerBeforeActionPlugins(), $this->getControllerAfterActionPlugins());
+        return new ControllerCallbacks($this->createApiApplicationContextDependencyResolver()->getControllerBeforeActionPlugins(), $this->createApiApplicationContextDependencyResolver()->getControllerAfterActionPlugins());
     }
 
     /**
@@ -372,7 +381,7 @@ class GlueApplicationFactory extends AbstractFactory
     public function createUserProvider(): UserProviderInterface
     {
         return new UserProvider(
-            $this->getRestUserFinderPlugins()
+            $this->createApiApplicationContextDependencyResolver()->getRestUserFinderPlugins()
         );
     }
 
@@ -382,7 +391,7 @@ class GlueApplicationFactory extends AbstractFactory
     public function createRestUserValidator(): RestUserValidatorInterface
     {
         return new RestUserValidator(
-            $this->getRestUserValidatorPlugins()
+            $this->createApiApplicationContextDependencyResolver()->getRestUserValidatorPlugins()
         );
     }
 
@@ -414,30 +423,6 @@ class GlueApplicationFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ValidateRestRequestPluginInterface[]
-     */
-    public function getValidateRestRequestPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_VALIDATE_REST_REQUEST);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RestUserValidatorPluginInterface[]
-     */
-    public function getRestUserValidatorPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGINS_VALIDATE_REST_USER);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RestRequestValidatorPluginInterface[]
-     */
-    public function getRestRequestValidatorPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_REST_REQUEST_VALIDATOR);
-    }
-
-    /**
      * @return \Spryker\Service\Container\ContainerInterface
      */
     public function getGlueApplication(): ContainerInterface
@@ -454,62 +439,6 @@ class GlueApplicationFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface[]
-     */
-    public function getResourceRoutePlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_RESOURCE_ROUTES);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRelationshipCollectionInterface
-     */
-    public function getResourceProviderPlugins(): ResourceRelationshipCollectionInterface
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_RESOURCE_RELATIONSHIP);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ValidateHttpRequestPluginInterface[]
-     */
-    public function getValidateRequestPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_VALIDATE_HTTP_REQUEST);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\FormattedControllerBeforeActionPluginInterface[]
-     */
-    public function getFormattedControllerBeforeActionPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_FORMATTED_CONTROLLER_BEFORE_ACTION);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\FormatRequestPluginInterface[]
-     */
-    public function getFormatRequestPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_FORMAT_REQUEST);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\FormatResponseDataPluginInterface[]
-     */
-    public function getFormatResponseDataPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_FORMAT_RESPONSE_DATA);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\FormatResponseHeadersPluginInterface[]
-     */
-    public function getFormatResponseHeadersPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_FORMAT_RESPONSE_HEADERS);
-    }
-
-    /**
      * @return \Spryker\Glue\GlueApplication\Dependency\Client\GlueApplicationToStoreClientInterface
      */
     public function getStoreClient(): GlueApplicationToStoreClientInterface
@@ -518,58 +447,38 @@ class GlueApplicationFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ControllerBeforeActionPluginInterface[]
-     */
-    public function getControllerBeforeActionPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_CONTROLLER_BEFORE_ACTION);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ControllerAfterActionPluginInterface[]
-     */
-    public function getControllerAfterActionPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGIN_CONTROLLER_AFTER_ACTION);
-    }
-
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RestUserFinderPluginInterface[]
-     */
-    public function getRestUserFinderPlugins(): array
-    {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGINS_REST_USER_FINDER);
-    }
-
-    /**
+     * @param string|null $apiApplicationContextKey
+     *
      * @return \Spryker\Shared\Application\ApplicationInterface
      */
-    public function createApplication(): ApplicationInterface
+    public function createApplication(?string $apiApplicationContextKey): ApplicationInterface
     {
-        return new ApplicationApplication($this->createServiceContainer(), $this->getApplicationPlugins());
+        return new ApplicationApplication($this->createServiceContainer($apiApplicationContextKey), $this->createApiApplicationContextDependencyResolver()->getApplicationPlugins());
     }
 
     /**
+     * @param string|null $apiApplicationContextKey
+     *
      * @return \Spryker\Service\Container\ContainerInterface
      */
-    public function createServiceContainer(): ContainerInterface
+    public function createServiceContainer(?string $apiApplicationContextKey): ContainerInterface
     {
-        return new ContainerProxy(['logger' => null, 'debug' => $this->getConfig()->isDebugModeEnabled(), 'charset' => 'UTF-8']);
+        return new ContainerProxy(['apiApplicationContextKey' => $apiApplicationContextKey, 'logger' => null, 'debug' => $this->getConfig()->isDebugModeEnabled(), 'charset' => 'UTF-8']);
     }
 
     /**
-     * @return \Spryker\Shared\ApplicationExtension\Dependency\Plugin\ApplicationPluginInterface[]
+     * @return \Spryker\Glue\GlueApplication\Context\ApiApplicationContextDependencyResolver
      */
-    public function getApplicationPlugins(): array
+    public function createApiApplicationContextDependencyResolver(): ApiApplicationContextDependencyResolver
     {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGINS_APPLICATION);
+        return new ApiApplicationContextDependencyResolver($this->getContainer(), $this->getApiApplicationContextPlugins());
     }
 
     /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RouterParameterExpanderPluginInterface[]
+     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ApiApplicationContextPluginInterface[]
      */
-    public function getRouterParameterExpanderPlugins(): array
+    public function getApiApplicationContextPlugins()
     {
-        return $this->getProvidedDependency(GlueApplicationDependencyProvider::PLUGINS_ROUTER_PARAMETER_EXPANDER);
+        return $this->getProvidedDependency(GlueApplicationDependencyProvider::API_APPLICATION_CONTEXT_PLUGINS);
     }
 }

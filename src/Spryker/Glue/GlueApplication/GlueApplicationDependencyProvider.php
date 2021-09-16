@@ -95,6 +95,11 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
     public const APPLICATION_GLUE = 'APPLICATION_GLUE';
 
     /**
+     * @var string
+     */
+    public const API_APPLICATION_CONTEXT_PLUGINS = 'API_APPLICATION_CONTEXT_PLUGINS';
+
+    /**
      * @param \Spryker\Glue\Kernel\Container $container
      *
      * @return \Spryker\Glue\Kernel\Container
@@ -102,6 +107,7 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addUtilEncodingService($container);
+        $container = $this->addApiApplicationContextPlugins($container);
         $container = $this->addGlueApplication($container);
         $container = $this->addStoreClient($container);
 
@@ -120,6 +126,20 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addApplicationPlugins($container);
         $container = $this->addRestUserFinderPlugins($container);
         $container = $this->addRouterParameterExpanderPlugins($container);
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Glue\Kernel\Container $container
+     *
+     * @return \Spryker\Glue\Kernel\Container
+     */
+    protected function addApiApplicationContextPlugins(Container $container): Container
+    {
+        $container->set(static::API_APPLICATION_CONTEXT_PLUGINS, function (Container $container) {
+            return $this->getApiApplicationContextPlugins();
+        });
 
         return $container;
     }
@@ -513,6 +533,14 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
      * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RouterParameterExpanderPluginInterface[]
      */
     protected function getRouterParameterExpanderPlugins(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ApiApplicationContextPluginInterface[]
+     */
+    protected function getApiApplicationContextPlugins(): array
     {
         return [];
     }
