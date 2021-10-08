@@ -40,21 +40,29 @@ class ResourceRouter implements ResourceRouterInterface
     protected $resourceRouteLoader;
 
     /**
+     * @var array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RouterParameterExpanderPluginInterface>
+     */
+    protected $routerParameterExpanderPlugins;
+
+    /**
      * @param \Spryker\Glue\GlueApplication\Rest\Request\HttpRequestValidatorInterface $requestHeaderValidator
      * @param \Spryker\Service\Container\ContainerInterface $application
      * @param \Spryker\Glue\GlueApplication\Rest\Uri\UriParserInterface $uriParser
      * @param \Spryker\Glue\GlueApplication\Rest\ResourceRouteLoaderInterface $resourceRouteLoader
+     * @param array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RouterParameterExpanderPluginInterface> $routerParameterExpanderPlugins
      */
     public function __construct(
         HttpRequestValidatorInterface $requestHeaderValidator,
         ContainerInterface $application,
         UriParserInterface $uriParser,
-        ResourceRouteLoaderInterface $resourceRouteLoader
+        ResourceRouteLoaderInterface $resourceRouteLoader,
+        array $routerParameterExpanderPlugins
     ) {
         $this->requestHeaderValidator = $requestHeaderValidator;
         $this->application = $application;
         $this->uriParser = $uriParser;
         $this->resourceRouteLoader = $resourceRouteLoader;
+        $this->routerParameterExpanderPlugins = $routerParameterExpanderPlugins;
     }
 
     /**
@@ -191,6 +199,10 @@ class ResourceRouter implements ResourceRouterInterface
                 RequestConstantsInterface::ATTRIBUTE_IS_BACKEND => $route[RequestConstantsInterface::ATTRIBUTE_IS_BACKEND],
             ]
         );
+
+        foreach ($this->routerParameterExpanderPlugins as $routerParameterExpanderPlugin) {
+            $routeParams = $routerParameterExpanderPlugin->expandRouteParameters($route, $routeParams);
+        }
 
         return $routeParams;
     }

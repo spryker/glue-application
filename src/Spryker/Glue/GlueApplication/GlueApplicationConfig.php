@@ -14,7 +14,7 @@ use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 class GlueApplicationConfig extends AbstractBundleConfig
 {
     /**
-     * @const string
+     * @var string
      */
     public const BACKEND_RESOURCES_PREFIX = 'backend';
 
@@ -24,37 +24,37 @@ class GlueApplicationConfig extends AbstractBundleConfig
     public const COLLECTION_IDENTIFIER_CURRENT_USER = 'mine';
 
     /**
-     * @const string
+     * @var string
      */
     protected const HEADER_X_FRAME_OPTIONS_VALUE = 'SAMEORIGIN';
 
     /**
-     * @const string
+     * @var string
      */
     protected const HEADER_CONTENT_SECURITY_POLICY_VALUE = 'frame-ancestors \'self\'';
 
     /**
-     * @const string
+     * @var string
      */
     protected const HEADER_X_CONTENT_TYPE_OPTIONS_VALUE = 'nosniff';
 
     /**
-     * @const string
+     * @var string
      */
     protected const HEADER_X_XSS_PROTECTION_VALUE = '1; mode=block';
 
     /**
-     * @const string
+     * @var string
      */
     protected const HEADER_REFERRER_POLICY_VALUE = 'same-origin';
 
     /**
-     * @const string
+     * @var string
      */
     protected const HEADER_PERMISSIONS_POLICY_VALUE = '';
 
     /**
-     * @const bool
+     * @var bool
      */
     public const VALIDATE_REQUEST_HEADERS = true;
 
@@ -116,7 +116,7 @@ class GlueApplicationConfig extends AbstractBundleConfig
      *
      * @api
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getCorsAllowedHeaders(): array
     {
@@ -134,7 +134,7 @@ class GlueApplicationConfig extends AbstractBundleConfig
      *
      * @api
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getSecurityHeaders(): array
     {

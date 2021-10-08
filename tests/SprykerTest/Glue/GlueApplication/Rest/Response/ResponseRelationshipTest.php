@@ -30,11 +30,29 @@ use SprykerTest\Glue\GlueApplication\Stub\RestRequest;
  */
 class ResponseRelationshipTest extends Unit
 {
+    /**
+     * @var string
+     */
     protected const RESOURCE_TYPE_PRODUCT_ABSTRACT = 'product-abstract';
+    /**
+     * @var string
+     */
     protected const RESOURCE_TYPE_PRODUCT_CONCRETE = 'product-concrete';
+    /**
+     * @var string
+     */
     protected const RESOURCE_TYPE_IMAGE_SET = 'concrete-product-image-sets';
+    /**
+     * @var int
+     */
     protected const RESOURCE_ABSTRACT_PRODUCT_ID = 1;
+    /**
+     * @var int
+     */
     protected const RESOURCE_IMAGE_SET_ID = 1;
+    /**
+     * @var int
+     */
     protected const RESOURCE_CONCRETE_PRODUCT_ID = 2;
 
     /**
@@ -116,7 +134,7 @@ class ResponseRelationshipTest extends Unit
         $resources = $this->createResourcesWithOverwritableRelations($restResourceBuilder);
 
         // Act
-        /** @var \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface[] $included */
+        /** @var array<\Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface> $included */
         [$includeAbstractProduct, $includeImageSet, $includeConcreteProduct] = $responseRelationship
             ->processIncluded($resources, $restRequest);
 
@@ -144,7 +162,7 @@ class ResponseRelationshipTest extends Unit
     /**
      * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilder $restResourceBuilder
      *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface[]
+     * @return array<\Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface>
      */
     protected function createResourcesWithOverwritableRelations(RestResourceBuilder $restResourceBuilder): array
     {

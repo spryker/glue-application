@@ -69,7 +69,7 @@ class UriParser implements UriParserInterface
     /**
      * @param string $path
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function splitPath($path): array
     {
