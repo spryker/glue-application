@@ -106,7 +106,7 @@ class ResourceRouter implements ResourceRouterInterface
             $this->application,
             new BundleControllerAction($module, $controller, $action),
             new ControllerResolver(),
-            $routerResolver
+            $routerResolver,
         );
 
         return [
@@ -161,7 +161,7 @@ class ResourceRouter implements ResourceRouterInterface
      */
     protected function isValidChildParent(array $resources, array $currentResource, int $resourceNr): bool
     {
-        $nextResource = isset($resources[$resourceNr + 1]) ? $resources[$resourceNr + 1] : null;
+        $nextResource = $resources[$resourceNr + 1] ?? null;
         if (!$nextResource) {
             return false;
         }
@@ -185,7 +185,7 @@ class ResourceRouter implements ResourceRouterInterface
         $routeParams = $this->createRoute(
             $route[RequestConstantsInterface::ATTRIBUTE_MODULE],
             $route[RequestConstantsInterface::ATTRIBUTE_CONTROLLER],
-            $route[RequestConstantsInterface::ATTRIBUTE_CONFIGURATION]['action']
+            $route[RequestConstantsInterface::ATTRIBUTE_CONFIGURATION]['action'],
         );
 
         $routeParams = array_merge(

@@ -71,7 +71,7 @@ class ResponseBuilder implements ResponseBuilderInterface
         $this->responseRelationship->loadRelationships(
             $mainResourceType,
             $restResponse->getResources(),
-            $restRequest
+            $restRequest,
         );
 
         $data = $this->resourcesToArray($restResponse->getResources(), $restRequest, $mainResourceType);
@@ -141,7 +141,7 @@ class ResponseBuilder implements ResponseBuilderInterface
             $data[] = $this->resourceToArray(
                 $resource,
                 $includeRelations,
-                $restRequest
+                $restRequest,
             );
         }
 
@@ -165,7 +165,7 @@ class ResponseBuilder implements ResponseBuilderInterface
         if (count($restRequest->getFields()) > 0 && isset($restRequest->getFields()[$restResource->getType()])) {
             $data[RestResourceInterface::RESOURCE_ATTRIBUTES] = array_intersect_key(
                 $data[RestResourceInterface::RESOURCE_ATTRIBUTES],
-                array_flip($restRequest->getFields()[$restResource->getType()]->getAttributes())
+                array_flip($restRequest->getFields()[$restResource->getType()]->getAttributes()),
             );
         }
 
@@ -173,7 +173,7 @@ class ResponseBuilder implements ResponseBuilderInterface
 
         if (isset($data[RestResourceInterface::RESOURCE_LINKS])) {
             $data[RestResourceInterface::RESOURCE_LINKS] = $this->formatLinks(
-                $data[RestResourceInterface::RESOURCE_LINKS]
+                $data[RestResourceInterface::RESOURCE_LINKS],
             );
         }
 
@@ -275,7 +275,7 @@ class ResponseBuilder implements ResponseBuilderInterface
         if ($restRequest->getInclude()) {
             $data[RestResourceInterface::RESOURCE_RELATIONSHIPS] = array_intersect_key(
                 $data[RestResourceInterface::RESOURCE_RELATIONSHIPS],
-                $restRequest->getInclude()
+                $restRequest->getInclude(),
             );
         }
 

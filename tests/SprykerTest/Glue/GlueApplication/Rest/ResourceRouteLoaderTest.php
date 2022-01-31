@@ -201,7 +201,6 @@ class ResourceRouteLoaderTest extends Unit
     protected function createVersionResolverMock(?int $major = null, ?int $minor = null): VersionResolverInterface
     {
         $versionResolverMock = $this->getMockBuilder(VersionResolverInterface::class)
-            ->setMethods(['findVersion'])
             ->getMock();
 
         $versionResolverMock
@@ -209,7 +208,7 @@ class ResourceRouteLoaderTest extends Unit
             ->willReturn(
                 (new RestVersionTransfer())
                     ->setMajor($major)
-                    ->setMinor($minor)
+                    ->setMinor($minor),
             );
 
         return $versionResolverMock;
@@ -245,7 +244,7 @@ class ResourceRouteLoaderTest extends Unit
                     $resourceRouteCollection->addGet('get', true, [1 => 1]);
 
                     return $resourceRouteCollection;
-                }
+                },
             );
     }
 }
