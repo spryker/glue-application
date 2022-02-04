@@ -9,6 +9,7 @@ namespace Spryker\Glue\GlueApplication;
 
 use Spryker\Glue\GlueApplication\Dependency\Client\GlueApplicationToStoreClientBridge;
 use Spryker\Glue\GlueApplication\Dependency\Service\GlueApplicationToUtilEncodingServiceBridge;
+use Spryker\Glue\GlueApplication\Plugin\GlueApplication\FallbackStorefrontApiGlueApplicationBootstrapPlugin;
 use Spryker\Glue\GlueApplication\Rest\Collection\ResourceRelationshipCollection;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRelationshipCollectionInterface;
 use Spryker\Glue\Kernel\AbstractBundleDependencyProvider;
@@ -29,58 +30,72 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
      * @var string
      */
     public const PLUGIN_BACKEND_RESOURCE_ROUTES = 'PLUGIN_BACKEND_RESOURCE_ROUTES';
+
     /**
      * @var string
      */
     public const PLUGIN_RESOURCE_RELATIONSHIP = 'PLUGIN_RESOURCE_RELATIONSHIP';
+
     /**
      * @var string
      */
     public const PLUGIN_VALIDATE_HTTP_REQUEST = 'PLUGIN_VALIDATE_HTTP_REQUEST';
+
     /**
      * @var string
      */
     public const PLUGIN_FORMATTED_CONTROLLER_BEFORE_ACTION = 'PLUGIN_FORMATTED_CONTROLLER_BEFORE_ACTION';
+
     /**
      * @var string
      */
     public const PLUGIN_VALIDATE_REST_REQUEST = 'PLUGIN_VALIDATE_REST_REQUEST';
+
     /**
      * @var string
      */
     public const PLUGINS_VALIDATE_REST_USER = 'PLUGIN_VALIDATE_REST_USER';
+
     /**
      * @var string
      */
     public const PLUGIN_REST_REQUEST_VALIDATOR = 'PLUGIN_REST_REQUEST_VALIDATOR';
+
     /**
      * @var string
      */
     public const PLUGIN_FORMAT_REQUEST = 'PLUGIN_FORMAT_REQUEST';
+
     /**
      * @var string
      */
     public const PLUGIN_FORMAT_RESPONSE_DATA = 'PLUGIN_FORMAT_RESPONSE_DATA';
+
     /**
      * @var string
      */
     public const PLUGIN_FORMAT_RESPONSE_HEADERS = 'PLUGIN_FORMAT_RESPONSE_HEADERS';
+
     /**
      * @var string
      */
     public const PLUGIN_CONTROLLER_BEFORE_ACTION = 'PLUGIN_CONTROLLER_BEFORE_ACTION';
+
     /**
      * @var string
      */
     public const PLUGIN_CONTROLLER_AFTER_ACTION = 'PLUGIN_CONTROLLER_AFTER_ACTION';
+
     /**
      * @var string
      */
     public const PLUGINS_APPLICATION = 'PLUGINS_APPLICATION';
+
     /**
      * @var string
      */
     public const PLUGINS_REST_USER_FINDER = 'PLUGINS_REST_USER_FINDER';
+
     /**
      * @var string
      */
@@ -90,14 +105,26 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
      * @var string
      */
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
+
     /**
      * @var string
      */
     public const CLIENT_STORE = 'CLIENT_STORE';
+
     /**
      * @var string
      */
     public const APPLICATION_GLUE = 'APPLICATION_GLUE';
+
+    /**
+     * @var string
+     */
+    public const PLUGINS_GLUE_APPLICATION_BOOTSTRAP = 'PLUGINS_GLUE_APPLICATION_BOOTSTRAP';
+
+    /**
+     * @var string
+     */
+    public const PLUGIN_API_CONTEXT_EXPANDER = 'PLUGIN_API_CONTEXT_EXPANDER';
 
     /**
      * @param \Spryker\Glue\Kernel\Container $container
@@ -110,6 +137,8 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addGlueApplication($container);
         $container = $this->addStoreClient($container);
 
+        $container = $this->addGlueContextExpanderPlugins($container);
+        $container = $this->addGlueApplicationBootstrapPlugins($container);
         $container = $this->addResourceRoutePlugins($container);
         $container = $this->addBackendResourceRoutePlugins($container);
         $container = $this->addResourceRelationshipPlugins($container);
@@ -543,6 +572,52 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
      * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RouterParameterExpanderPluginInterface>
      */
     protected function getRouterParameterExpanderPlugins(): array
+    {
+        return [];
+    }
+
+    /**
+     * @param \Spryker\Glue\Kernel\Container $container
+     *
+     * @return \Spryker\Glue\Kernel\Container
+     */
+    protected function addGlueApplicationBootstrapPlugins(Container $container): Container
+    {
+        $container->set(static::PLUGINS_GLUE_APPLICATION_BOOTSTRAP, function (Container $container) {
+            return $this->getGlueApplicationBootstrapPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface>
+     */
+    protected function getGlueApplicationBootstrapPlugins(): array
+    {
+        return [
+            new FallbackStorefrontApiGlueApplicationBootstrapPlugin(),
+        ];
+    }
+
+    /**
+     * @param \Spryker\Glue\Kernel\Container $container
+     *
+     * @return \Spryker\Glue\Kernel\Container
+     */
+    protected function addGlueContextExpanderPlugins(Container $container)
+    {
+        $container->set(static::PLUGIN_API_CONTEXT_EXPANDER, function (Container $container) {
+            return $this->getGlueContextExpanderPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueContextExpanderPluginInterface>
+     */
+    protected function getGlueContextExpanderPlugins(): array
     {
         return [];
     }

@@ -52,7 +52,7 @@ class RequestResourceExtractor implements RequestResourceExtractorInterface
         if (!$resource) {
             $resource = $this->restResourceBuilder->createRestResource(
                 $request->attributes->get(RequestConstantsInterface::ATTRIBUTE_TYPE, 'errors'),
-                $request->attributes->get(RequestConstantsInterface::ATTRIBUTE_ID)
+                $request->attributes->get(RequestConstantsInterface::ATTRIBUTE_ID),
             );
         }
 
@@ -87,7 +87,7 @@ class RequestResourceExtractor implements RequestResourceExtractorInterface
         return $this->restResourceBuilder->createRestResource(
             $data[RestResourceInterface::RESOURCE_TYPE],
             $request->attributes->get(RequestConstantsInterface::ATTRIBUTE_ID),
-            $this->mapEntityTransfer($request, $data)
+            $this->mapEntityTransfer($request, $data),
         );
     }
 
@@ -105,6 +105,7 @@ class RequestResourceExtractor implements RequestResourceExtractorInterface
             return null;
         }
 
+        /** @var \Spryker\Shared\Kernel\Transfer\AbstractTransfer|null $restResourceAttributesTransfer */
         $restResourceAttributesTransfer = new $className();
         if ($restResourceAttributesTransfer instanceof AbstractTransfer) {
             $restResourceAttributesTransfer->fromArray($data[RestResourceInterface::RESOURCE_ATTRIBUTES], true);
@@ -164,7 +165,7 @@ class RequestResourceExtractor implements RequestResourceExtractorInterface
 
             $resources[] = $this->restResourceBuilder->createRestResource(
                 $resource[RequestConstantsInterface::ATTRIBUTE_TYPE],
-                $resource[RequestConstantsInterface::ATTRIBUTE_ID]
+                $resource[RequestConstantsInterface::ATTRIBUTE_ID],
             );
         }
 
