@@ -14,6 +14,8 @@ use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 class GlueApplicationConfig extends AbstractBundleConfig
 {
     /**
+     * @deprecated Will be removed without replacement.
+     *
      * @var string
      */
     public const COLLECTION_IDENTIFIER_CURRENT_USER = 'mine';
@@ -21,43 +23,89 @@ class GlueApplicationConfig extends AbstractBundleConfig
     /**
      * @var string
      */
+    public const RESOURCE_NOT_FOUND = '007';
+
+    /**
+     * @var string
+     */
+    public const RESOURCE_NOT_FOUND_MESSAGE = 'Resource not found';
+
+    /**
+     * @var string
+     */
+    public const ROUTE_NOT_FOUND = '008';
+
+    /**
+     * @var string
+     */
+    public const ROUTE_NOT_FOUND_MESSAGE = 'Resource not found';
+
+    /**
+     * @var string
+     */
+    public const METHOD_NOT_EXIST = '009';
+
+    /**
+     * @var string
+     */
+    public const METHOD_NOT_EXIST_MESSAGE = 'Route not found';
+
+    /**
+     * @deprecated Will be removed without replacement.
+     *
+     * @var string
+     */
     protected const HEADER_X_FRAME_OPTIONS_VALUE = 'SAMEORIGIN';
 
     /**
+     * @deprecated Will be removed without replacement.
+     *
      * @var string
      */
     protected const HEADER_CONTENT_SECURITY_POLICY_VALUE = 'frame-ancestors \'self\'';
 
     /**
+     * @deprecated Will be removed without replacement.
+     *
      * @var string
      */
     protected const HEADER_X_CONTENT_TYPE_OPTIONS_VALUE = 'nosniff';
 
     /**
+     * @deprecated Will be removed without replacement.
+     *
      * @var string
      */
     protected const HEADER_X_XSS_PROTECTION_VALUE = '1; mode=block';
 
     /**
+     * @deprecated Will be removed without replacement.
+     *
      * @var string
      */
     protected const HEADER_REFERRER_POLICY_VALUE = 'same-origin';
 
     /**
+     * @deprecated Will be removed without replacement.
+     *
      * @var string
      */
     protected const HEADER_PERMISSIONS_POLICY_VALUE = '';
 
     /**
+     * @deprecated Will be removed without replacement.
+     *
      * @var bool
      */
     public const VALIDATE_REQUEST_HEADERS = true;
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      *  - Enables or disables request header validation.
-     *
-     * @api
      *
      * @return bool
      */
@@ -67,10 +115,12 @@ class GlueApplicationConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      *  - Domain name of glue application to build API links.
-     *
-     * @api
      *
      * @return string
      */
@@ -80,10 +130,12 @@ class GlueApplicationConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      *  - Indicates whether debug of rest is enabled.
-     *
-     * @api
      *
      * @return bool
      */
@@ -93,10 +145,12 @@ class GlueApplicationConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      *  - Specifies a URI that may access the resources.
-     *
-     * @api
      *
      * @return string
      */
@@ -106,10 +160,12 @@ class GlueApplicationConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      *  - List of allowed CORS headers.
-     *
-     * @api
      *
      * @return array<string>
      */
@@ -127,6 +183,8 @@ class GlueApplicationConfig extends AbstractBundleConfig
     /**
      * @api
      *
+     * @deprecated Will be removed without replacement.
+     *
      * @return array<string, string>
      */
     public function getSecurityHeaders(): array
@@ -142,10 +200,12 @@ class GlueApplicationConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      *  - Indicates whether all relationships should be included in response by default.
-     *
-     * @api
      *
      * @return bool
      */
@@ -157,6 +217,8 @@ class GlueApplicationConfig extends AbstractBundleConfig
     /**
      * @api
      *
+     * @deprecated Will be removed without replacement.
+     *
      * @return bool
      */
     public function isDebugModeEnabled(): bool
@@ -165,11 +227,13 @@ class GlueApplicationConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      * - Overwrite this to true if API version resolving should happen to all endpoints via the first part of the path
      * - e.g /1/resource1 or /v1/resource2 instead of header value
-     *
-     * @api
      *
      * @return bool
      */
@@ -179,12 +243,14 @@ class GlueApplicationConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      * - Set this to the value you want to be the prefix of the version in the URL (if any)
      * - In the default setting, it will not exist, but if it is set to "v" then all versionable resources will have
      * - a "v" as a prefix to their version in the URL. e.g. /v1/resource
-     *
-     * @api
      *
      * @return string
      */
@@ -194,14 +260,16 @@ class GlueApplicationConfig extends AbstractBundleConfig
     }
 
     /**
+     * @api
+     *
+     * @deprecated Will be removed without replacement.
+     *
      * Specification:
      * - Official semver regex for matching a semver version, but removed the requirement for patch or minor version
      * - for easier versioning of APIs. API versions do not have patch versions since patches do not change the response type
      *
      * - To overwrite this smoothly, please add a named capturing group called "fullVersion" to your regex that contains
      * - your full semVer version (e.g 1.1 or 1). Otherwise, the first capture group will be taken as full version number
-     *
-     * @api
      *
      * @see https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
      *
