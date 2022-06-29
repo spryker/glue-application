@@ -10,13 +10,12 @@ namespace Spryker\Glue\GlueApplication\Router;
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface;
 
-interface ResourceRouterInterface
+interface RouteMatcherInterface
 {
     /**
      * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface> $resourcePlugins
      *
      * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface
      */
-    public function matchRequest(GlueRequestTransfer $glueRequestTransfer, array $resourcePlugins): ResourceInterface;
+    public function route(GlueRequestTransfer $glueRequestTransfer): ResourceInterface;
 }

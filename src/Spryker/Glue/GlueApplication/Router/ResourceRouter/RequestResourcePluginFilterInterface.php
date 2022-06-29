@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Glue\GlueApplication\Router;
+namespace Spryker\Glue\GlueApplication\Router\ResourceRouter;
 
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface;
