@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Glue\GlueApplication\Router\Uri;
+namespace Spryker\Glue\GlueApplication\Router\ResourceRouter\Uri;
 
 class UriParser implements UriParserInterface
 {

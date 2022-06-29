@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Glue\GlueApplication\Router;
+namespace Spryker\Glue\GlueApplication\Router\ResourceRouter;
 
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Spryker\Glue\GlueApplication\Exception\AmbiguousResourceException;
@@ -14,16 +14,16 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface;
 class RequestResourcePluginFilter implements RequestResourcePluginFilterInterface
 {
     /**
-     * @var array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceFilterPluginInterface>
+     * @var \Spryker\Glue\GlueApplication\Router\ResourceRouter\ConventionResourceFilterInterface
      */
-    protected array $resourceFilterPlugins;
+    protected ConventionResourceFilterInterface $conventionResourceFilter;
 
     /**
-     * @param array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceFilterPluginInterface> $resourceFilterPlugins
+     * @param \Spryker\Glue\GlueApplication\Router\ResourceRouter\ConventionResourceFilterInterface $conventionResourceFilter
      */
-    public function __construct(array $resourceFilterPlugins)
+    public function __construct(ConventionResourceFilterInterface $conventionResourceFilter)
     {
-        $this->resourceFilterPlugins = $resourceFilterPlugins;
+        $this->conventionResourceFilter = $conventionResourceFilter;
     }
 
     /**
@@ -41,9 +41,7 @@ class RequestResourcePluginFilter implements RequestResourcePluginFilterInterfac
         }
 
         $filteredResourcePlugins = $this->filterByResource($resourcePlugins, $glueRequestTransfer);
-        foreach ($this->resourceFilterPlugins as $resourceFilterPlugin) {
-            $filteredResourcePlugins = $resourceFilterPlugin->filter($glueRequestTransfer, $filteredResourcePlugins);
-        }
+        $filteredResourcePlugins = $this->conventionResourceFilter->filter($glueRequestTransfer, $filteredResourcePlugins);
 
         if (count($filteredResourcePlugins) > 1) {
             throw new AmbiguousResourceException(sprintf(

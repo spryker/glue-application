@@ -5,47 +5,56 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Glue\GlueApplication\Router;
+namespace Spryker\Glue\GlueApplication\Router\ResourceRouter;
 
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Generated\Shared\Transfer\GlueResourceTransfer;
 use Spryker\Glue\GlueApplication\GlueApplicationConfig;
 use Spryker\Glue\GlueApplication\Resource\MissingResource;
-use Spryker\Glue\GlueApplication\Router\Uri\UriParserInterface;
+use Spryker\Glue\GlueApplication\Router\ResourceRouter\Uri\UriParserInterface;
+use Spryker\Glue\GlueApplication\Router\RouteMatcherInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface;
+use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourcesProviderPluginInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ResourceRouter implements ResourceRouterInterface
+class ResourceRouteMatcher implements RouteMatcherInterface
 {
     /**
-     * @var \Spryker\Glue\GlueApplication\Router\Uri\UriParserInterface
+     * @var \Spryker\Glue\GlueApplication\Router\ResourceRouter\Uri\UriParserInterface
      */
     protected UriParserInterface $uriParser;
 
     /**
-     * @var \Spryker\Glue\GlueApplication\Router\RequestResourcePluginFilterInterface
+     * @var \Spryker\Glue\GlueApplication\Router\ResourceRouter\RequestResourcePluginFilterInterface
      */
     protected RequestResourcePluginFilterInterface $requestResourcePluginFilter;
 
     /**
-     * @param \Spryker\Glue\GlueApplication\Router\Uri\UriParserInterface $uriParser
-     * @param \Spryker\Glue\GlueApplication\Router\RequestResourcePluginFilterInterface $requestResourcePluginFilter
+     * @var array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourcesProviderPluginInterface>
+     */
+    protected array $resourcesProviderPlugins;
+
+    /**
+     * @param array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourcesProviderPluginInterface> $resourcesProviderPlugins
+     * @param \Spryker\Glue\GlueApplication\Router\ResourceRouter\Uri\UriParserInterface $uriParser
+     * @param \Spryker\Glue\GlueApplication\Router\ResourceRouter\RequestResourcePluginFilterInterface $requestResourcePluginFilter
      */
     public function __construct(
+        array $resourcesProviderPlugins,
         UriParserInterface $uriParser,
         RequestResourcePluginFilterInterface $requestResourcePluginFilter
     ) {
+        $this->resourcesProviderPlugins = $resourcesProviderPlugins;
         $this->uriParser = $uriParser;
         $this->requestResourcePluginFilter = $requestResourcePluginFilter;
     }
 
     /**
      * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface> $resourcePlugins
      *
      * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface
      */
-    public function matchRequest(GlueRequestTransfer $glueRequestTransfer, array $resourcePlugins): ResourceInterface
+    public function route(GlueRequestTransfer $glueRequestTransfer): ResourceInterface
     {
         $resources = $this->uriParser->parse($glueRequestTransfer->getPath());
 
@@ -77,7 +86,16 @@ class ResourceRouter implements ResourceRouterInterface
             );
         }
 
-        return $this->loadResource($glueRequestTransfer, $resourcePlugins);
+        $resourceProviderPlugin = $this->findResourcesProvider($glueRequestTransfer->getApplicationOrFail());
+
+        if (!$resourceProviderPlugin) {
+            return new MissingResource(
+                GlueApplicationConfig::ERROR_CODE_RESOURCE_NOT_FOUND,
+                GlueApplicationConfig::ERROR_MESSAGE_RESOURCE_NOT_FOUND,
+            );
+        }
+
+        return $this->loadResource($glueRequestTransfer, $resourceProviderPlugin->getResources());
     }
 
     /**
@@ -110,5 +128,23 @@ class ResourceRouter implements ResourceRouterInterface
         }
 
         return $resourcePlugin;
+    }
+
+    /**
+     * @param string $apiApplicationName
+     *
+     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourcesProviderPluginInterface|null
+     */
+    protected function findResourcesProvider(string $apiApplicationName): ?ResourcesProviderPluginInterface
+    {
+        foreach ($this->resourcesProviderPlugins as $resourcesProviderPlugin) {
+            if ($resourcesProviderPlugin->getApplicationName() !== $apiApplicationName) {
+                continue;
+            }
+
+            return $resourcesProviderPlugin;
+        }
+
+        return null;
     }
 }
