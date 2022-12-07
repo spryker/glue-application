@@ -66,12 +66,6 @@ class HeadersHttpRequestValidator implements HeadersHttpRequestValidatorInterfac
                 ->setStatus(Response::HTTP_NOT_ACCEPTABLE);
         }
 
-        if (!isset($headerData[RequestConstantsInterface::HEADER_CONTENT_TYPE])) {
-            return (new RestErrorMessageTransfer())
-                ->setDetail('Unsupported media type.')
-                ->setStatus(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
-        }
-
         return null;
     }
 
