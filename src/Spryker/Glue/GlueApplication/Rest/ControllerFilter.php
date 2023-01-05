@@ -8,12 +8,17 @@
 namespace Spryker\Glue\GlueApplication\Rest;
 
 use Exception;
+use Generated\Shared\Transfer\PaginationTransfer;
 use Generated\Shared\Transfer\RestErrorCollectionTransfer;
+use Generated\Shared\Transfer\SortCollectionTransfer;
+use Generated\Shared\Transfer\SortTransfer;
+use ReflectionMethod;
 use Spryker\Glue\GlueApplication\Controller\ErrorControllerInterface;
 use Spryker\Glue\GlueApplication\GlueApplicationConfig;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
+use Spryker\Glue\GlueApplication\Rest\Request\Data\SortInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\FormattedControllerBeforeActionInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\HttpRequestValidatorInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\RequestFormatterInterface;
@@ -91,6 +96,11 @@ class ControllerFilter implements ControllerFilterInterface
     protected $formattedControllerBeforeAction;
 
     /**
+     * @var \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface
+     */
+    protected $resourceBuilder;
+
+    /**
      * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestFormatterInterface $requestFormatter
      * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponseFormatterInterface $responseFormatter
      * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponseHeadersInterface $responseHeaders
@@ -102,6 +112,7 @@ class ControllerFilter implements ControllerFilterInterface
      * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $applicationConfig
      * @param \Spryker\Glue\GlueApplication\Rest\User\UserProviderInterface $userProvider
      * @param \Spryker\Glue\GlueApplication\Rest\Request\FormattedControllerBeforeActionInterface $formattedControllerBeforeAction
+     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $resourceBuilder
      */
     public function __construct(
         RequestFormatterInterface $requestFormatter,
@@ -114,7 +125,8 @@ class ControllerFilter implements ControllerFilterInterface
         ControllerCallbacksInterface $controllerCallbacks,
         GlueApplicationConfig $applicationConfig,
         UserProviderInterface $userProvider,
-        FormattedControllerBeforeActionInterface $formattedControllerBeforeAction
+        FormattedControllerBeforeActionInterface $formattedControllerBeforeAction,
+        RestResourceBuilderInterface $resourceBuilder
     ) {
         $this->requestFormatter = $requestFormatter;
         $this->responseFormatter = $responseFormatter;
@@ -127,6 +139,7 @@ class ControllerFilter implements ControllerFilterInterface
         $this->applicationConfig = $applicationConfig;
         $this->userProvider = $userProvider;
         $this->formattedControllerBeforeAction = $formattedControllerBeforeAction;
+        $this->resourceBuilder = $resourceBuilder;
     }
 
     /**
@@ -203,7 +216,146 @@ class ControllerFilter implements ControllerFilterInterface
         string $action,
         RestRequestInterface $restRequest
     ): RestResponseInterface {
-        return $controller->$action($restRequest, $restRequest->getResource()->getAttributes());
+        $reflectionMethod = new ReflectionMethod($controller, $action);
+        $actionParameters = [];
+        foreach ($reflectionMethod->getParameters() as $parameter) {
+            //TODO: Do parent IDs too
+            if ($parameter->getType() && $parameter->getType()->getName() === 'string') {
+                $actionParameters[] = $restRequest->getResource()->getId();
+                continue;
+            }
+
+            $parameterType = $parameter->getClass()->getName();
+            if ($parameterType === RestRequestInterface::class) {
+                $actionParameters[] = $restRequest;
+
+                continue;
+            }
+
+            if (
+                str_starts_with($parameterType, 'Generated\Shared\Transfer\\')
+                && str_ends_with($parameterType, 'CriteriaTransfer')
+            ) {
+                $transfer = new $parameterType();
+
+                if (method_exists($transfer, 'setSortCollection')) {
+                    $sortCollectionTransfer = new SortCollectionTransfer();
+                    foreach ($restRequest->getSort() as $sortField) {
+                        $sortCollectionTransfer->addSort(
+                            (new SortTransfer())
+                                ->setField($sortField->getField())
+                                ->setOrderByAsc($sortField->getDirection() === SortInterface::SORT_ASC)
+                        );
+                    }
+
+                    $transfer->setSortCollection($sortCollectionTransfer);
+                }
+
+                if (method_exists($transfer, 'setPagination')) {
+                    $paginationTransfer = new PaginationTransfer();
+                    if ($restRequest->getPage()) {
+                        $paginationTransfer->setOffset($restRequest->getPage()->getOffset())
+                            ->setLimit($restRequest->getPage()->getLimit());
+                    }
+
+                    $transfer->setPagination($paginationTransfer);
+                }
+
+                $transferConditionsGetterFunctionName = '';
+                $transferConditionsSetterFunctionName = '';
+                $transferFunctions = get_class_methods($transfer);
+                foreach ($transferFunctions as $transferFunction) {
+                    if (preg_match('/^get.+Conditions$/', $transferFunction)) {
+                        $transferConditionsGetterFunctionName = $transferFunction;
+                    }
+
+                    if (preg_match('/^set.+Conditions$/', $transferFunction)) {
+                        $transferConditionsSetterFunctionName = $transferFunction;
+                    }
+                }
+
+                if (
+                    $transferConditionsGetterFunctionName
+                    && $transferConditionsSetterFunctionName
+                    && preg_match(
+                        '/@return (\\\Generated\\\Shared\\\Transfer\\\.+Transfer)/m',
+                        (new ReflectionMethod($transfer, $transferConditionsGetterFunctionName))->getDocComment(),
+                        $conditionsTransferName
+                    )
+                ) {
+                    $conditionsTransferName = $conditionsTransferName[1];
+                    $conditions = new $conditionsTransferName();
+                    foreach ($restRequest->getFilters() as $filters) {
+                        foreach ($filters as $filter) {
+                            $setterFunction = 'set' . ucwords($filter->getField());
+                            if (
+                                property_exists($conditions, $filter->getField())
+                                && method_exists($conditions, $setterFunction)
+                            ) {
+                                $conditions->$setterFunction($filter->getValue());
+
+                                continue;
+                            }
+
+                            $adderFunction = 'add' . ucwords($filter->getField());
+
+                            if (method_exists($conditions, $adderFunction)) {
+                                $conditions->$adderFunction($filter->getValue());
+                            }
+                        }
+                    }
+
+                    if ($restRequest->getResource()->getId() && method_exists($conditions, 'addId')) {
+                        $conditions->addId($restRequest->getResource()->getId());
+                    }
+
+                    $transfer->$transferConditionsSetterFunctionName($conditions);
+                }
+
+                $actionParameters[] = $transfer;
+
+                continue;
+            }
+
+            if (str_starts_with($parameterType, 'Generated\Shared\Transfer\\')) {
+                $actionParameters[] = $restRequest->getResource()->getAttributes();
+            }
+        }
+
+        if (
+            $reflectionMethod->getReturnType()
+            && $reflectionMethod->getReturnType()->getName() === 'array'
+        ) {
+            preg_match(
+                '/@Glue\((\{(?:(?>[^{}"\'\/]+)|(?>"(?:(?>[^\\\\"]+)|\\\\.)*")|(?>\'(?:(?>[^\\\\\']+)|\\\\.)*\')|(?>\/\/.*\n)|(?>\/\*.*?\*\/)|(?-1))*\})/m',
+                $reflectionMethod->getDocComment(),
+                $glueJsonDoc
+            );
+
+            $glueDoc = $glueJsonDoc ? json_decode(str_replace('*', '', $glueJsonDoc[1]), true) : null;
+            if ($glueDoc && isset($glueDoc['type'])) {
+                $transferIdGetterFunction = '';
+                if (isset($glueDoc['idAttribute'])) {
+                    $transferIdGetterFunction = 'get' . ucwords($glueDoc['idAttribute']);
+                }
+                $transfers = $controller->$action(...$actionParameters);
+                $restResponse = $this->resourceBuilder->createRestResponse();
+
+                foreach ($transfers as $transfer) {
+                    $restResponse->addResource(
+                        $this->resourceBuilder->createRestResource(
+                            $glueDoc['type'],
+                            $transferIdGetterFunction ? $transfer->$transferIdGetterFunction() : null,
+                            $transfer
+                        )
+                    );
+                }
+
+                return $restResponse;
+            }
+        }
+
+        return $controller->$action(...$actionParameters);
     }
 
     /**

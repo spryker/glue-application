@@ -66,6 +66,7 @@ interface RequestConstantsInterface
      * @var string
      */
     public const ATTRIBUTE_RESOURCE_VERSION = 'resource-version';
+    public const ATTRIBUTE_IS_BACKEND = 'is-backend';
 
     /**
      * @var string

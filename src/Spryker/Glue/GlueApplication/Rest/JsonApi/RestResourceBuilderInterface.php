@@ -30,4 +30,13 @@ interface RestResourceBuilderInterface
      * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
      */
     public function createRestResponse(int $totalItems = 0, int $limit = 0): RestResponseInterface;
+
+    /**
+     * @param iterable $data
+     * @param string $type
+     * @param string|null $idAttribute
+     *
+     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
+     */
+    public function createRestResponseFromArray(iterable $data, string $type, ?string $idAttribute = null): RestResponseInterface;
 }

@@ -30,6 +30,11 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
     public const PLUGIN_RESOURCE_ROUTES = 'PLUGIN_RESOURCE_ROUTES';
 
     /**
+     * @var string
+     */
+    public const PLUGIN_BACKEND_RESOURCE_ROUTES = 'PLUGIN_BACKEND_RESOURCE_ROUTES';
+
+    /**
      * @deprecated Will be removed without replacement.
      *
      * @var string
@@ -199,6 +204,7 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addGlueApplication($container);
         $container = $this->addStoreClient($container);
         $container = $this->addResourceRoutePlugins($container);
+        $container = $this->addBackendResourceRoutePlugins($container);
         $container = $this->addResourceRelationshipPlugins($container);
         $container = $this->addValidateHttpRequestPlugins($container);
         $container = $this->addFormattedControllerBeforeActionTerminatePlugins($container);
@@ -271,6 +277,20 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container->set(static::PLUGIN_RESOURCE_ROUTES, function (Container $container) {
             return $this->getResourceRoutePlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Glue\Kernel\Container $container
+     *
+     * @return \Spryker\Glue\Kernel\Container
+     */
+    protected function addBackendResourceRoutePlugins(Container $container): Container
+    {
+        $container->set(static::PLUGIN_BACKEND_RESOURCE_ROUTES, function (Container $container) {
+            return $this->getBackendResourceRoutePlugins();
         });
 
         return $container;
@@ -534,6 +554,16 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
      * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface>
      */
     protected function getResourceRoutePlugins(): array
+    {
+        return [];
+    }
+
+    /**
+     * Rest resource route plugin stack
+     *
+     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface[]
+     */
+    protected function getBackendResourceRoutePlugins(): array
     {
         return [];
     }

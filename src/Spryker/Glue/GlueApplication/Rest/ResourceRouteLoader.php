@@ -28,6 +28,11 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
     protected $resourcePlugins = [];
 
     /**
+     * @var array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface>
+     */
+    protected $backendResourcePlugins = [];
+
+    /**
      * @var \Spryker\Glue\GlueApplication\Rest\Version\VersionResolverInterface
      */
     protected $versionResolver;
@@ -39,15 +44,18 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
 
     /**
      * @param array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface> $resourcePlugins
+     * @param array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface> $backendResourcePlugins
      * @param \Spryker\Glue\GlueApplication\Rest\Version\VersionResolverInterface $versionResolver
      * @param array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RouterParameterExpanderPluginInterface> $routerParameterExpanderPlugins
      */
     public function __construct(
         array $resourcePlugins,
+        array $backendResourcePlugins,
         VersionResolverInterface $versionResolver,
         array $routerParameterExpanderPlugins
     ) {
         $this->resourcePlugins = $resourcePlugins;
+        $this->backendResourcePlugins = $backendResourcePlugins;
         $this->versionResolver = $versionResolver;
         $this->routerParameterExpanderPlugins = $routerParameterExpanderPlugins;
     }
@@ -56,12 +64,13 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
      * @param string $resourceType
      * @param array $resources
      * @param \Symfony\Component\HttpFoundation\Request $httpRequest
+     * @param bool $isBackend
      *
      * @return array|null
      */
-    public function load(string $resourceType, array $resources, Request $httpRequest): ?array
+    public function load(string $resourceType, array $resources, Request $httpRequest, bool $isBackend = false): ?array
     {
-        $resourcePlugin = $this->findResourcePlugin($resourceType, $resources, $httpRequest);
+        $resourcePlugin = $this->findResourcePlugin($resourceType, $resources, $httpRequest, $isBackend);
 
         if ($resourcePlugin === null) {
             return null;
@@ -80,6 +89,7 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
             RequestConstantsInterface::ATTRIBUTE_CONTROLLER => $resourcePlugin->getController(),
             RequestConstantsInterface::ATTRIBUTE_CONFIGURATION => $resourceRouteCollection->get($method),
             RequestConstantsInterface::ATTRIBUTE_RESOURCE_FQCN => $resourcePlugin->getResourceAttributesClassName(),
+            RequestConstantsInterface::ATTRIBUTE_IS_BACKEND => $isBackend,
         ];
 
         if ($resourcePlugin instanceof ResourceWithParentPluginInterface) {
@@ -121,12 +131,13 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
      * @param string $resourceType
      * @param array $resources
      * @param \Symfony\Component\HttpFoundation\Request $httpRequest
+     * @param bool $isBackend
      *
      * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface|null
      */
-    protected function findResourcePlugin(string $resourceType, array $resources, Request $httpRequest): ?ResourceRoutePluginInterface
+    protected function findResourcePlugin(string $resourceType, array $resources, Request $httpRequest, bool $isBackend = false): ?ResourceRoutePluginInterface
     {
-        $resourcePlugins = $this->filterResourcePlugins($resourceType, $resources);
+        $resourcePlugins = $this->filterResourcePlugins($resourceType, $resources, $isBackend);
 
         $requestedVersionTransfer = $this->versionResolver->findVersion($httpRequest);
         if ($requestedVersionTransfer->getMajor()) {
@@ -281,13 +292,20 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
     /**
      * @param string $resourceType
      * @param array $resources
+     * @param bool $isBackend
      *
      * @return array<\Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface>
      */
-    protected function filterResourcePlugins(string $resourceType, array $resources): array
+    protected function filterResourcePlugins(string $resourceType, array $resources, bool $isBackend = false): array
     {
         $resourcePlugins = [];
-        foreach ($this->resourcePlugins as $resourceRoutePlugin) {
+        $resourceRoutePlugins = $this->resourcePlugins;
+
+        if ($isBackend) {
+            $resourceRoutePlugins = $this->backendResourcePlugins;
+        }
+
+        foreach ($resourceRoutePlugins as $resourceRoutePlugin) {
             if (!$this->isCurrentResourceRoutePlugin($resourceRoutePlugin, $resourceType, $resources)) {
                 continue;
             }

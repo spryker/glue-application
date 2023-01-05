@@ -18,6 +18,11 @@ class GlueApplicationConfig extends AbstractBundleConfig
      *
      * @var string
      */
+    public const BACKEND_RESOURCES_PREFIX = 'backend';
+
+    /**
+     * @const string
+     */
     public const COLLECTION_IDENTIFIER_CURRENT_USER = 'mine';
 
     /**
