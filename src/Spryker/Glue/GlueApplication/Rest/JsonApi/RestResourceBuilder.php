@@ -39,27 +39,4 @@ class RestResourceBuilder implements RestResourceBuilderInterface
     {
         return new RestResponse($totalItems, $limit);
     }
-
-    /**
-     * @param iterable $data
-     * @param string $type
-     * @param string|null $idAttribute
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
-    public function createRestResponseFromArray(iterable $data, string $type, ?string $idAttribute = null): RestResponseInterface
-    {
-        $restResponse = new RestResponse();
-        foreach ($data as $dataItem) {
-            $restResponse->addResource(
-                $this->createRestResource(
-                    $type,
-                    $dataItem[$idAttribute] ?? null,
-                    $dataItem
-                )
-            );
-        }
-
-        return $restResponse;
-    }
 }
