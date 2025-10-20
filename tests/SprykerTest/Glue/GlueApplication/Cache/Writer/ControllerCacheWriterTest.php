@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerTest\Zed\GlueApplication\Cache\Writer;
+namespace SprykerTest\Glue\GlueApplication\Cache\Writer;
 
 use Codeception\Configuration;
 use Codeception\Test\Unit;
@@ -20,7 +20,7 @@ use Symfony\Component\Finder\Finder;
  * Auto-generated group annotations
  *
  * @group SprykerTest
- * @group Zed
+ * @group Glue
  * @group GlueApplication
  * @group Cache
  * @group Writer

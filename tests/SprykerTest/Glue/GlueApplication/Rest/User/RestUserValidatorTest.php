@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerTest\Glue\GlueApplication\Rest\Request;
+namespace SprykerTest\Glue\GlueApplication\Rest\User;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\RestErrorMessageTransfer;
@@ -21,9 +21,8 @@ use SprykerTest\Glue\GlueApplication\Stub\RestRequest;
  * @group Glue
  * @group GlueApplication
  * @group Rest
- * @group Request
+ * @group User
  * @group RestUserValidatorTest
- *
  * Add your own group annotations below this line
  */
 class RestUserValidatorTest extends Unit

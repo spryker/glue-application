@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Glue\GlueApplication\Rest\Uri;
+namespace SprykerTest\Glue\GlueApplication\Rest\Uri;
 
 use Codeception\Test\Unit;
 use Spryker\Glue\GlueApplication\Rest\RequestConstantsInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Auto-generated group annotations
  *
- * @group Spryker
+ * @group SprykerTest
  * @group Glue
  * @group GlueApplication
  * @group Rest

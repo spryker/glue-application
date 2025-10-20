@@ -14,4 +14,4 @@ parameters:
         -
             identifier: missingType.iterableValue
     excludePaths:
-        - '%rootDir%/../../../vendor/spryker/spryker/Bundles/GlueApplication/src/Spryker/Glue/GlueApplication/Plugin/Rest/GlueRouterPluginTrait.php'
+        - '%rootDir%/../../../src/Spryker/GlueApplication/src/Spryker/Glue/GlueApplication/Plugin/Rest/GlueRouterPluginTrait.php'

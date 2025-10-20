@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerTest\Glue\GlueApplication\Rest\JsonApi;
+namespace SprykerTest\Glue\GlueApplication\Rest\Cors;
 
 use Codeception\Test\Unit;
 use Spryker\Glue\GlueApplication\GlueApplicationConfig;
@@ -31,7 +31,7 @@ use SprykerTest\Glue\GlueApplication\Stub\TestResourceWithParentRoutePlugin;
  * @group Glue
  * @group GlueApplication
  * @group Rest
- * @group JsonApi
+ * @group Cors
  * @group CorsResponseTest
  * Add your own group annotations below this line
  */

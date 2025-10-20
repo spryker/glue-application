@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerTest\Zed\GlueApplication\Cache\Reader;
+namespace SprykerTest\Glue\GlueApplication\Cache\Reader;
 
 use Codeception\Configuration;
 use Codeception\Test\Unit;
@@ -22,7 +22,7 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface;
  * Auto-generated group annotations
  *
  * @group SprykerTest
- * @group Zed
+ * @group Glue
  * @group GlueApplication
  * @group Cache
  * @group Reader
