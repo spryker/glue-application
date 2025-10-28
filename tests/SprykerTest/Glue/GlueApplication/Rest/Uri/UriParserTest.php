@@ -9,6 +9,8 @@ namespace SprykerTest\Glue\GlueApplication\Rest\Uri;
 
 use Codeception\Test\Unit;
 use Spryker\Glue\GlueApplication\Rest\RequestConstantsInterface;
+use Spryker\Glue\GlueApplication\Rest\Uri\UriParser;
+use Spryker\Glue\GlueApplication\Rest\Uri\UriParserInterface;
 use Spryker\Glue\GlueApplication\Rest\Version\VersionResolverInterface;
 use Symfony\Component\HttpFoundation\Request;
 
