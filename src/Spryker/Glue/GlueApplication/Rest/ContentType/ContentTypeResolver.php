@@ -17,7 +17,7 @@ class ContentTypeResolver implements ContentTypeResolverInterface
     /**
      * @var string
      */
-    protected const CONTENT_TYPE_REGULAR_EXPRESSION = '/application\/vnd.api\+([a-z]+)(?:;\s(?:version=([\d]+\.?[\d]+)))?/i';
+    protected const CONTENT_TYPE_REGULAR_EXPRESSION = '/application\/vnd\.api\+([a-z]+)(?:.*?version=([\d]+\.?[\d]+))?/i';
 
     /**
      * @var string

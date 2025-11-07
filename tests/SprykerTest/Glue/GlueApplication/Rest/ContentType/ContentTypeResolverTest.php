@@ -33,16 +33,69 @@ class ContentTypeResolverTest extends Unit
     protected $contentType = 'application/vnd.api+json; version=1.1';
 
     /**
+     * @dataProvider contentTypeDataProvider
+     *
+     * @param string $contentType
+     * @param string $expectedFormat
+     * @param string|null $expectedVersion
+     *
      * @return void
      */
-    public function testMatchContentTypeShouldReturnContentTypeParts(): void
-    {
+    public function testMatchContentTypeShouldReturnContentTypeParts(
+        string $contentType,
+        string $expectedFormat,
+        ?string $expectedVersion
+    ): void {
         $contentTypeResolver = $this->createContentTypeResolver();
 
-        $contentTypeParts = $contentTypeResolver->matchContentType($this->contentType);
+        $contentTypeParts = $contentTypeResolver->matchContentType($contentType);
 
-        $this->assertSame('json', $contentTypeParts[1]);
-        $this->assertSame('1.1', $contentTypeParts[2]);
+        $this->assertSame($expectedFormat, $contentTypeParts[1]);
+
+        if ($expectedVersion !== null) {
+            $this->assertSame($expectedVersion, $contentTypeParts[2]);
+        } else {
+            $this->assertArrayNotHasKey(2, $contentTypeParts);
+        }
+    }
+
+    /**
+     * @return array<string, array<string, string|null>>
+     */
+    public function contentTypeDataProvider(): array
+    {
+        return [
+            'basic content type with version' => [
+                'contentType' => 'application/vnd.api+json; version=1.1',
+                'expectedFormat' => 'json',
+                'expectedVersion' => '1.1',
+            ],
+            'content type without version' => [
+                'contentType' => 'application/vnd.api+json',
+                'expectedFormat' => 'json',
+                'expectedVersion' => null,
+            ],
+            'content type with charset' => [
+                'contentType' => 'application/vnd.api+json; charset=utf-8',
+                'expectedFormat' => 'json',
+                'expectedVersion' => null,
+            ],
+            'content type with charset and version' => [
+                'contentType' => 'application/vnd.api+json; charset=utf-8; version=2.0',
+                'expectedFormat' => 'json',
+                'expectedVersion' => '2.0',
+            ],
+            'content type with version and charset' => [
+                'contentType' => 'application/vnd.api+json; version=1.5; charset=utf-8',
+                'expectedFormat' => 'json',
+                'expectedVersion' => '1.5',
+            ],
+            'content type with multiple parameters' => [
+                'contentType' => 'application/vnd.api+json; charset=utf-8; version=3.14; boundary=something',
+                'expectedFormat' => 'json',
+                'expectedVersion' => '3.14',
+            ],
+        ];
     }
 
     /**
