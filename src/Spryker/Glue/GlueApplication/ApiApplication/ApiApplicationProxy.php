@@ -8,6 +8,8 @@
 namespace Spryker\Glue\GlueApplication\ApiApplication;
 
 use Generated\Shared\Transfer\GlueRequestTransfer;
+use Psr\Container\ContainerInterface as PsrContainerInterface;
+use Psr\Container\ContainerInterface;
 use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAgnosticApiApplication;
 use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication;
 use Spryker\Glue\GlueApplication\ContentNegotiator\ContentNegotiatorInterface;
@@ -70,6 +72,8 @@ class ApiApplicationProxy implements ApplicationInterface
      */
     protected GlueApplicationConfig $config;
 
+    protected ?ContainerInterface $container = null;
+
     /**
      * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface $glueApplicationBootstrapPlugin
      * @param \Spryker\Glue\GlueApplication\ApiApplication\RequestFlowExecutorInterface $requestFlowExecutor
@@ -101,6 +105,18 @@ class ApiApplicationProxy implements ApplicationInterface
         $this->contentNegotiator = $contentNegotiator;
         $this->request = $request;
         $this->config = $glueApplicationConfig;
+    }
+
+    public function setContainer(PsrContainerInterface $container): ApplicationInterface
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    public function getContainer(): PsrContainerInterface
+    {
+        return $this->container;
     }
 
     /**
