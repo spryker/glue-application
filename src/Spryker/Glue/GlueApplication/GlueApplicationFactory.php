@@ -688,6 +688,7 @@ class GlueApplicationFactory extends AbstractFactory
             $this->createRequestBuilder(),
             $this->createRequestValidator(),
             $this->createResponseFormatter(),
+            $this->createRequest(),
         );
     }
 

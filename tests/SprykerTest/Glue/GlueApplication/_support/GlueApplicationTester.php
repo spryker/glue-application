@@ -9,13 +9,16 @@ namespace SprykerTest\Glue\GlueApplication;
 
 use Codeception\Actor;
 use Codeception\Configuration;
+use Codeception\Stub;
 use Generated\Shared\Transfer\ApiControllerConfigurationTransfer;
 use Generated\Shared\Transfer\GlueErrorTransfer;
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Generated\Shared\Transfer\GlueResourceTransfer;
 use Generated\Shared\Transfer\GlueResponseTransfer;
+use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication;
 use Spryker\Glue\GlueApplication\GlueApplicationConfig;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -196,6 +199,22 @@ class GlueApplicationTester extends Actor
     public function createFormattedData(): array
     {
         return json_decode(trim($this->loadJsonFile()), true);
+    }
+
+    /**
+     * @return \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication
+     */
+    public function createRequestFlowAwareApiApplicationMock(): RequestFlowAwareApiApplication
+    {
+        return Stub::makeEmpty(RequestFlowAwareApiApplication::class);
+    }
+
+    /**
+     * @return (object&\PHPUnit\Framework\MockObject\MockObject)|(object&\PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\HttpFoundation\Request)|(object&\PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\HttpFoundation\Request&object&\PHPUnit\Framework\MockObject\MockObject)
+     */
+    public function createRequestMock()
+    {
+        return Stub::makeEmpty(Request::class);
     }
 
     /**

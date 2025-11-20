@@ -7,6 +7,7 @@
 
 namespace Spryker\Glue\GlueApplication\ApiApplication;
 
+use Closure;
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Generated\Shared\Transfer\GlueRequestValidationTransfer;
 use Generated\Shared\Transfer\GlueResponseTransfer;
@@ -18,53 +19,26 @@ use Spryker\Glue\GlueApplication\Router\RouteMatcherInterface;
 use Spryker\Glue\GlueApplication\Validator\RequestValidatorInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\MissingResourceInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class RequestFlowExecutor implements RequestFlowExecutorInterface
 {
-    /**
-     * @var \Spryker\Glue\GlueApplication\Executor\ResourceExecutorInterface
-     */
-    protected ResourceExecutorInterface $resourceExecutor;
-
-    /**
-     * @var \Spryker\Glue\GlueApplication\Router\RouteMatcherInterface
-     */
-    protected RouteMatcherInterface $routeMatcher;
-
-    /**
-     * @var \Spryker\Glue\GlueApplication\Builder\RequestBuilderInterface
-     */
-    protected RequestBuilderInterface $requestBuilder;
-
-    /**
-     * @var \Spryker\Glue\GlueApplication\Validator\RequestValidatorInterface
-     */
-    protected RequestValidatorInterface $requestValidator;
-
-    /**
-     * @var \Spryker\Glue\GlueApplication\Formatter\ResponseFormatterInterface
-     */
-    protected ResponseFormatterInterface $responseFormatter;
-
     /**
      * @param \Spryker\Glue\GlueApplication\Executor\ResourceExecutorInterface $resourceExecutor
      * @param \Spryker\Glue\GlueApplication\Router\RouteMatcherInterface $routeMatcher
      * @param \Spryker\Glue\GlueApplication\Builder\RequestBuilderInterface $requestBuilder
      * @param \Spryker\Glue\GlueApplication\Validator\RequestValidatorInterface $requestValidator
      * @param \Spryker\Glue\GlueApplication\Formatter\ResponseFormatterInterface $responseFormatter
+     * @param \Symfony\Component\HttpFoundation\Request $request
      */
     public function __construct(
-        ResourceExecutorInterface $resourceExecutor,
-        RouteMatcherInterface $routeMatcher,
-        RequestBuilderInterface $requestBuilder,
-        RequestValidatorInterface $requestValidator,
-        ResponseFormatterInterface $responseFormatter
+        protected ResourceExecutorInterface $resourceExecutor,
+        protected RouteMatcherInterface $routeMatcher,
+        protected RequestBuilderInterface $requestBuilder,
+        protected RequestValidatorInterface $requestValidator,
+        protected ResponseFormatterInterface $responseFormatter,
+        protected Request $request
     ) {
-        $this->resourceExecutor = $resourceExecutor;
-        $this->routeMatcher = $routeMatcher;
-        $this->requestBuilder = $requestBuilder;
-        $this->requestValidator = $requestValidator;
-        $this->responseFormatter = $responseFormatter;
     }
 
     /**
@@ -108,6 +82,12 @@ class RequestFlowExecutor implements RequestFlowExecutorInterface
 
         if (!$glueRequestValidationTransfer->getIsValid()) {
             return $this->sendValidationErrorResponse($glueRequestTransfer, $glueRequestValidationTransfer, $apiApplication, $conventionPlugin);
+        }
+
+        $executableResource = $resource->getResource($glueRequestTransfer);
+        if (!$executableResource instanceof Closure) {
+            $this->request->attributes->add($glueRequestTransfer->getResource()->getParameters());
+            $apiApplication->dispatchControllerEvent($this->request, $resource->getResource($glueRequestTransfer));
         }
 
         $glueResponseTransfer = $this->resourceExecutor->executeResource($resource, $glueRequestTransfer);

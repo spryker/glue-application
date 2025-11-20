@@ -220,6 +220,10 @@ class RequestFlowExecutorTest extends Unit
             ->method('provideResponseFormatterPlugins')
             ->willReturn([]);
 
+        $apiApplicationPluginMock
+            ->expects($this->never())
+            ->method('dispatchControllerEvent');
+
         $resourceExecutorMock = $this->createMock(ResourceExecutorInterface::class);
         $resourceExecutorMock->expects($this->once())
             ->method('executeResource')
@@ -395,6 +399,7 @@ class RequestFlowExecutorTest extends Unit
             $factory->createRequestBuilder(),
             $factory->createRequestValidator(),
             $factory->createResponseFormatter(),
+            $factory->createRequest(),
         );
     }
 

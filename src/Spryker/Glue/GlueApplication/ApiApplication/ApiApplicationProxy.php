@@ -169,7 +169,7 @@ class ApiApplicationProxy implements ApplicationInterface
                 return;
             }
 
-            $response = $this->httpSender->sendResponse($glueResponseTransfer);
+            $response = $this->httpSender->sendResponse($glueResponseTransfer, $this->request, $bootstrapApplication);
 
             $this->terminateApplication(
                 $bootstrapApplication,

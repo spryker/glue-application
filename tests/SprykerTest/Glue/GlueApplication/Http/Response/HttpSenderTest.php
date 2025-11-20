@@ -12,6 +12,7 @@ use Generated\Shared\Transfer\GlueResponseTransfer;
 use ReflectionClass;
 use Spryker\Glue\GlueApplication\Http\Response\HttpSender;
 use Spryker\Glue\GlueApplication\Http\Response\HttpSenderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -59,6 +60,11 @@ class HttpSenderTest extends Unit
     protected const STATUS_CODE = 200;
 
     /**
+     * @var \SprykerTest\Glue\GlueApplication\GlueApplicationTester
+     */
+    protected $tester;
+
+    /**
      * @return void
      */
     public function testSendResponse(): void
@@ -74,10 +80,21 @@ class HttpSenderTest extends Unit
                 'Transfer-Encoding' => static::TRANSFER_ENCODING,
                 'Server' => static::SERVER,
             ]);
-
+        $createMockRequestFlowAwareApiApplication = $this->tester->createRequestFlowAwareApiApplicationMock();
+        $createMockRequestFlowAwareApiApplication->expects($this->once())
+            ->method('dispatchResponseEvent')
+            ->with(
+                $this->isInstanceOf(Request::class),
+                $this->isInstanceOf(Response::class),
+            );
+        $requestMock = $this->tester->createRequestMock();
         //Act
         $httpSender = $this->createHttpSender();
-        $httpSender->sendResponse($glueResponseTransfer);
+        $httpSender->sendResponse(
+            $glueResponseTransfer,
+            $requestMock,
+            $createMockRequestFlowAwareApiApplication,
+        );
 
         $response = $this->getResponse($httpSender);
 
