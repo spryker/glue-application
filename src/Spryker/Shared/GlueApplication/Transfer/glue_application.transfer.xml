@@ -57,6 +57,7 @@
         <property name="pagination" type="Pagination"/>
         <property name="resources" type="GlueResource[]" singular="resource"/>
         <property name="format" type="string"/>
+        <property name="hasExecutableResource" type="bool"/>
     </transfer>
 
     <transfer name="RestPageOffsets">

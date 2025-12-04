@@ -14,7 +14,9 @@ use Spryker\Glue\Kernel\ClassResolver\Controller\ControllerResolver;
 use Spryker\Glue\Kernel\Controller\RouteNameResolver;
 use Spryker\Service\Container\ContainerInterface;
 use Spryker\Shared\Application\Communication\ControllerServiceBuilder;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ResourceRouter implements ResourceRouterInterface
 {
@@ -67,10 +69,23 @@ class ResourceRouter implements ResourceRouterInterface
     /**
      * @param \Symfony\Component\HttpFoundation\Request $httpRequest
      *
+     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
+     *
      * @return array
      */
     public function matchRequest(Request $httpRequest): array
     {
+        /**
+         * In the `\Spryker\Glue\GlueApplication\ApiApplication\ApiApplicationProxy` we are setting this to not run into an exception.
+         *
+         * The `requestFlowExecutor` wasn't able to handle the request, and we have to try the API Platform. This is handled differently.
+         *
+         * This router can find a matching route, but the rest of the application is not able to handle.
+         */
+        if ($httpRequest->attributes->has('api-platform-request')) {
+            throw new ResourceNotFoundException();
+        }
+
         $resources = $this->uriParser->parse($httpRequest);
         if ($resources === null) {
             return $this->createResourceNotFoundRoute();
@@ -88,6 +103,41 @@ class ResourceRouter implements ResourceRouterInterface
         );
 
         if (!$this->isValidRoute($route, $resources, $httpRequest)) {
+            /**
+             * When projects added the SymfonyFrameworkRouterPlugin we have to throw an exception here to give the Symfony Router a chance to match the route.
+             *
+             * For backward compatibility reasons we return the Resource Not Found route when there is no SymfonyFrameworkRouterPlugin added.
+             */
+            /** @var \Symfony\Cmf\Component\Routing\ChainRouterInterface|null $routerCollection */
+            $routerCollection = $this->application->get('routers');
+
+            if ($routerCollection) {
+                /**
+                 * The first router in this list is the GlueRouterPlugin, but we are interested in the SymfonyFrameworkRouterPlugin.
+                 *
+                 * We are ending up here only in case there is no matching Glue route, so we can try to match with the Symfony router.
+                 *
+                 * BUT: The Symfony router can also return a ResourceNotFoundException, so we have to catch it and use the original behavior of return
+                 * ResourceNotFoundRoute.
+                 *
+                 * When the Symfony router finds a matching route, we throw the ResourceNotFoundException so that in the next loop the Symfony router can match the request.
+                 */
+                foreach ($routerCollection->all() as $router) {
+                    if ($router instanceof Router) {
+                        try {
+                            // This may throw an exception which will be caught below and returns the ResourceNotFoundRoute.
+                            $router->matchRequest($httpRequest);
+                        } catch (ResourceNotFoundException) {
+                            // Fallback behavior neither the Glue router nor the Symfony router could find a matching route.
+                            return $this->createResourceNotFoundRoute();
+                        }
+
+                        // When the Symfony router found a matching route, we have to throw the ResourceNotFoundException again to give the Symfony router a chance to match the request in the next loop.
+                        throw new ResourceNotFoundException();
+                    }
+                }
+            }
+
             return $this->createResourceNotFoundRoute();
         }
 

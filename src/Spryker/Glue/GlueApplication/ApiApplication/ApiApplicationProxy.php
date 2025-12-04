@@ -7,9 +7,9 @@
 
 namespace Spryker\Glue\GlueApplication\ApiApplication;
 
+use Generated\Shared\Transfer\GlueErrorTransfer;
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
-use Psr\Container\ContainerInterface;
 use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAgnosticApiApplication;
 use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication;
 use Spryker\Glue\GlueApplication\ContentNegotiator\ContentNegotiatorInterface;
@@ -20,10 +20,13 @@ use Spryker\Glue\GlueApplication\Http\Response\HttpSenderInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\CommunicationProtocolPluginInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface;
+use Spryker\Service\Container\ContainerInterface;
 use Spryker\Shared\Application\ApplicationInterface;
+use Spryker\Shared\Application\Kernel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\TerminableInterface;
+use Throwable;
 
 class ApiApplicationProxy implements ApplicationInterface
 {
@@ -72,7 +75,7 @@ class ApiApplicationProxy implements ApplicationInterface
      */
     protected GlueApplicationConfig $config;
 
-    protected ?ContainerInterface $container = null;
+    protected ?PsrContainerInterface $container = null;
 
     /**
      * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface $glueApplicationBootstrapPlugin
@@ -124,7 +127,8 @@ class ApiApplicationProxy implements ApplicationInterface
      */
     public function boot(): ApplicationInterface
     {
-        $this->glueApplicationBootstrapPlugin->getApplication()->boot();
+        $application = $this->glueApplicationBootstrapPlugin->getApplication();
+        $application->boot();
 
         return $this;
     }
@@ -142,6 +146,14 @@ class ApiApplicationProxy implements ApplicationInterface
             $bootstrapApplication->run();
 
             return;
+        }
+
+        /** @phpstan-var \Spryker\Service\Container\ContainerInterface $container */
+        $container = $bootstrapApplication->getContainer();
+
+        if ($container instanceof ContainerInterface) {
+            $kernel = new Kernel($container);
+            $kernel->boot();
         }
 
         if ($bootstrapApplication instanceof RequestFlowAwareApiApplication) {
@@ -167,6 +179,44 @@ class ApiApplicationProxy implements ApplicationInterface
                 $communicationProtocolPlugin->sendResponse($glueResponseTransfer);
 
                 return;
+            }
+
+            /**
+             * In case we get a 404 not found from Glue Application, we fall back to the Symfony kernel to
+             * allow other Symfony applications (e.g., Backoffice, Frontend) to handle the request.
+             *
+             * This is needed to be able to use the API Platform and Glue Application in the same project.
+             *
+             * In case the Glue router was able to find a resource class it can execute, but it returned a 404, we must skip the API-Platform handling.
+             *
+             * For the Glue APIs we add resources in either of:
+             * - `\Pyz\Glue\GlueStorefrontApiApplication\GlueStorefrontApiApplicationDependencyProvider::getResourcePlugins()`
+             * - `\Pyz\Glue\GlueBackendApiApplication\GlueBackendApiApplicationDependencyProvider::getResourcePlugins()`
+             *
+             * Using API-Platform together with Glue Application is not supported when the resource is available in the Glue Application.
+             */
+            if (($glueResponseTransfer->getHttpStatus() === Response::HTTP_NOT_FOUND && $glueResponseTransfer->getHasExecutableResource() !== true) || $glueResponseTransfer->getHttpStatus() === Response::HTTP_UNSUPPORTED_MEDIA_TYPE) {
+                /**
+                 * We need to catch exceptions here to prevent migration exceptions.
+                 *
+                 * When the request was not handleable by the `requestFlowExecutor` e.g., because of this is an API Platform request with
+                 * an in the Glue Application unsupported accept header where the `requestFlowExecutor` validation would fail, then we try the API-Platform request.
+                 *
+                 * In case of the resource is still in the Glue application available, the router would resolve to the respective ResourceController which then fails because of
+                 * missing GlueRequestTransfer in the
+                 */
+                try {
+                    $this->request->attributes->set('api-platform-request', true);
+
+                    $response = $kernel->handle($this->request);
+                    $glueResponseTransfer->setHttpStatus($response->getStatusCode());
+                    $glueResponseTransfer->setContent((string)$response->getContent());
+                    $glueResponseTransfer->setMeta($response->headers->all());
+
+                    $glueResponseTransfer->setFormat(null);
+                } catch (Throwable $throwable) {
+                    $glueResponseTransfer->addError((new GlueErrorTransfer())->setMessage('Tried to use API Platform to handle the request, but it failed with: ' . $throwable->getMessage()));
+                }
             }
 
             $response = $this->httpSender->sendResponse($glueResponseTransfer, $this->request, $bootstrapApplication);

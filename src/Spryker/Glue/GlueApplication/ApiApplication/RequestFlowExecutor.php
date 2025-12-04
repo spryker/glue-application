@@ -91,6 +91,7 @@ class RequestFlowExecutor implements RequestFlowExecutorInterface
         }
 
         $glueResponseTransfer = $this->resourceExecutor->executeResource($resource, $glueRequestTransfer);
+        $glueResponseTransfer->setHasExecutableResource(true);
 
         return $this->responseFormatter->format(
             $glueResponseTransfer,

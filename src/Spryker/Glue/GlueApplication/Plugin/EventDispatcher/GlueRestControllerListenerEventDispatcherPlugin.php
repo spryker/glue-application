@@ -46,6 +46,13 @@ class GlueRestControllerListenerEventDispatcherPlugin extends AbstractPlugin imp
     {
         $currentController = $event->getController();
 
+        /**
+         * When the SymfonyFrameworkRouterPlugin is used and the API Platform is enabled, we have to return early here.
+         */
+        if (!is_array($currentController)) {
+            return;
+        }
+
         [$controller, $action] = $currentController;
 
         $request = $event->getRequest();
