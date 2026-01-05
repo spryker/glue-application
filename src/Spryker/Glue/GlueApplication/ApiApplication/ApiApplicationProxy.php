@@ -153,6 +153,7 @@ class ApiApplicationProxy implements ApplicationInterface
 
         if ($container instanceof ContainerInterface) {
             $kernel = new Kernel($container);
+            $kernel->setApplication($bootstrapApplication);
             $kernel->boot();
         }
 
