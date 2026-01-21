@@ -80,41 +80,26 @@ class ResourceExecutor implements ResourceExecutorInterface
             throw new InvalidActionParametersException(static::CLEAR_CACHE_ERROR_MESSAGE);
         }
 
+        $options = [];
+
         if ($glueRequestTransfer->getContent()) {
             $attributesTransfer = $this->getAttributesTransfer($resource, $glueRequestTransfer, $parameters);
-
-            if (!$attributesTransfer) {
-                return call_user_func_array(
-                    $executableResource,
-                    $this->collectParameters($parameters, [$glueRequestTransfer]),
-                );
+            if ($attributesTransfer) {
+                $attributesTransfer->fromArray($glueRequestTransfer->getAttributes(), true);
+                $glueRequestTransfer->getResource()->setAttributes($attributesTransfer);
+                $options[] = $attributesTransfer;
             }
-
-            $attributesTransfer->fromArray($glueRequestTransfer->getAttributes(), true);
-            $glueRequestTransfer->getResource()->setAttributes($attributesTransfer);
-
-            return call_user_func_array(
-                $executableResource,
-                $this->collectParameters(
-                    $parameters,
-                    [$attributesTransfer, $glueRequestTransfer],
-                ),
-            );
         }
 
         if ($glueRequestTransfer->getResource() && $glueRequestTransfer->getResource()->getId()) {
-            return call_user_func_array(
-                $executableResource,
-                $this->collectParameters(
-                    $parameters,
-                    [$glueRequestTransfer->getResource()->getId(), $glueRequestTransfer],
-                ),
-            );
+            $options[] = $glueRequestTransfer->getResource()->getId();
         }
+
+        $options[] = $glueRequestTransfer;
 
         return call_user_func_array(
             $executableResource,
-            $this->collectParameters($parameters, [$glueRequestTransfer]),
+            $this->collectParameters($parameters, $options),
         );
     }
 
