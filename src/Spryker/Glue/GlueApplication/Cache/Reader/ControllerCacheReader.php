@@ -29,7 +29,7 @@ class ControllerCacheReader implements ControllerCacheReaderInterface
     protected const ROUTE = '_route';
 
     /**
-     * @var \Spryker\Glue\GlueApplication\Cache\Writer\ControllerCacheWriterInterface;
+     * @var \Spryker\Glue\GlueApplication\Cache\Writer\ControllerCacheWriterInterface
      */
     protected $controllerCacheWriter;
 

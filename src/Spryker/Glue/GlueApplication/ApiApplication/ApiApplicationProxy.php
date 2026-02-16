@@ -151,6 +151,7 @@ class ApiApplicationProxy implements ApplicationInterface
         /** @phpstan-var \Spryker\Service\Container\ContainerInterface $container */
         $container = $bootstrapApplication->getContainer();
 
+        /** @phpstan-ignore instanceof.alwaysTrue */
         if ($container instanceof ContainerInterface) {
             $kernel = new Kernel($container);
             $kernel->setApplication($bootstrapApplication);
@@ -246,6 +247,7 @@ class ApiApplicationProxy implements ApplicationInterface
      */
     protected function terminateApplication(RequestFlowAwareApiApplication $bootstrapApplication, Response $response): void
     {
+        /** @phpstan-ignore instanceof.alwaysTrue */
         if (!$bootstrapApplication instanceof TerminableInterface) {
             return;
         }

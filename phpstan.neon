@@ -11,6 +11,7 @@ parameters:
         - '#Method .+CustomRouteMatcher::createControllerInstance\(\) should return .+AbstractController but returns object.#'
         - '#Parameter \#1 \$[a-zA-Z]* of class ReflectionClass constructor expects class-string<T of object>\|T of object, string given.#'
         - '#Parameter \#1 \$separator of function explode expects non-empty-string, string given.#'
+        - '#Trait .+ is used zero times and is not analysed#'
         -
             identifier: missingType.iterableValue
     excludePaths:

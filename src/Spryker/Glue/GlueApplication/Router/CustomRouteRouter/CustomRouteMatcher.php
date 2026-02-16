@@ -59,9 +59,9 @@ class CustomRouteMatcher implements RouteMatcherInterface
 
         if ($glueRequestTransfer->getResource()->getControllerExecutable()) {
             $controller = $glueRequestTransfer->getResource()->getControllerExecutable();
-            /** @phpstan-var callable():\Generated\Shared\Transfer\GlueResponseTransfer $executable */
             $executable = $this->buildExecutable($controller);
 
+            /** @phpstan-ignore argument.type */
             return new GenericResource($executable);
         }
 
@@ -78,6 +78,7 @@ class CustomRouteMatcher implements RouteMatcherInterface
      */
     protected function buildExecutable(array $executable): array
     {
+        /** @phpstan-ignore function.alreadyNarrowedType */
         if (is_array($executable) && isset($executable[0]) && is_string($executable[0])) {
             $executable[0] = $this->createControllerInstance($executable[0]);
         }
@@ -97,6 +98,7 @@ class CustomRouteMatcher implements RouteMatcherInterface
         if (class_exists($controller)) {
             /** @phpstan-var \Spryker\Glue\Kernel\Controller\AbstractController */
             $controllerInstance = new $controller();
+            /** @phpstan-ignore instanceof.alwaysTrue */
             if ($controllerInstance instanceof AbstractController) {
                 return new $controller();
             }

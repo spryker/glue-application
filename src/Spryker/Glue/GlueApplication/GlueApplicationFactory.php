@@ -1059,7 +1059,7 @@ class GlueApplicationFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Glue\GlueApplication\Http\Response\HttpSenderInterface;
+     * @return \Spryker\Glue\GlueApplication\Http\Response\HttpSenderInterface
      */
     public function createHttpSender(): HttpSenderInterface
     {
