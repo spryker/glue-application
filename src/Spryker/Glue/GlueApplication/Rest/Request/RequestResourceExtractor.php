@@ -106,11 +106,12 @@ class RequestResourceExtractor implements RequestResourceExtractorInterface
         }
 
         $restResourceAttributesTransfer = new $className();
-        if ($restResourceAttributesTransfer instanceof AbstractTransfer) {
-            $restResourceAttributesTransfer->fromArray($data[RestResourceInterface::RESOURCE_ATTRIBUTES], true);
+        if (!$restResourceAttributesTransfer instanceof AbstractTransfer) {
+            return null;
         }
 
-        /** @phpstan-ignore return.type */
+        $restResourceAttributesTransfer->fromArray($data[RestResourceInterface::RESOURCE_ATTRIBUTES], true);
+
         return $restResourceAttributesTransfer;
     }
 
