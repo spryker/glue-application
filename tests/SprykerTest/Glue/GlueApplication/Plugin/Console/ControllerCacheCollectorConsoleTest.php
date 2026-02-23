@@ -67,11 +67,9 @@ class ControllerCacheCollectorConsoleTest extends Unit
         $controllerCacheWriterMock
             ->expects($this->once())
             ->method('cache')
-            ->will(
-                $this->returnCallback(function ($apiApplication) {
-                        $this->assertSame($this->tester::FAKE_APPLICATION, $apiApplication);
-                }),
-            );
+            ->willReturnCallback(function ($apiApplication) {
+                $this->assertSame($this->tester::FAKE_APPLICATION, $apiApplication);
+            });
         $this->tester->mockConfigMethod('getControllerCachePath', Configuration::dataDir());
         $this->tester->mockFactoryMethod('createControllerCacheWriter', $controllerCacheWriterMock);
 
