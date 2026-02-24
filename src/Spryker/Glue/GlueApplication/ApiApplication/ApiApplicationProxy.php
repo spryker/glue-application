@@ -208,9 +208,11 @@ class ApiApplicationProxy implements ApplicationInterface
                  * missing GlueRequestTransfer in the
                  */
                 try {
-                    $this->request->attributes->set('api-platform-request', true);
+                    // We create the request object from scratch as the original one may no longer have content (emptied when first requested)
+                    $apiPlatformRequest = Request::createFromGlobals();
+                    $apiPlatformRequest->attributes->set('api-platform-request', true);
 
-                    $response = $kernel->handle($this->request);
+                    $response = $kernel->handle($apiPlatformRequest);
                     $glueResponseTransfer->setHttpStatus($response->getStatusCode());
                     $glueResponseTransfer->setContent((string)$response->getContent());
                     $glueResponseTransfer->setMeta($response->headers->all());
