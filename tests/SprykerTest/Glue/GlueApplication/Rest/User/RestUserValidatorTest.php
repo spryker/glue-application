@@ -27,9 +27,6 @@ use SprykerTest\Glue\GlueApplication\Stub\RestRequest;
  */
 class RestUserValidatorTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testValidateWhenPluginSucceedsShouldReturnNull(): void
     {
         // Arrange
@@ -47,9 +44,6 @@ class RestUserValidatorTest extends Unit
         $this->assertNull($restErrorCollectionTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testValidateReturnsErroredResponseWhenPluginNotValid(): void
     {
         // Arrange

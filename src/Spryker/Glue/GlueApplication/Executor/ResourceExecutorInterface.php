@@ -13,12 +13,6 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface;
 
 interface ResourceExecutorInterface
 {
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface $resource
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function executeResource(
         ResourceInterface $resource,
         GlueRequestTransfer $glueRequestTransfer

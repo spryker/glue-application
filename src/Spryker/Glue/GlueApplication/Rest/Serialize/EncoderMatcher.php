@@ -22,19 +22,11 @@ class EncoderMatcher implements EncoderMatcherInterface
      */
     protected $encoders;
 
-    /**
-     * @param array $encoders
-     */
     public function __construct(array $encoders = [])
     {
         $this->encoders = $encoders;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     *
-     * @return \Spryker\Glue\GlueApplication\Serialize\Encoder\EncoderInterface|null
-     */
     public function match(MetadataInterface $metadata): ?EncoderInterface
     {
         if (!$metadata->getAcceptFormat()) {

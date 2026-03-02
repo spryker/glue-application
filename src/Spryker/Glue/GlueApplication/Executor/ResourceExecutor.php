@@ -41,11 +41,6 @@ class ResourceExecutor implements ResourceExecutorInterface
      */
     protected $glueApplicationConfig;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Cache\Reader\ControllerCacheReaderInterface $controllerCacheReader
-     * @param \Spryker\Glue\GlueApplication\Cache\Writer\ControllerCacheWriterInterface $controllerCacheWriter
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $glueApplicationConfig
-     */
     public function __construct(
         ControllerCacheReaderInterface $controllerCacheReader,
         ControllerCacheWriterInterface $controllerCacheWriter,
@@ -202,11 +197,6 @@ class ResourceExecutor implements ResourceExecutorInterface
         return $parameters;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return bool
-     */
     protected function isCacheWriteAllowed(GlueRequestTransfer $glueRequestTransfer): bool
     {
         if ($this->glueApplicationConfig->isDevelopmentMode()) {

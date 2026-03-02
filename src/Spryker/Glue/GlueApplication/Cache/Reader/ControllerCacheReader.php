@@ -38,10 +38,6 @@ class ControllerCacheReader implements ControllerCacheReaderInterface
      */
     protected $config;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Cache\Writer\ControllerCacheWriterInterface $controllerCacheWriter
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $config
-     */
     public function __construct(
         ControllerCacheWriterInterface $controllerCacheWriter,
         GlueApplicationConfig $config
@@ -96,13 +92,6 @@ class ControllerCacheReader implements ControllerCacheReaderInterface
         return array_flip($apiControllerConfigurationTransfer->getParameters());
     }
 
-    /**
-     * @param string $action
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface $resource
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return string
-     */
     protected function generateControllerConfigurationKey(string $action, ResourceInterface $resource, GlueRequestTransfer $glueRequestTransfer): string
     {
         if (!$resource->getType()) {
@@ -117,11 +106,6 @@ class ControllerCacheReader implements ControllerCacheReaderInterface
         return sprintf('%s:%s:%s', $resource->getController(), $resource->getType(), $action);
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface $resource
-     *
-     * @return bool
-     */
     protected function isCacheable(ResourceInterface $resource): bool
     {
         if (

@@ -18,9 +18,6 @@ class TestResourceRoutePlugin extends AbstractPlugin implements ResourceRoutePlu
      */
     protected $resourceType;
 
-    /**
-     * @param string $resourceType
-     */
     public function __construct(string $resourceType = 'tests')
     {
         $this->resourceType = $resourceType;

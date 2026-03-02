@@ -39,9 +39,6 @@ class RouterTest extends Unit
      */
     protected const HTTP_HOST = 'glue-storefront.de.spryker.local';
 
-    /**
-     * @return void
-     */
     public function testRouteResourceReturnsGlueRequestTransferExpandedWithResource(): void
     {
         //Arrange
@@ -75,9 +72,6 @@ class RouterTest extends Unit
         $this->assertSame($matchResult, $glueRequestTransfer->getResource()->getParameters());
     }
 
-    /**
-     * @return void
-     */
     public function testRouteResourceReturnsGlueRequestTransferDoesNotContainResource(): void
     {
         //Arrange

@@ -32,9 +32,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ResponseFormatterTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testFormatNoEncoderFoundReturnsUnsupportedMediaType(): void
     {
         $encoderMatcherMock = $this->createEncoderMatcherMock();
@@ -50,9 +47,6 @@ class ResponseFormatterTest extends Unit
         $this->assertSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE, $response->getStatusCode());
     }
 
-    /**
-     * @return void
-     */
     public function testFormatReturnsBadRequestResponseWithoutEncoder(): void
     {
         $encoderMatcherMock = $this->prepareEncoderMocks();
@@ -82,9 +76,6 @@ class ResponseFormatterTest extends Unit
         $this->assertEquals(($responseObject->errors[0])->detail, 'error');
     }
 
-    /**
-     * @return void
-     */
     public function testFormatSuccessResponse(): void
     {
         $encoderMatcherMock = $this->prepareEncoderMocks();
@@ -114,12 +105,6 @@ class ResponseFormatterTest extends Unit
             ->getMock();
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Serialize\EncoderMatcherInterface $encoderMatcher
-     * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponseBuilderInterface $responseBuilder
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Response\ResponseFormatterInterface
-     */
     protected function createResponseFormatter(
         EncoderMatcherInterface $encoderMatcher,
         ResponseBuilderInterface $responseBuilder

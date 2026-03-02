@@ -43,13 +43,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         $this->glueApplicationConfig = $glueApplicationConfig;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueResponseTransfer $glueResponseTransfer
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface|null $resource
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function format(
         GlueResponseTransfer $glueResponseTransfer,
         GlueRequestTransfer $glueRequestTransfer,
@@ -148,11 +141,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         return $data;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return int
-     */
     protected function getStatusCode(GlueRequestTransfer $glueRequestTransfer): int
     {
         switch ($glueRequestTransfer->getMethod()) {
@@ -168,13 +156,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         return Response::HTTP_OK;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface|null $resource
-     * @param string $propertyName
-     *
-     * @return bool
-     */
     protected function getMethodProperty(
         GlueRequestTransfer $glueRequestTransfer,
         ?ResourceInterface $resource,
@@ -198,12 +179,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         return (bool)$declaredMethods->offsetGet($method)->$propertyName();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface|null $resource
-     *
-     * @return bool
-     */
     protected function getIsSnakeCased(
         GlueRequestTransfer $glueRequestTransfer,
         ?ResourceInterface $resource = null
@@ -211,12 +186,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         return $this->getMethodProperty($glueRequestTransfer, $resource, 'getIsSnakeCased');
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface|null $resource
-     *
-     * @return bool
-     */
     protected function getIsSingularResponse(
         GlueRequestTransfer $glueRequestTransfer,
         ?ResourceInterface $resource = null
@@ -224,12 +193,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         return $this->getMethodProperty($glueRequestTransfer, $resource, 'getIsSingularResponse');
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueResourceMethodCollectionTransfer $declaredMethods
-     * @param string $method
-     *
-     * @return bool
-     */
     protected function hasDeclaredMethods(
         GlueResourceMethodCollectionTransfer $declaredMethods,
         string $method

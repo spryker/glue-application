@@ -25,9 +25,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ContextHttpExpanderTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testServerNameAsHost(): void
     {
         //Arrange
@@ -43,9 +40,6 @@ class ContextHttpExpanderTest extends Unit
         $this->assertSame($expectedHost, $glueContext->getHost());
     }
 
-    /**
-     * @return void
-     */
     public function testHttpHostAsHost(): void
     {
         //Arrange
@@ -61,9 +55,6 @@ class ContextHttpExpanderTest extends Unit
         $this->assertSame($expectedHost, $glueContext->getHost());
     }
 
-    /**
-     * @return void
-     */
     public function testHttpMethodAsMethod(): void
     {
         //Arrange
@@ -78,9 +69,6 @@ class ContextHttpExpanderTest extends Unit
         $this->assertSame($expectedMethod, $glueContext->getMethod());
     }
 
-    /**
-     * @return void
-     */
     public function testHttpMethodAsMethodAlwaysInUppercase(): void
     {
         //Arrange
@@ -95,9 +83,6 @@ class ContextHttpExpanderTest extends Unit
         $this->assertSame(strtoupper($expectedMethod), $glueContext->getMethod());
     }
 
-    /**
-     * @return void
-     */
     public function testPathFromUri(): void
     {
         //Arrange

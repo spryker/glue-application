@@ -47,12 +47,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         $this->formatDataResponsePlugins = $formatDataResponsePlugins;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function format(RestResponseInterface $restResponse, RestRequestInterface $restRequest): Response
     {
         $encoder = $this->encoderMatcher->match($restRequest->getMetadata());
@@ -78,12 +72,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         );
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param array $preparedResponseData
-     *
-     * @return array
-     */
     protected function executeFormatDataResponsePlugins(RestRequestInterface $restRequest, array $preparedResponseData): array
     {
         foreach ($this->formatDataResponsePlugins as $responseDataPlugin) {
@@ -93,12 +81,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         return $preparedResponseData;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param \Spryker\Glue\GlueApplication\Serialize\Encoder\EncoderInterface $encoder
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     protected function getErrorResponse(RestResponseInterface $restResponse, EncoderInterface $encoder): Response
     {
         $response = [];
@@ -119,11 +101,6 @@ class ResponseFormatter implements ResponseFormatterInterface
         );
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     *
-     * @return int
-     */
     protected function getStatusCode(MetadataInterface $metadata): int
     {
         switch ($metadata->getMethod()) {

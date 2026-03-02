@@ -31,11 +31,6 @@ class CorsResponse implements CorsResponseInterface
      */
     protected $uriParser;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\ResourceRouteLoaderInterface $resourceRouteLoader
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $config
-     * @param \Spryker\Glue\GlueApplication\Rest\Uri\UriParserInterface $uriParser
-     */
     public function __construct(
         ResourceRouteLoaderInterface $resourceRouteLoader,
         GlueApplicationConfig $config,
@@ -46,12 +41,6 @@ class CorsResponse implements CorsResponseInterface
         $this->uriParser = $uriParser;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function addCorsHeaders(RestRequestInterface $restRequest, RestResponseInterface $restResponse): RestResponseInterface
     {
         $resources = $this->uriParser->parse($restRequest->getHttpRequest());

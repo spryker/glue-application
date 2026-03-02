@@ -24,19 +24,11 @@ class CustomRouteMatcher implements RouteMatcherInterface
      */
     protected RouterBuilderInterface $routerBuilder;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Router\CustomRouteRouter\Builder\RouterBuilderInterface $routerBuilder
-     */
     public function __construct(RouterBuilderInterface $routerBuilder)
     {
         $this->routerBuilder = $routerBuilder;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface
-     */
     public function route(GlueRequestTransfer $glueRequestTransfer): ResourceInterface
     {
         $router = $this->routerBuilder->buildRouter($glueRequestTransfer->getApplicationOrFail());

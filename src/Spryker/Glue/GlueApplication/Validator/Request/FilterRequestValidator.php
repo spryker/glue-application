@@ -15,11 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FilterRequestValidator implements RequestValidatorInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestValidationTransfer
-     */
     public function validate(GlueRequestTransfer $glueRequestTransfer): GlueRequestValidationTransfer
     {
         if (count($glueRequestTransfer->getFilters()) === 0) {
@@ -38,9 +33,6 @@ class FilterRequestValidator implements RequestValidatorInterface
         return (new GlueRequestValidationTransfer())->setIsValid(true);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueErrorTransfer
-     */
     protected function createUnsupportedFilterFormatGlueError(): GlueErrorTransfer
     {
         return (new GlueErrorTransfer())

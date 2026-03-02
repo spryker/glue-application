@@ -31,11 +31,6 @@ class RouterBuilder implements RouterBuilderInterface
         $this->routesProviderPlugins = $routesProviderPlugins;
     }
 
-    /**
-     * @param string $apiApplicationName
-     *
-     * @return \Spryker\Glue\GlueApplication\Router\CustomRouteRouter\RouterInterface|null
-     */
     public function buildRouter(string $apiApplicationName): ?RouterInterface
     {
         $routesProviderPlugin = $this->findRoutesProvider($apiApplicationName);
@@ -50,9 +45,6 @@ class RouterBuilder implements RouterBuilderInterface
         );
     }
 
-    /**
-     * @return \Symfony\Component\Config\Loader\LoaderInterface
-     */
     public function createClosureLoader(): LoaderInterface
     {
         return new ClosureLoader();
@@ -71,19 +63,11 @@ class RouterBuilder implements RouterBuilderInterface
         );
     }
 
-    /**
-     * @return \Symfony\Component\Routing\RouteCollection
-     */
     public function createRouteCollection(): RouteCollection
     {
         return new RouteCollection();
     }
 
-    /**
-     * @param string $apiApplicationName
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RoutesProviderPluginInterface|null
-     */
     protected function findRoutesProvider(string $apiApplicationName): ?RoutesProviderPluginInterface
     {
         foreach ($this->routesProviderPlugins as $routesProviderPlugin) {

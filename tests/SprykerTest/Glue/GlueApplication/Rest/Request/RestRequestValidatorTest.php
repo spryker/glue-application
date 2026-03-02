@@ -31,9 +31,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RestRequestValidatorTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testValidatePostRequestReturnsErroredResponseWhenDataNotProvided(): void
     {
         $restRequestValidator = $this->createRestRequestValidator();
@@ -46,9 +43,6 @@ class RestRequestValidatorTest extends Unit
         $this->assertNotEmpty($restErrorMessageTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testValidateReturnsErroredResponseWhenPluginNotValid(): void
     {
         $restRequestValidatorPluginMock = $this->createValidateRestRequestPluginMock();
@@ -67,9 +61,6 @@ class RestRequestValidatorTest extends Unit
         $this->assertNotEmpty($restErrorCollectionTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testValidateReturnsErroredResponseWhenValidatorPluginNotValid(): void
     {
         $restRequestValidatorPluginMock = $this->createRestRequestValidatorPluginMock();
@@ -108,12 +99,6 @@ class RestRequestValidatorTest extends Unit
             ->getMock();
     }
 
-    /**
-     * @param array $plugins
-     * @param array $restRequestValidatorPlugins
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\RestRequestValidatorInterface
-     */
     protected function createRestRequestValidator(array $plugins = [], array $restRequestValidatorPlugins = []): RestRequestValidatorInterface
     {
         return new RestRequestValidator($plugins, $restRequestValidatorPlugins);

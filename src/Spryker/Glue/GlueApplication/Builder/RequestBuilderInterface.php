@@ -13,13 +13,6 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInte
 
 interface RequestBuilderInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication $apiApplication
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface|null $apiConventionPlugin
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     public function build(
         GlueRequestTransfer $glueRequestTransfer,
         RequestFlowAwareApiApplication $apiApplication,

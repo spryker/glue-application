@@ -76,9 +76,6 @@ class RequestBuilderTest extends Unit
      */
     protected const THIRD_FIELD_VALUE = 'value3';
 
-    /**
-     * @return void
-     */
     public function testExtractHeadersFromRequest(): void
     {
         // Arrange
@@ -104,9 +101,6 @@ class RequestBuilderTest extends Unit
         $this->assertSame(static::HTTP_ACCEPT_LANGUAGE, $meta[$expectedHeaders[4]][0]);
     }
 
-    /**
-     * @return void
-     */
     public function testNoQueryFields(): void
     {
         // Act
@@ -116,9 +110,6 @@ class RequestBuilderTest extends Unit
         $this->assertCount(0, $glueRequestTransfer->getQueryFields());
     }
 
-    /**
-     * @return void
-     */
     public function testEmptyQueryFields(): void
     {
         // Arrange
@@ -134,9 +125,6 @@ class RequestBuilderTest extends Unit
         $this->assertEmpty($queryFields[static::FIRST_FIELD_NAME]);
     }
 
-    /**
-     * @return void
-     */
     public function testSingleQueryField(): void
     {
         // Arrange
@@ -152,9 +140,6 @@ class RequestBuilderTest extends Unit
         $this->assertSame(static::FIRST_FIELD_VALUE, $queryFields[static::FIRST_FIELD_NAME]);
     }
 
-    /**
-     * @return void
-     */
     public function testMultipleQueryFields(): void
     {
         // Arrange
@@ -173,9 +158,6 @@ class RequestBuilderTest extends Unit
         $this->assertSame(static::SECOND_FIELD_VALUE, $queryFields[static::SECOND_FIELD_NAME]);
     }
 
-    /**
-     * @return void
-     */
     public function testMultiValueFields(): void
     {
         // Arrange
@@ -197,9 +179,6 @@ class RequestBuilderTest extends Unit
         $this->assertSame(static::THIRD_FIELD_VALUE, $queryFields[static::SECOND_FIELD_NAME][1]);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     protected function createRequestBuilderAndExtractData(): GlueRequestTransfer
     {
         $requestBuilder = new RequestBuilder(

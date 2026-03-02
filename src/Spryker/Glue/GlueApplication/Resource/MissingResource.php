@@ -27,10 +27,6 @@ class MissingResource extends AbstractResourcePlugin implements MissingResourceI
      */
     protected string $error;
 
-    /**
-     * @param string $code
-     * @param string $error
-     */
     public function __construct(string $code, string $error)
     {
         $this->code = $code;
@@ -56,25 +52,16 @@ class MissingResource extends AbstractResourcePlugin implements MissingResourceI
         };
     }
 
-    /**
-     * @return string
-     */
     public function getController(): string
     {
         return '';
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return '';
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueResourceMethodCollectionTransfer
-     */
     public function getDeclaredMethods(): GlueResourceMethodCollectionTransfer
     {
         return new GlueResourceMethodCollectionTransfer();

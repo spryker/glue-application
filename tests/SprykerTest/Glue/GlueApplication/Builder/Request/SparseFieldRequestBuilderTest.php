@@ -24,9 +24,6 @@ use Spryker\Glue\GlueApplication\Builder\Request\SparseFieldRequestBuilder;
  */
 class SparseFieldRequestBuilderTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testSparseFields(): void
     {
         //Arrange
@@ -52,9 +49,6 @@ class SparseFieldRequestBuilderTest extends Unit
         $this->assertSame($expectedFields[2], $glueRequestTransfer->getSparseResources()->getArrayCopy()[0]->getFields()[2]);
     }
 
-    /**
-     * @return void
-     */
     public function testSparseWithoutFields(): void
     {
         //Arrange

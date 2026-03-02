@@ -77,9 +77,6 @@ class MockArraySessionStorage implements SessionStorageInterface
         $this->data = $array;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function start(): bool
     {
         if ($this->started) {
@@ -95,9 +92,6 @@ class MockArraySessionStorage implements SessionStorageInterface
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function regenerate(bool $destroy = false, ?int $lifetime = null): bool
     {
         if (!$this->started) {
@@ -110,9 +104,6 @@ class MockArraySessionStorage implements SessionStorageInterface
         return true;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
@@ -134,19 +125,11 @@ class MockArraySessionStorage implements SessionStorageInterface
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return void
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -220,9 +203,6 @@ class MockArraySessionStorage implements SessionStorageInterface
         return static::$bags[$name];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isStarted(): bool
     {
         return $this->started;

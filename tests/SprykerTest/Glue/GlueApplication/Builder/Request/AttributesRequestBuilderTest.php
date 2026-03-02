@@ -46,9 +46,6 @@ class AttributesRequestBuilderTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testAttributesRequestBuilderWithoutContent(): void
     {
         //Arrange
@@ -61,9 +58,6 @@ class AttributesRequestBuilderTest extends Unit
         $this->assertEmpty($glueRequestTransfer->getAttributes());
     }
 
-    /**
-     * @return void
-     */
     public function testAttributesRequestBuilderWithWrongContentData(): void
     {
         //Arrange
@@ -77,9 +71,6 @@ class AttributesRequestBuilderTest extends Unit
         $this->assertArrayNotHasKey(static::ATTRIBUTES_SECOND_KEY, $glueRequestTransfer->getAttributes());
     }
 
-    /**
-     * @return void
-     */
     public function testAttributesRequestBuilderWithContentData(): void
     {
         //Arrange
@@ -96,11 +87,6 @@ class AttributesRequestBuilderTest extends Unit
         $this->assertSame(static::ATTRIBUTES_SECOND_FIELD, $attributes[static::ATTRIBUTES_SECOND_KEY]);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     protected function extractAttributesRequest(GlueRequestTransfer $glueRequestTransfer): GlueRequestTransfer
     {
         $attributesRequestBuilder = new AttributesRequestBuilder($this->createUtilEncodingService());
@@ -108,9 +94,6 @@ class AttributesRequestBuilderTest extends Unit
         return $attributesRequestBuilder->build($glueRequestTransfer);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Dependency\Service\GlueApplicationToUtilEncodingServiceInterface
-     */
     protected function createUtilEncodingService(): GlueApplicationToUtilEncodingServiceInterface
     {
         return new GlueApplicationToUtilEncodingServiceBridge(
@@ -118,9 +101,6 @@ class AttributesRequestBuilderTest extends Unit
         );
     }
 
-    /**
-     * @return string
-     */
     protected function getWrongContentData(): string
     {
         return json_encode([
@@ -131,9 +111,6 @@ class AttributesRequestBuilderTest extends Unit
         ]);
     }
 
-    /**
-     * @return string
-     */
     protected function getContentData(): string
     {
         return json_encode([

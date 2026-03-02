@@ -17,13 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RestRequest
 {
-    /**
-     * @param string $method
-     * @param string $resourceType
-     * @param string $uri
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface
-     */
     public function createRestRequest(string $method = Request::METHOD_GET, string $resourceType = 'test', string $uri = '/'): RestRequestInterface
     {
         $metadata = $this->createMetadata($method);
@@ -39,11 +32,6 @@ class RestRequest
             ->build();
     }
 
-    /**
-     * @param string $method
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface
-     */
     public function createMetadata(string $method = Request::METHOD_GET): MetadataInterface
     {
         $version = new Version(1, 1);

@@ -33,9 +33,6 @@ class ControllerCacheCollectorConsoleTest extends Unit
      */
     protected GlueApplicationTester $tester;
 
-    /**
-     * @return void
-     */
     public function testCommandIsExecutable(): void
     {
         // Arrange
@@ -57,9 +54,6 @@ class ControllerCacheCollectorConsoleTest extends Unit
         $this->assertSame(ControllerCacheCollectorConsole::CODE_SUCCESS, $commandTester->getStatusCode());
     }
 
-    /**
-     * @return void
-     */
     public function testCommandIsExecutableWithArgumentApplication(): void
     {
         // Arrange & Assert
@@ -91,9 +85,6 @@ class ControllerCacheCollectorConsoleTest extends Unit
         $this->assertSame(ControllerCacheCollectorConsole::CODE_SUCCESS, $commandTester->getStatusCode());
     }
 
-    /**
-     * @return void
-     */
     protected function tearDown(): void
     {
         parent::tearDown();

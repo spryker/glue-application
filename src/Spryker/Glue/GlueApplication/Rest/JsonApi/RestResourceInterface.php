@@ -55,9 +55,6 @@ interface RestResourceInterface
      */
     public function addRelationship(RestResourceInterface $restResource);
 
-    /**
-     * @return array
-     */
     public function getRelationships(): array;
 
     /**
@@ -76,31 +73,14 @@ interface RestResourceInterface
      */
     public function addLink(string $name, string $resourceUri, array $meta = []);
 
-    /**
-     * @return array
-     */
     public function getLinks(): array;
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     public function hasLink(string $name): bool;
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string;
 
-    /**
-     * @return string
-     */
     public function getType(): string;
 
-    /**
-     * @return \Spryker\Shared\Kernel\Transfer\AbstractTransfer|null
-     */
     public function getAttributes(): ?AbstractTransfer;
 
     /**
@@ -117,8 +97,5 @@ interface RestResourceInterface
      */
     public function setPayload(?AbstractTransfer $payload);
 
-    /**
-     * @return \Spryker\Shared\Kernel\Transfer\AbstractTransfer|null
-     */
     public function getPayload(): ?AbstractTransfer;
 }

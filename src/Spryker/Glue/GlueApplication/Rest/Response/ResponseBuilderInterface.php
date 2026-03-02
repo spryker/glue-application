@@ -12,12 +12,6 @@ use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
 
 interface ResponseBuilderInterface
 {
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return array
-     */
     public function buildResponse(
         RestResponseInterface $restResponse,
         RestRequestInterface $restRequest

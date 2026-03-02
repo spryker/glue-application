@@ -60,9 +60,6 @@ class ResponseRelationshipTest extends Unit
      */
     protected const RESOURCE_CONCRETE_PRODUCT_ID = 2;
 
-    /**
-     * @return void
-     */
     public function testLoadRelationshipsShouldIncludeRelationsByPlugin(): void
     {
         $restResponseBuilder = new RestResourceBuilder();
@@ -103,9 +100,6 @@ class ResponseRelationshipTest extends Unit
         $this->assertSame('related', $firstRelation->getType());
     }
 
-    /**
-     * @return void
-     */
     public function testProcessIncludedShouldReturnIncludedFromRelationships(): void
     {
         $responseRelationship = $this->createResponseRelationship();
@@ -124,9 +118,6 @@ class ResponseRelationshipTest extends Unit
         $this->assertSame('1', $included[0]->getId());
     }
 
-    /**
-     * @return void
-     */
     public function testProcessIncludedDoesntOverrideResourceWithRelationship(): void
     {
         // Arrange
@@ -216,9 +207,6 @@ class ResponseRelationshipTest extends Unit
         return [$abstractProductResource, $imageSetResource];
     }
 
-    /**
-     * @return void
-     */
     public function testHasRelationshipShouldReturnTrueWhenIncludedOmitted(): void
     {
         $responseRelationship = $this->createResponseRelationship();
@@ -228,11 +216,6 @@ class ResponseRelationshipTest extends Unit
         $this->assertTrue($responseRelationship->hasRelationship('test', $restRequest));
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\ResourceRelationshipLoaderInterface|null $relationshipLoaderMock
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Response\ResponseRelationshipInterface
-     */
     protected function createResponseRelationship(
         ?ResourceRelationshipLoaderInterface $relationshipLoaderMock = null
     ): ResponseRelationshipInterface {

@@ -48,12 +48,6 @@ class RouteMatcherCollection implements RouteMatcherInterface
         $this->routerCacheCollector = $routerCacheCollector;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param bool $cacheAlreadyWarmed
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface
-     */
     public function route(GlueRequestTransfer $glueRequestTransfer, bool $cacheAlreadyWarmed = false): ResourceInterface
     {
         foreach ($this->routeMatchers as $routeMatcherType => $routeMatcher) {
@@ -91,11 +85,6 @@ class RouteMatcherCollection implements RouteMatcherInterface
         );
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return bool
-     */
     protected function isCacheWarmUpAllowed(GlueRequestTransfer $glueRequestTransfer): bool
     {
         if ($this->glueApplicationConfig->isDevelopmentMode()) {

@@ -16,11 +16,6 @@ use Spryker\Glue\Kernel\Controller\AbstractController;
  */
 class OptionsController extends AbstractController
 {
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function resourceOptionsAction(RestRequestInterface $restRequest): RestResponseInterface
     {
         $restResponse = $this->getFactory()->getResourceBuilder()->createRestResponse();

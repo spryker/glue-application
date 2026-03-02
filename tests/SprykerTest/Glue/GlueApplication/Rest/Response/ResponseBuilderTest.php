@@ -29,9 +29,6 @@ use SprykerTest\Glue\GlueApplication\Stub\RestRequest;
  */
 class ResponseBuilderTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testBuildResponseShouldResponseAsArray(): void
     {
         $restResponseBuilder = new RestResourceBuilder();
@@ -61,12 +58,6 @@ class ResponseBuilderTest extends Unit
         $this->assertSame('tests', $response['data']['type']);
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponsePaginationInterface $responsePaginationMock
-     * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponseRelationshipInterface $responseRelationshipMock
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Response\ResponseBuilderInterface
-     */
     protected function createResponseBuilder(
         ResponsePaginationInterface $responsePaginationMock,
         ResponseRelationshipInterface $responseRelationshipMock

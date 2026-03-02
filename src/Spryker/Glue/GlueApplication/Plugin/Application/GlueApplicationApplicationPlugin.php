@@ -27,11 +27,6 @@ class GlueApplicationApplicationPlugin extends AbstractPlugin implements Applica
      */
     protected const DEBUG = 'debug';
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Service\Container\ContainerInterface
-     */
     public function provide(ContainerInterface $container): ContainerInterface
     {
         $container = $this->addDebugMode($container);
@@ -40,11 +35,6 @@ class GlueApplicationApplicationPlugin extends AbstractPlugin implements Applica
         return $container;
     }
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Service\Container\ContainerInterface
-     */
     protected function addDebugMode(ContainerInterface $container): ContainerInterface
     {
         $container->set(static::DEBUG, function () {
@@ -54,11 +44,6 @@ class GlueApplicationApplicationPlugin extends AbstractPlugin implements Applica
         return $container;
     }
 
-    /**
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Service\Container\ContainerInterface
-     */
     protected function addResourceBuilder(ContainerInterface $container): ContainerInterface
     {
         $container->set(static::SERVICE_RESOURCE_BUILDER, function () {

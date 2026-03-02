@@ -31,9 +31,6 @@ class RouterResource implements RouterResourceInterface
         $this->routeProviderPlugins = $routeProviderPlugins;
     }
 
-    /**
-     * @return \Symfony\Component\Routing\RouteCollection
-     */
     public function __invoke(): RouteCollection
     {
         foreach ($this->routeProviderPlugins as $routeProviderPlugin) {

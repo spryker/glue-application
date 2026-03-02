@@ -57,9 +57,6 @@ class PreFlightResourceTest extends Unit
      */
     protected const HEADER_ACCESS_CONTROL_ALLOW_HEADERS = 'Access-Control-Allow-Headers';
 
-    /**
-     * @return void
-     */
     public function testPreFlightResourceGetResponse(): void
     {
         //Arrange
@@ -83,9 +80,6 @@ class PreFlightResourceTest extends Unit
         $this->assertArrayHasKey(static::METHOD_OPTIONS, $accessControlAllowMethods);
     }
 
-    /**
-     * @return void
-     */
     public function testPreFlightResourceGetResourceResponse(): void
     {
         //Arrange

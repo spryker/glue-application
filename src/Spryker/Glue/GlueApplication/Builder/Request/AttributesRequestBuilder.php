@@ -17,9 +17,6 @@ class AttributesRequestBuilder implements RequestBuilderInterface
      */
     protected GlueApplicationToUtilEncodingServiceInterface $utilEncodingService;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Dependency\Service\GlueApplicationToUtilEncodingServiceInterface $utilEncodingService
-     */
     public function __construct(GlueApplicationToUtilEncodingServiceInterface $utilEncodingService)
     {
         $this->utilEncodingService = $utilEncodingService;

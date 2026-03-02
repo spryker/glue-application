@@ -28,9 +28,6 @@ use SprykerTest\Glue\GlueApplication\Stub\ResourceController;
  */
 class AbstractResourcePluginTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testGetResourceReturnsCallableResourceIfEmptyGlueResourceMethodConfigurationTransferExists(): void
     {
         //Arrange
@@ -60,9 +57,6 @@ class AbstractResourcePluginTest extends Unit
         $this->assertInstanceOf(ResourceController::class, $resource[0]);
     }
 
-    /**
-     * @return void
-     */
     public function testGetResourceReturnsCallableResourceIfConfiguredGlueResourceMethodConfigurationTransferExists(): void
     {
         //Arrange
@@ -93,9 +87,6 @@ class AbstractResourcePluginTest extends Unit
         $this->assertInstanceOf(ResourceController::class, $resource[0]);
     }
 
-    /**
-     * @return void
-     */
     public function testGetResourceThrowsExceptionIfControllerDoesNotExist(): void
     {
         //Arrange
@@ -124,9 +115,6 @@ class AbstractResourcePluginTest extends Unit
         $resource = $abstractResourcePluginMock->getResource($glueRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testGetResourceReturnsCallableResourceIfGlueResourceMethodConfigurationTransferDoesNotExist(): void
     {
         //Arrange

@@ -54,11 +54,6 @@ class RequestFormatter implements RequestFormatterInterface
         $this->requestFormatterPlugins = $requestFormatterPlugins;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface
-     */
     public function formatRequest(HttpRequest $request): RestRequestInterface
     {
         $metadata = $this->requestMetaDataExtractor->extract($request);
@@ -78,12 +73,6 @@ class RequestFormatter implements RequestFormatterInterface
         return $requestBuilder->build();
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface $requestBuilder
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface
-     */
     protected function executeRequestFormatterPlugins(RequestBuilderInterface $requestBuilder, HttpRequest $request): RequestBuilderInterface
     {
         foreach ($this->requestFormatterPlugins as $requestFormatterPlugin) {
@@ -93,12 +82,6 @@ class RequestFormatter implements RequestFormatterInterface
         return $requestBuilder;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface $requestBuilder
-     *
-     * @return void
-     */
     protected function setFields(HttpRequest $request, RequestBuilderInterface $requestBuilder): void
     {
         $queryParameters = $request->query->all();
@@ -113,12 +96,6 @@ class RequestFormatter implements RequestFormatterInterface
         $this->setFilterFields($requestBuilder, $queryParameters);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface $requestBuilder
-     *
-     * @return void
-     */
     protected function setParentResources(HttpRequest $httpRequest, RequestBuilderInterface $requestBuilder): void
     {
         $parentResources = $this->requestResourceExtractor->extractParentResources($requestBuilder->getResource()->getType(), $httpRequest);
@@ -127,12 +104,6 @@ class RequestFormatter implements RequestFormatterInterface
         }
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface $requestBuilder
-     * @param array $queryParameters
-     *
-     * @return void
-     */
     protected function setSortFields(RequestBuilderInterface $requestBuilder, array $queryParameters): void
     {
         if (!isset($queryParameters[RequestConstantsInterface::QUERY_SORT]) || empty($queryParameters[RequestConstantsInterface::QUERY_SORT])) {
@@ -150,12 +121,6 @@ class RequestFormatter implements RequestFormatterInterface
         }
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface $requestBuilder
-     * @param array $queryParameters
-     *
-     * @return void
-     */
     protected function setIncludeFields(
         RequestBuilderInterface $requestBuilder,
         array $queryParameters
@@ -186,12 +151,6 @@ class RequestFormatter implements RequestFormatterInterface
         }
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface $requestBuilder
-     * @param array $queryParameters
-     *
-     * @return void
-     */
     protected function setSparseFields(
         RequestBuilderInterface $requestBuilder,
         array $queryParameters
@@ -208,12 +167,6 @@ class RequestFormatter implements RequestFormatterInterface
         }
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface $requestBuilder
-     * @param array $queryParameters
-     *
-     * @return void
-     */
     protected function setPaginationFields(RequestBuilderInterface $requestBuilder, array $queryParameters): void
     {
         if (!isset($queryParameters[RequestConstantsInterface::QUERY_PAGE])) {
@@ -226,12 +179,6 @@ class RequestFormatter implements RequestFormatterInterface
         }
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface $requestBuilder
-     * @param array $queryParameters
-     *
-     * @return void
-     */
     protected function setFilterFields(RequestBuilderInterface $requestBuilder, array $queryParameters): void
     {
         if (!isset($queryParameters[RequestConstantsInterface::QUERY_FILTER]) || !is_array($queryParameters[RequestConstantsInterface::QUERY_FILTER])) {
@@ -244,11 +191,6 @@ class RequestFormatter implements RequestFormatterInterface
         }
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface $resource
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\RequestBuilderInterface
-     */
     protected function createRequestResourceBuilder(RestResourceInterface $resource): RequestBuilderInterface
     {
         return new RequestBuilder($resource);

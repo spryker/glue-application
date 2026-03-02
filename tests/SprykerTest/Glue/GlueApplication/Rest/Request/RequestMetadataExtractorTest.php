@@ -30,9 +30,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RequestMetadataExtractorTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testExtractShouldProvideMetadataFromRequest(): void
     {
         $versionResolverMock = $this->createVersionResolverMock();
@@ -85,13 +82,6 @@ class RequestMetadataExtractorTest extends Unit
         $this->assertSame(Request::METHOD_GET, $metadata->getMethod());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Version\VersionResolverInterface $versionResolverMock
-     * @param \Spryker\Glue\GlueApplication\Rest\ContentType\ContentTypeResolverInterface $contentTypeResolverMock
-     * @param \Spryker\Glue\GlueApplication\Rest\Language\LanguageNegotiationInterface $languageNegotiationMock
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\RequestMetaDataExtractorInterface
-     */
     protected function createMetadataExtractor(
         VersionResolverInterface $versionResolverMock,
         ContentTypeResolverInterface $contentTypeResolverMock,

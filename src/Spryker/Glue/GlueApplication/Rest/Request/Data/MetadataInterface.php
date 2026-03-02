@@ -9,41 +9,18 @@ namespace Spryker\Glue\GlueApplication\Rest\Request\Data;
 
 interface MetadataInterface
 {
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\VersionInterface|null
-     */
     public function getVersion(): ?VersionInterface;
 
-    /**
-     * @return string
-     */
     public function getAcceptFormat(): string;
 
-    /**
-     * @return string
-     */
     public function getContentTypeFormat(): string;
 
-    /**
-     * @return string
-     */
     public function getMethod(): string;
 
-    /**
-     * @return string
-     */
     public function getLocale(): string;
 
-    /**
-     * @return bool
-     */
     public function isProtected(): bool;
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
     public function hasAttribute(string $key): bool;
 
     /**

@@ -33,9 +33,6 @@ class AcceptedFormatValidatorTest extends Unit
      */
     protected const ALLOWED_HEADER = 'allowed-header';
 
-    /**
-     * @return void
-     */
     public function testEmptyAcceptedFormatWillReturnBadRequest(): void
     {
         //Act
@@ -48,9 +45,6 @@ class AcceptedFormatValidatorTest extends Unit
         $this->assertGreaterThan(0, $glueRequestValidationTransfer->getErrors()->count());
     }
 
-    /**
-     * @return void
-     */
     public function testWrongAcceptedFormatWillReturnBadRequest(): void
     {
         //Arrange
@@ -66,9 +60,6 @@ class AcceptedFormatValidatorTest extends Unit
         $this->assertGreaterThan(0, $glueRequestValidationTransfer->getErrors()->count());
     }
 
-    /**
-     * @return void
-     */
     public function testCorrectAcceptedFormatWillReturnValidRequest(): void
     {
         //Arrange
@@ -83,9 +74,6 @@ class AcceptedFormatValidatorTest extends Unit
         $this->assertEquals(0, $glueRequestValidationTransfer->getErrors()->count());
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Encoder\Response\ResponseEncoderStrategyInterface
-     */
     protected function createJsonResponseEncoderPlugin(): ResponseEncoderStrategyInterface
     {
         $factory = $this->createFactory();
@@ -93,9 +81,6 @@ class AcceptedFormatValidatorTest extends Unit
         return new JsonResponseEncoderStrategy($factory->getUtilEncodingService());
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\GlueApplicationFactory
-     */
     protected function createFactory(): GlueApplicationFactory
     {
         return new GlueApplicationFactory();

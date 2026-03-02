@@ -77,9 +77,6 @@ class GlueControllerFilterPluginTest extends Unit
      */
     protected const TESTS_POST_DATA = '{"data":{"type":"tests","attributes":{"attribute1":"1", "attribute2": "2"}}}';
 
-    /**
-     * @return void
-     */
     public function testFilterReturnsUnsupportedMediaTypeWhenUnsupportedMediaTypeProvided(): void
     {
         $request = Request::create(
@@ -103,9 +100,6 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE, $response->getStatusCode());
     }
 
-    /**
-     * @return void
-     */
     public function testFilterWhenAllHeadersProviderShouldReturnSuccess(): void
     {
         $request = Request::create(
@@ -128,9 +122,6 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    /**
-     * @return void
-     */
     public function testFilterPostShouldSubmitAndReturnPostData(): void
     {
         $request = Request::create(
@@ -163,9 +154,6 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertCount(2, $data[RestResourceInterface::RESOURCE_ATTRIBUTES]);
     }
 
-    /**
-     * @return void
-     */
     public function testFilterPostReturnsBadRequestWhenBusinessValidationFails(): void
     {
         $request = Request::create(
@@ -200,9 +188,6 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertSame(Response::HTTP_BAD_REQUEST, $errors[0]['status']);
     }
 
-    /**
-     * @return void
-     */
     public function testFilterDeleteShouldReturnCorrectStatusCode(): void
     {
         $request = Request::create(
@@ -228,9 +213,6 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
     }
 
-    /**
-     * @return void
-     */
     public function testFilterPatchShouldReturnCorrectStatusCode(): void
     {
         $request = Request::create(
@@ -262,9 +244,6 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertCount(2, $data[RestResourceInterface::RESOURCE_ATTRIBUTES]);
     }
 
-    /**
-     * @return void
-     */
     public function testFilterGetPagination(): void
     {
         $request = Request::create(
@@ -301,19 +280,11 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertUri($content, RestLinkInterface::LINK_PREV, '2', '0');
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Plugin\Rest\GlueControllerListenerPlugin
-     */
     protected function createGlueControllerListenerPlugin(): GlueControllerListenerPlugin
     {
         return new GlueControllerListenerPlugin();
     }
 
-    /**
-     * @param array $content
-     *
-     * @return void
-     */
     protected function assertPaginationKeys(array $content): void
     {
         $this->assertArrayHasKey(RestResponseInterface::RESPONSE_LINKS, $content);
@@ -323,14 +294,6 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertArrayHasKey(RestLinkInterface::LINK_PREV, $content[RestResponseInterface::RESPONSE_LINKS]);
     }
 
-    /**
-     * @param array $content
-     * @param string $field
-     * @param string $limit
-     * @param string $offset
-     *
-     * @return void
-     */
     protected function assertUri(array $content, string $field, string $limit, string $offset): void
     {
         $queryParts = [];
@@ -341,9 +304,6 @@ class GlueControllerFilterPluginTest extends Unit
         $this->assertSame($offset, $queryParts['page']['offset']);
     }
 
-    /**
-     * @return void
-     */
     protected function mockStore(): void
     {
         $glueApplicationToStoreClientBridge = $this->createMock(GlueApplicationToStoreClientBridge::class);

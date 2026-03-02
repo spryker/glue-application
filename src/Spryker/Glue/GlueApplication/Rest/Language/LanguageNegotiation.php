@@ -22,10 +22,6 @@ class LanguageNegotiation implements LanguageNegotiationInterface
      */
     protected GlueApplicationToLocaleServiceInterface $localeService;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Dependency\Client\GlueApplicationToStoreClientInterface $storeClient
-     * @param \Spryker\Glue\GlueApplication\Dependency\Service\GlueApplicationToLocaleServiceInterface $localeService
-     */
     public function __construct(
         GlueApplicationToStoreClientInterface $storeClient,
         GlueApplicationToLocaleServiceInterface $localeService
@@ -34,11 +30,6 @@ class LanguageNegotiation implements LanguageNegotiationInterface
         $this->localeService = $localeService;
     }
 
-    /**
-     * @param string $acceptLanguage
-     *
-     * @return string
-     */
     public function getLanguageIsoCode(string $acceptLanguage): string
     {
         $storeTransfer = $this->storeClient->getCurrentStore();

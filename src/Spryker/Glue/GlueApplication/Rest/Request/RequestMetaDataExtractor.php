@@ -34,11 +34,6 @@ class RequestMetaDataExtractor implements RequestMetaDataExtractorInterface
      */
     protected $languageNegotiation;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Version\VersionResolverInterface $versionExtractor
-     * @param \Spryker\Glue\GlueApplication\Rest\ContentType\ContentTypeResolverInterface $contentTypeResolver
-     * @param \Spryker\Glue\GlueApplication\Rest\Language\LanguageNegotiationInterface $languageNegotiation
-     */
     public function __construct(
         VersionResolverInterface $versionExtractor,
         ContentTypeResolverInterface $contentTypeResolver,
@@ -49,11 +44,6 @@ class RequestMetaDataExtractor implements RequestMetaDataExtractorInterface
         $this->languageNegotiation = $languageNegotiation;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\Metadata
-     */
     public function extract(Request $request): Metadata
     {
         return new Metadata(
@@ -66,11 +56,6 @@ class RequestMetaDataExtractor implements RequestMetaDataExtractorInterface
         );
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return string
-     */
     protected function findContentTypeFormat(Request $request): string
     {
         $contentType = (string)$request->headers->get(RequestConstantsInterface::HEADER_CONTENT_TYPE);
@@ -83,11 +68,6 @@ class RequestMetaDataExtractor implements RequestMetaDataExtractorInterface
         return $headerParts[1];
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return string
-     */
     public function findAcceptFormat(Request $request): string
     {
         $accept = (string)$request->headers->get(RequestConstantsInterface::HEADER_ACCEPT);
@@ -101,11 +81,6 @@ class RequestMetaDataExtractor implements RequestMetaDataExtractorInterface
         return $headerParts[1];
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return string
-     */
     protected function getLocale(Request $request): string
     {
         $acceptLanguage = (string)$request->headers->get(RequestConstantsInterface::HEADER_ACCEPT_LANGUAGE, '');
@@ -113,11 +88,6 @@ class RequestMetaDataExtractor implements RequestMetaDataExtractorInterface
         return $this->languageNegotiation->getLanguageIsoCode($acceptLanguage);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\VersionInterface|null
-     */
     protected function createVersion(Request $request): ?VersionInterface
     {
         $versionTransfer = $request->attributes->get(RequestConstantsInterface::ATTRIBUTE_RESOURCE_VERSION, '');

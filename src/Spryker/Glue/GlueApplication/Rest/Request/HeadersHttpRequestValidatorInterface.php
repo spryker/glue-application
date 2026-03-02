@@ -12,10 +12,5 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface HeadersHttpRequestValidatorInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer|null
-     */
     public function validate(Request $request): ?RestErrorMessageTransfer;
 }

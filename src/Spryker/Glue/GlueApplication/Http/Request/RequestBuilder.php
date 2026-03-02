@@ -17,19 +17,11 @@ class RequestBuilder implements RequestBuilderInterface
      */
     protected $request;
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     */
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     public function extract(GlueRequestTransfer $glueRequestTransfer): GlueRequestTransfer
     {
         if ($this->request->getContent()) {

@@ -17,19 +17,11 @@ class ContextHttpExpander implements ContextHttpExpanderInterface
      */
     protected $request;
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     */
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueApiContextTransfer $glueApiContextTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueApiContextTransfer
-     */
     public function expand(GlueApiContextTransfer $glueApiContextTransfer): GlueApiContextTransfer
     {
         $glueApiContextTransfer->setHost($this->request->getHost());

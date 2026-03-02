@@ -12,10 +12,5 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface;
 
 interface RouteMatcherInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface
-     */
     public function route(GlueRequestTransfer $glueRequestTransfer): ResourceInterface;
 }

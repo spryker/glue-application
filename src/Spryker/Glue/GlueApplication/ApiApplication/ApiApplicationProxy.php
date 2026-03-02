@@ -122,9 +122,6 @@ class ApiApplicationProxy implements ApplicationInterface
         return $this->container;
     }
 
-    /**
-     * @return \Spryker\Shared\Application\ApplicationInterface
-     */
     public function boot(): ApplicationInterface
     {
         $application = $this->glueApplicationBootstrapPlugin->getApplication();
@@ -241,12 +238,6 @@ class ApiApplicationProxy implements ApplicationInterface
         ));
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication $bootstrapApplication
-     * @param \Symfony\Component\HttpFoundation\Response $response
-     *
-     * @return void
-     */
     protected function terminateApplication(RequestFlowAwareApiApplication $bootstrapApplication, Response $response): void
     {
         /** @phpstan-ignore instanceof.alwaysTrue */
@@ -296,11 +287,6 @@ class ApiApplicationProxy implements ApplicationInterface
         return null;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\CommunicationProtocolPluginInterface|null $communicationProtocolPlugin
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     protected function extractRequest(?CommunicationProtocolPluginInterface $communicationProtocolPlugin): GlueRequestTransfer
     {
         if ($communicationProtocolPlugin !== null) {

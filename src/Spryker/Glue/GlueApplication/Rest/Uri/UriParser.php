@@ -15,9 +15,6 @@ class UriParser implements UriParserInterface
 {
     protected VersionResolverInterface $versionResolver;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Version\VersionResolverInterface $versionResolver
-     */
     public function __construct(VersionResolverInterface $versionResolver)
     {
         $this->versionResolver = $versionResolver;
@@ -42,11 +39,6 @@ class UriParser implements UriParserInterface
         return $this->extractResources($urlParts);
     }
 
-    /**
-     * @param array $urlParts
-     *
-     * @return array
-     */
     protected function extractResources(array $urlParts): array
     {
         $resources = [];

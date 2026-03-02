@@ -9,10 +9,5 @@ namespace Spryker\Glue\GlueApplication\Dependency\External;
 
 interface GlueApplicationToInflectorInterface
 {
-    /**
-     * @param string $word
-     *
-     * @return string
-     */
     public function singularize(string $word): string;
 }

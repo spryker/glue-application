@@ -40,21 +40,12 @@ class VersionResolver implements VersionResolverInterface
      */
     protected $config;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\ContentType\ContentTypeResolverInterface $contentTypeResolver
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $config
-     */
     public function __construct(ContentTypeResolverInterface $contentTypeResolver, GlueApplicationConfig $config)
     {
         $this->contentTypeResolver = $contentTypeResolver;
         $this->config = $config;
     }
 
-    /**
-     * @param string $urlString
-     *
-     * @return array
-     */
     public function getUrlVersionMatches(string $urlString): array
     {
         if (!$this->config->getPathVersionResolving()) {
@@ -77,11 +68,6 @@ class VersionResolver implements VersionResolverInterface
         return $matches ?: [];
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\RestVersionTransfer
-     */
     public function findVersion(Request $request): RestVersionTransfer
     {
         $restVersionTransfer = new RestVersionTransfer();
@@ -115,12 +101,6 @@ class VersionResolver implements VersionResolverInterface
         return $this->extractVersionTransfer($headerParts[static::PART_VERSION_NUMBER], $restVersionTransfer);
     }
 
-    /**
-     * @param string $versionString
-     * @param \Generated\Shared\Transfer\RestVersionTransfer $restVersionTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestVersionTransfer
-     */
     protected function extractVersionTransfer(string $versionString, RestVersionTransfer $restVersionTransfer): RestVersionTransfer
     {
         $versionParts = explode('.', $versionString);

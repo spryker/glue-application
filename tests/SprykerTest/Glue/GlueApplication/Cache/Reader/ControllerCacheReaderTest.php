@@ -56,17 +56,11 @@ class ControllerCacheReaderTest extends Unit
      */
     protected const ROUTE = '_route';
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
     }
 
-    /**
-     * @return void
-     */
     public function testGetActionParametersReturnsEmptyArrayIfMissingResource(): void
     {
         //Arrange
@@ -85,9 +79,6 @@ class ControllerCacheReaderTest extends Unit
         $this->assertEmpty($parameters);
     }
 
-    /**
-     * @return void
-     */
     public function testGetActionParametersReturnsEmptyArrayWhenNotFoundResponseCode(): void
     {
         //Arrange
@@ -105,9 +96,6 @@ class ControllerCacheReaderTest extends Unit
         $this->assertEmpty($parameters);
     }
 
-    /**
-     * @return void
-     */
     public function testGetActionParametersReturnsNullIfRequestedMethodDoesNotExist(): void
     {
         //Arrange
@@ -135,9 +123,6 @@ class ControllerCacheReaderTest extends Unit
         $this->assertNull($parameters);
     }
 
-    /**
-     * @return void
-     */
     public function testGetActionParametersReturnsParametersSuccessfully(): void
     {
         //Arrange
@@ -167,9 +152,6 @@ class ControllerCacheReaderTest extends Unit
         $this->assertArrayHasKey($this->tester::FAKE_PARAMETER_FOO, $parameters);
     }
 
-    /**
-     * @return void
-     */
     protected function tearDown(): void
     {
         $this->tester->removeCacheFile();

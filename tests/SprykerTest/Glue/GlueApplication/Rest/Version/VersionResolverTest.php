@@ -28,9 +28,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class VersionResolverTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testFindVersionShouldReturnVersionTransferWhenVersionPresent(): void
     {
         $contentTypeResolverMock = $this->createContentTypeResolverMock();
@@ -62,9 +59,6 @@ class VersionResolverTest extends Unit
         $this->assertSame(0, $restVersionTransfer->getMinor());
     }
 
-    /**
-     * @return void
-     */
     public function testFindVersionShouldReturnEmptyTransferWhenContentTypeNotProvided(): void
     {
         $contentTypeResolverMock = $this->createContentTypeResolverMock();
@@ -80,9 +74,6 @@ class VersionResolverTest extends Unit
         $this->assertNull($restVersionTransfer->getMajor());
     }
 
-    /**
-     * @return void
-     */
     public function testFindVersionShouldReturnEmptyTransferWhenContentTypeNotMatching(): void
     {
         $contentTypeResolverMock = $this->createContentTypeResolverMock();
@@ -112,9 +103,6 @@ class VersionResolverTest extends Unit
         $this->assertNull($restVersionTransfer->getMajor());
     }
 
-    /**
-     * @return void
-     */
     public function testGetUrlVersionShouldReturnFullVersionWhenVersionPresent(): void
     {
         $glueApplicationConfigMock = $this->getMockBuilder(GlueApplicationConfig::class)->getMock();
@@ -131,9 +119,6 @@ class VersionResolverTest extends Unit
         $this->assertSame('1.2', $versionMatches['fullVersion']);
     }
 
-    /**
-     * @return void
-     */
     public function testGetUrlVersionShouldNotReturnVersionTransferWhenWrongVersionPrefixPresent(): void
     {
         $glueApplicationConfigMock = $this->getMockBuilder(GlueApplicationConfig::class)->getMock();
@@ -150,9 +135,6 @@ class VersionResolverTest extends Unit
         $this->assertEmpty($versionMatches);
     }
 
-    /**
-     * @return void
-     */
     public function testGetUrlVersionShouldNotReturnVersionTransferWhenNoVersionGiven(): void
     {
         $glueApplicationConfigMock = $this->getMockBuilder(GlueApplicationConfig::class)->getMock();
@@ -169,12 +151,6 @@ class VersionResolverTest extends Unit
         $this->assertEmpty($versionMatches);
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\ContentType\ContentTypeResolverInterface $contentTypeResolverMock
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $glueApplicationConfigMock
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Version\VersionResolverInterface
-     */
     protected function createVersionResolver(
         ContentTypeResolverInterface $contentTypeResolverMock,
         GlueApplicationConfig $glueApplicationConfigMock

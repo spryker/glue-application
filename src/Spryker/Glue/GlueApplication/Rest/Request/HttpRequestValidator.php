@@ -52,11 +52,6 @@ class HttpRequestValidator implements HttpRequestValidatorInterface
         $this->headersHttpRequestValidator = $headersHttpRequestValidator;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer|null
-     */
     public function validate(Request $request): ?RestErrorMessageTransfer
     {
         if ($this->config->getValidateRequestHeaders()) {

@@ -76,11 +76,6 @@ class ContentNegotiator implements ContentNegotiatorInterface
         $this->defaultEncoderStrategies = $defaultEncoderStrategies;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     public function negotiate(GlueRequestTransfer $glueRequestTransfer): GlueRequestTransfer
     {
         foreach ($this->apiConventionPlugins as $conventionPlugin) {
@@ -99,11 +94,6 @@ class ContentNegotiator implements ContentNegotiatorInterface
         return $glueRequestTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return string|null
-     */
     protected function resolveAcceptedType(GlueRequestTransfer $glueRequestTransfer): ?string
     {
         $acceptHeader = $this->resolveHeaderValue($glueRequestTransfer, static::HEADER_ACCEPT);
@@ -180,11 +170,6 @@ class ContentNegotiator implements ContentNegotiatorInterface
         return null;
     }
 
-    /**
-     * @param string $wildcardType
-     *
-     * @return string|null
-     */
     protected function getSameApplicationTypeByWildcard(string $wildcardType): ?string
     {
         foreach ($this->defaultEncoderStrategies as $defaultEncoderStrategy) {
@@ -198,12 +183,6 @@ class ContentNegotiator implements ContentNegotiatorInterface
         return null;
     }
 
-    /**
-     * @param string $haystackType
-     * @param string $needleType
-     *
-     * @return bool
-     */
     protected function isSameApplicationType(string $haystackType, string $needleType): bool
     {
         /** @phpstan-var array<int, string> */
@@ -214,9 +193,6 @@ class ContentNegotiator implements ContentNegotiatorInterface
         return $haystackTypeSplit[0] === $needleTypeSplit[0];
     }
 
-    /**
-     * @return string|null
-     */
     protected function resolveFirstDefaultType(): ?string
     {
         if ($this->defaultEncoderStrategies === []) {
@@ -226,11 +202,6 @@ class ContentNegotiator implements ContentNegotiatorInterface
         return $this->defaultEncoderStrategies[0]->getAcceptedType();
     }
 
-    /**
-     * @param string $contentType
-     *
-     * @return bool
-     */
     protected function isSupportedType(string $contentType): bool
     {
         foreach ($this->defaultEncoderStrategies as $defaultEncoderStrategy) {
@@ -242,33 +213,17 @@ class ContentNegotiator implements ContentNegotiatorInterface
         return false;
     }
 
-    /**
-     * @param string $contentType
-     *
-     * @return bool
-     */
     protected function isWildCardType(string $contentType): bool
     {
         return strpos($contentType, static::WILDCARD_APPLICATION_TYPE) !== false
             || strpos($contentType, static::WILDCARD_APPLICATION_SUBTYPE) !== false;
     }
 
-    /**
-     * @param string $contentType
-     *
-     * @return bool
-     */
     protected function isFullWildCardType(string $contentType): bool
     {
         return ($contentType === static::WILDCARD_APPLICATION_FULL);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param string $header
-     *
-     * @return string|null
-     */
     protected function resolveHeaderValue(GlueRequestTransfer $glueRequestTransfer, string $header): ?string
     {
         $meta = $glueRequestTransfer->getMeta();

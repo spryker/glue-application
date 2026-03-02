@@ -46,13 +46,6 @@ class ResponseHeaders implements ResponseHeadersInterface
         $this->config = $config;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Response $httpResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function addHeaders(
         Response $httpResponse,
         RestResponseInterface $restResponse,
@@ -76,11 +69,6 @@ class ResponseHeaders implements ResponseHeadersInterface
         return $httpResponse;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Response $httpResponse
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function addCorsAllowOriginHeader(Response $httpResponse): Response
     {
         $httpResponse->headers->set(
@@ -91,13 +79,6 @@ class ResponseHeaders implements ResponseHeadersInterface
         return $httpResponse;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Response $httpResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     protected function executeResponseHeaderPlugins(
         Response $httpResponse,
         RestResponseInterface $restResponse,
@@ -110,12 +91,6 @@ class ResponseHeaders implements ResponseHeadersInterface
         return $httpResponse;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Response $httpResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     *
-     * @return void
-     */
     protected function setHeadersFromRestResponse(Response $httpResponse, RestResponseInterface $restResponse): void
     {
         foreach ($restResponse->getHeaders() as $key => $value) {

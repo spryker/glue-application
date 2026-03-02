@@ -11,10 +11,5 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface ResourceRouterInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     *
-     * @return array
-     */
     public function matchRequest(Request $httpRequest): array;
 }

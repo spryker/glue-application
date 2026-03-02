@@ -34,9 +34,6 @@ class ControllerCacheWriterTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -71,9 +68,6 @@ class ControllerCacheWriterTest extends Unit
         $this->assertCount(1, $finder);
     }
 
-    /**
-     * @return void
-     */
     public function testCacheShouldCreateOneFile(): void
     {
         //Arrange
@@ -98,9 +92,6 @@ class ControllerCacheWriterTest extends Unit
         $this->assertCount(1, $finder);
     }
 
-    /**
-     * @return void
-     */
     protected function tearDown(): void
     {
         $this->tester->removeCacheFile();

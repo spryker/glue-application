@@ -60,11 +60,6 @@ class ConventionResourceFilter implements ConventionResourceFilterInterface
         );
     }
 
-    /**
-     * @param string $conventionName
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface|null
-     */
     protected function findApiConventionPluginClassName(string $conventionName): ?ConventionPluginInterface
     {
         foreach ($this->conventionPlugins as $conventionPlugin) {
@@ -92,11 +87,6 @@ class ConventionResourceFilter implements ConventionResourceFilterInterface
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface $resource
-     *
-     * @return bool
-     */
     protected function checkIfResourceHasConvention(ResourceInterface $resource): bool
     {
         $reflectionObject = new ReflectionClass($resource);

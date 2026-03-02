@@ -94,13 +94,6 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
         return $resourceConfiguration;
     }
 
-    /**
-     * @param string $resourceType
-     * @param array $resources
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     *
-     * @return array
-     */
     public function getAvailableMethods(string $resourceType, array $resources, Request $httpRequest): array
     {
         $resourcePlugin = $this->findResourcePlugin($resourceType, $resources, $httpRequest);
@@ -114,13 +107,6 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
         return array_merge($resourceRouteCollection->getAvailableMethods(), [Request::METHOD_OPTIONS]);
     }
 
-    /**
-     * @param string $resourceType
-     * @param array $resources
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface|null
-     */
     protected function findResourcePlugin(string $resourceType, array $resources, Request $httpRequest): ?ResourceRoutePluginInterface
     {
         $resourcePlugins = $this->filterResourcePlugins($resourceType, $resources);
@@ -143,13 +129,6 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
         return $resourcePlugin;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface $resourceRoutePlugin
-     * @param string $resourceType
-     * @param array $resources
-     *
-     * @return bool
-     */
     protected function isCurrentResourceRoutePlugin(
         ResourceRoutePluginInterface $resourceRoutePlugin,
         string $resourceType,
@@ -168,12 +147,6 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
         return true;
     }
 
-    /**
-     * @param array $resources
-     * @param string $parentResourceType
-     *
-     * @return bool
-     */
     protected function isParentResourceMatching(array $resources, string $parentResourceType): bool
     {
         if (count($resources) === 1) {
@@ -189,20 +162,11 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
         return false;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRouteCollectionInterface
-     */
     protected function createResourceRouteCollection(): ResourceRouteCollectionInterface
     {
         return new ResourceRouteCollection();
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface $resourceRoutePlugin
-     * @param \Generated\Shared\Transfer\RestVersionTransfer $requestedVersionTransfer
-     *
-     * @return bool
-     */
     protected function compareVersions(
         ResourceRoutePluginInterface $resourceRoutePlugin,
         RestVersionTransfer $requestedVersionTransfer
@@ -265,11 +229,6 @@ class ResourceRouteLoader implements ResourceRouteLoaderInterface
         return $newestVersionPlugin;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\ModuleNameAwareInterface $resourcePlugin
-     *
-     * @return string
-     */
     protected function getModuleName(ModuleNameAwareInterface $resourcePlugin): string
     {
         return $resourcePlugin->getModuleName();

@@ -71,11 +71,6 @@ abstract class AbstractResourcePlugin extends AbstractPlugin implements Resource
         ];
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return string
-     */
     protected function getActionName(GlueRequestTransfer $glueRequestTransfer): string
     {
         $actionName = $glueRequestTransfer->getResource()->getMethod();

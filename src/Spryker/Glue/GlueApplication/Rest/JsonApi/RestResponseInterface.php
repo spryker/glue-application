@@ -51,9 +51,6 @@ interface RestResponseInterface
      */
     public function addLink(string $name, string $uri);
 
-    /**
-     * @return array
-     */
     public function getLinks(): array;
 
     /**
@@ -68,19 +65,10 @@ interface RestResponseInterface
      */
     public function getResources(): array;
 
-    /**
-     * @return int
-     */
     public function getTotals(): int;
 
-    /**
-     * @return int
-     */
     public function getLimit(): int;
 
-    /**
-     * @return int
-     */
     public function getStatus(): int;
 
     /**
@@ -98,8 +86,5 @@ interface RestResponseInterface
      */
     public function addHeader(string $key, string $value);
 
-    /**
-     * @return array
-     */
     public function getHeaders(): array;
 }

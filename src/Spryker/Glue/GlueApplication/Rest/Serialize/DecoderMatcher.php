@@ -22,19 +22,11 @@ class DecoderMatcher implements DecoderMatcherInterface
      */
     protected $decoders;
 
-    /**
-     * @param array $decoders
-     */
     public function __construct(array $decoders = [])
     {
         $this->decoders = $decoders;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     *
-     * @return \Spryker\Glue\GlueApplication\Serialize\Decoder\DecoderInterface|null
-     */
     public function match(MetadataInterface $metadata): ?DecoderInterface
     {
         if (!$metadata->getContentTypeFormat()) {

@@ -27,10 +27,6 @@ class RequestResourceExtractor implements RequestResourceExtractorInterface
      */
     protected $decoderMatcher;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResourceBuilder
-     * @param \Spryker\Glue\GlueApplication\Rest\Serialize\DecoderMatcherInterface $decoderMatcher
-     */
     public function __construct(
         RestResourceBuilderInterface $restResourceBuilder,
         DecoderMatcherInterface $decoderMatcher
@@ -39,12 +35,6 @@ class RequestResourceExtractor implements RequestResourceExtractorInterface
         $this->decoderMatcher = $decoderMatcher;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function extract(Request $request, MetadataInterface $metadata): RestResourceInterface
     {
         $resource = $this->processPostData($request, $metadata);
@@ -59,12 +49,6 @@ class RequestResourceExtractor implements RequestResourceExtractorInterface
         return $resource;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface|null
-     */
     protected function processPostData(
         Request $request,
         MetadataInterface $metadata

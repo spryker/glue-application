@@ -11,8 +11,5 @@ use Symfony\Component\Routing\RouteCollection;
 
 interface RouterResourceInterface
 {
-    /**
-     * @return \Symfony\Component\Routing\RouteCollection
-     */
     public function __invoke(): RouteCollection;
 }

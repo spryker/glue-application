@@ -19,27 +19,17 @@ class SparseField implements SparseFieldInterface
      */
     protected $attributes = [];
 
-    /**
-     * @param string $resource
-     * @param array $attributes
-     */
     public function __construct(string $resource, array $attributes)
     {
         $this->resource = $resource;
         $this->attributes = $attributes;
     }
 
-    /**
-     * @return string
-     */
     public function getResource(): string
     {
         return $this->resource;
     }
 
-    /**
-     * @return array
-     */
     public function getAttributes(): array
     {
         return $this->attributes;

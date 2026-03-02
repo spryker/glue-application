@@ -32,9 +32,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class HttpRequestValidatorTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testValidateReturnsForbiddenWhenAccessControllRequestHeader(): void
     {
         $request = $this->createRequestWithHeaders([
@@ -50,9 +47,6 @@ class HttpRequestValidatorTest extends Unit
         $this->assertSame(Response::HTTP_FORBIDDEN, $restErrorMessageTransfer->getStatus());
     }
 
-    /**
-     * @return void
-     */
     public function testValidateReturnsForbiddenWhenAccessControllRequestMethod(): void
     {
         $request = $this->createRequestWithHeaders([
@@ -71,9 +65,6 @@ class HttpRequestValidatorTest extends Unit
         $this->assertSame(Response::HTTP_FORBIDDEN, $restErrorMessageTransfer->getStatus());
     }
 
-    /**
-     * @return void
-     */
     public function testValidateReturnsUnsupportedMediaTypeWhenContentTypeHeaderEmptyString(): void
     {
         $request = $this->createRequestWithHeaders([
@@ -88,9 +79,6 @@ class HttpRequestValidatorTest extends Unit
         $this->assertSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE, $restErrorMessageTransfer->getStatus());
     }
 
-    /**
-     * @return void
-     */
     public function testValidateReturnsUnsupportedMediaTypeWhenContentTypeHeaderWithSpaces(): void
     {
         $request = $this->createRequestWithHeaders([
@@ -105,9 +93,6 @@ class HttpRequestValidatorTest extends Unit
         $this->assertSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE, $restErrorMessageTransfer->getStatus());
     }
 
-    /**
-     * @return void
-     */
     public function testValidateReturnsNullWhenContentTypeHeaderNotPresent(): void
     {
         $request = Request::create('/');
@@ -119,9 +104,6 @@ class HttpRequestValidatorTest extends Unit
         $this->assertNull($restErrorMessageTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testValidateReturnsNotAcceptableWhenAcceptHeaderNotPresent(): void
     {
         $request = $this->createRequestWithMockedHeaders();
@@ -133,9 +115,6 @@ class HttpRequestValidatorTest extends Unit
         $this->assertSame(Response::HTTP_NOT_ACCEPTABLE, $restErrorMessageTransfer->getStatus());
     }
 
-    /**
-     * @return void
-     */
     public function testValidateWithoutHeadersValidateHttpRequestPlugin(): void
     {
         $request = $this->createRequestWithMockedHeaders();
@@ -145,9 +124,6 @@ class HttpRequestValidatorTest extends Unit
         $this->assertNull($httpRequestValidator->validate($request));
     }
 
-    /**
-     * @return void
-     */
     public function testValidateMustExecuteValidationPluginsWhenProvider(): void
     {
         $request = $this->createRequestWithHeaders([
@@ -159,11 +135,6 @@ class HttpRequestValidatorTest extends Unit
         $httpRequestValidator->validate($request);
     }
 
-    /**
-     * @param bool $headerValidationEnabled
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\HttpRequestValidatorInterface
-     */
     public function createHttpRequestValidator(bool $headerValidationEnabled = true): HttpRequestValidatorInterface
     {
         $resourceRouteLoaderMock = $this->createResourceRouteLoaderMock();

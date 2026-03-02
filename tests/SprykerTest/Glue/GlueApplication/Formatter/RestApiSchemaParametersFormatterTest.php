@@ -43,9 +43,6 @@ class RestApiSchemaParametersFormatterTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testSetOperationParametersWithEmptyOperation(): void
     {
         //Arrange
@@ -63,9 +60,6 @@ class RestApiSchemaParametersFormatterTest extends Unit
         $this->assertEquals(static::COMPONENTS_PARAMETERS_FILTER, $operation['parameters'][2]['$ref']);
     }
 
-    /**
-     * @return void
-     */
     public function testSetOperationParameters(): void
     {
         //Arrange
@@ -85,9 +79,6 @@ class RestApiSchemaParametersFormatterTest extends Unit
         $this->assertEquals(static::COMPONENTS_PARAMETERS_FILTER, $operation['parameters'][4]['$ref']);
     }
 
-    /**
-     * @return void
-     */
     public function testSetOperationParametersAddPage(): void
     {
         //Arrange
@@ -102,9 +93,6 @@ class RestApiSchemaParametersFormatterTest extends Unit
         $this->assertEquals(5, count($operation['parameters']));
     }
 
-    /**
-     * @return void
-     */
     public function testSetComponentParameters(): void
     {
         //Arrange

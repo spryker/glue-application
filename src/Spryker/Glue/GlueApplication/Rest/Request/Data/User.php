@@ -24,11 +24,6 @@ class User implements UserInterface
      */
     protected $scopes;
 
-    /**
-     * @param string $surrogateIdentifier
-     * @param string $naturalIdentifier
-     * @param array $scopes
-     */
     public function __construct(string $surrogateIdentifier, string $naturalIdentifier, array $scopes = [])
     {
         $this->surrogateIdentifier = $surrogateIdentifier;
@@ -36,25 +31,16 @@ class User implements UserInterface
         $this->scopes = $scopes;
     }
 
-    /**
-     * @return string
-     */
     public function getSurrogateIdentifier(): string
     {
         return $this->surrogateIdentifier;
     }
 
-    /**
-     * @return string
-     */
     public function getNaturalIdentifier(): string
     {
         return $this->naturalIdentifier;
     }
 
-    /**
-     * @return array
-     */
     public function getScopes(): array
     {
         return $this->scopes;

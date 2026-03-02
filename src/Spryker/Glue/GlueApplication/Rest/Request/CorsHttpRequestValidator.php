@@ -14,11 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CorsHttpRequestValidator implements CorsHttpRequestValidatorInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer|null
-     */
     public function validate(Request $request): ?RestErrorMessageTransfer
     {
         if ($request->getMethod() !== Request::METHOD_OPTIONS) {

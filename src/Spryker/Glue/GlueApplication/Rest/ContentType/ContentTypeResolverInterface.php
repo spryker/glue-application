@@ -12,18 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface ContentTypeResolverInterface
 {
-    /**
-     * @param string $contentType
-     *
-     * @return array
-     */
     public function matchContentType(string $contentType): array;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Symfony\Component\HttpFoundation\Response $httpResponse
-     *
-     * @return void
-     */
     public function addResponseHeaders(RestRequestInterface $restRequest, Response $httpResponse): void;
 }

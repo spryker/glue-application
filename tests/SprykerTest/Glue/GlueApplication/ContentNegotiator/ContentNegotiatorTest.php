@@ -36,9 +36,6 @@ class ContentNegotiatorTest extends Unit
      */
     protected const METHOD_GET_ACCEPTED_TYPE = 'getAcceptedType';
 
-    /**
-     * @return void
-     */
     public function testWildCardAcceptTypeIsPassed(): void
     {
         //Arrange
@@ -57,9 +54,6 @@ class ContentNegotiatorTest extends Unit
         $this->assertSame(static::CONTENT_TYPE_APPLICATION_JSON, $glueRequestTrasfer->getAcceptedFormat());
     }
 
-    /**
-     * @return void
-     */
     public function testNotSupportedWildcardAcceptTypeIsPassed(): void
     {
         //Arrange
@@ -78,9 +72,6 @@ class ContentNegotiatorTest extends Unit
         $this->assertNull($glueRequestTrasfer->getAcceptedFormat());
     }
 
-    /**
-     * @return void
-     */
     public function testEmptyAcceptTypeIsPassed(): void
     {
         //Arrange
@@ -98,9 +89,6 @@ class ContentNegotiatorTest extends Unit
         $this->assertNull($glueRequestTrasfer->getAcceptedFormat());
     }
 
-    /**
-     * @return void
-     */
     public function testHeaderAcceptedByPriority(): void
     {
         //Arrange
@@ -119,9 +107,6 @@ class ContentNegotiatorTest extends Unit
         $this->assertSame(static::CONTENT_TYPE_APPLICATION_JSON, $glueRequestTrasfer->getAcceptedFormat());
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\ContentNegotiator\ContentNegotiatorInterface
-     */
     protected function createContentNegotiator(): ContentNegotiatorInterface
     {
         $apiApplicationConventionMock = $this->createMock(ConventionPluginInterface::class);

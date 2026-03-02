@@ -61,9 +61,6 @@ class AcceptedFormatValidator implements RequestValidatorInterface
             ->addError($this->createUnsupportedAcceptFormatGlueError());
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueErrorTransfer
-     */
     protected function createUnsupportedAcceptFormatGlueError(): GlueErrorTransfer
     {
         return (new GlueErrorTransfer())

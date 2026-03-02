@@ -24,17 +24,11 @@ class GlueBootstrap extends Framework
      */
     protected const SERVICE_RESOURCE_BUILDER = 'resource_builder';
 
-    /**
-     * @return void
-     */
     public function _initialize(): void
     {
         $this->boot();
     }
 
-    /**
-     * @return void
-     */
     public function boot(): void
     {
         $globalContainer = new GlobalContainer();

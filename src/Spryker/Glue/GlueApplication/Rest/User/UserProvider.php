@@ -24,11 +24,6 @@ class UserProvider implements UserProviderInterface
         $this->restUserFinderPlugins = $restUserFinderPlugins;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface
-     */
     public function setUserToRestRequest(RestRequestInterface $restRequest): RestRequestInterface
     {
         if ($restRequest->getRestUser()) {

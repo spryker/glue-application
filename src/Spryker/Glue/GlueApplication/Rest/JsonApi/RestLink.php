@@ -36,17 +36,11 @@ class RestLink implements RestLinkInterface
         $this->meta = $meta;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         if (!$this->meta) {

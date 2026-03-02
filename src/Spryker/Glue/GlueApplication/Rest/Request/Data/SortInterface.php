@@ -19,13 +19,7 @@ interface SortInterface
      */
     public const SORT_ASC = 'ASC';
 
-    /**
-     * @return string
-     */
     public function getField(): string;
 
-    /**
-     * @return string
-     */
     public function getDirection(): string;
 }

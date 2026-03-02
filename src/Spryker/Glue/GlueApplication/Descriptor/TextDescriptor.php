@@ -173,12 +173,6 @@ class TextDescriptor extends Descriptor
         return $tableHeaders;
     }
 
-    /**
-     * @param \Symfony\Component\Routing\RouteCollection $routes
-     * @param array $options
-     *
-     * @return array
-     */
     protected function collectTableRows(RouteCollection $routes, array $options): array
     {
         $showControllers = isset($options[static::OPTION_SHOW_CONTROLLERS]) && $options[static::OPTION_SHOW_CONTROLLERS];
@@ -226,11 +220,6 @@ class TextDescriptor extends Descriptor
         return $row;
     }
 
-    /**
-     * @param array $config
-     *
-     * @return string
-     */
     protected function formatRouterConfig(array $config): string
     {
         if (!$config) {

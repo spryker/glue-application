@@ -37,12 +37,6 @@ class GlueBootstrap
         return $this->getFactory()->createApiApplicationProxy($glueApplicationBootstrapPlugin)->boot();
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\AbstractBundleDependencyProvider $dependencyProvider
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function provideExternalDependencies(
         AbstractBundleDependencyProvider $dependencyProvider,
         Container $container
@@ -50,9 +44,6 @@ class GlueBootstrap
         return $dependencyProvider->provideDependencies($container);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueApiContextTransfer
-     */
     protected function createApiApplicationContext(): GlueApiContextTransfer
     {
         $apiApplicationContext = new GlueApiContextTransfer();

@@ -12,10 +12,5 @@ use Spryker\Glue\GlueApplication\Serialize\Decoder\DecoderInterface;
 
 interface DecoderMatcherInterface
 {
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     *
-     * @return \Spryker\Glue\GlueApplication\Serialize\Decoder\DecoderInterface|null
-     */
     public function match(MetadataInterface $metadata): ?DecoderInterface;
 }

@@ -12,9 +12,6 @@ use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 
 class RestResponse
 {
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createRestResponse(): RestResponseInterface
     {
         $restResourceBuilder = new RestResourceBuilder();

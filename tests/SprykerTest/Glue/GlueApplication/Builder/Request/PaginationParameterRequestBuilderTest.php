@@ -40,9 +40,6 @@ class PaginationParameterRequestBuilderTest extends Unit
      */
     protected const PAGINATION_LIMIT = 'limit';
 
-    /**
-     * @return void
-     */
     public function testNoPagination(): void
     {
         //Arrange
@@ -56,9 +53,6 @@ class PaginationParameterRequestBuilderTest extends Unit
         $this->assertNull($result->getPagination());
     }
 
-    /**
-     * @return void
-     */
     public function testEmptyPagination(): void
     {
         //Act
@@ -68,9 +62,6 @@ class PaginationParameterRequestBuilderTest extends Unit
         $this->assertNull($result->getPagination());
     }
 
-    /**
-     * @return void
-     */
     public function testMissingOffset(): void
     {
         //Act
@@ -80,9 +71,6 @@ class PaginationParameterRequestBuilderTest extends Unit
         $this->assertNull($result->getPagination());
     }
 
-    /**
-     * @return void
-     */
     public function testMissingLimit(): void
     {
         //Act
@@ -92,9 +80,6 @@ class PaginationParameterRequestBuilderTest extends Unit
         $this->assertNull($result->getPagination());
     }
 
-    /**
-     * @return void
-     */
     public function testCompletePage(): void
     {
         //Act
@@ -106,12 +91,6 @@ class PaginationParameterRequestBuilderTest extends Unit
         $this->assertSame(10, $result->getPagination()->getLimit());
     }
 
-    /**
-     * @param int|null $offset
-     * @param int|null $limit
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     protected function buildRequest(?int $offset = null, ?int $limit = null): GlueRequestTransfer
     {
         $glueRequest = new GlueRequestTransfer();

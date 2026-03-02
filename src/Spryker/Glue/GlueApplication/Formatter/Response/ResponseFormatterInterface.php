@@ -13,13 +13,6 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface;
 
 interface ResponseFormatterInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueResponseTransfer $glueResponseTransfer
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface|null $resource
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function format(
         GlueResponseTransfer $glueResponseTransfer,
         GlueRequestTransfer $glueRequestTransfer,

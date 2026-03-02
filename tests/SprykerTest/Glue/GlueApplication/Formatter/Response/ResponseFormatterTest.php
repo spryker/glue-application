@@ -38,9 +38,6 @@ class ResponseFormatterTest extends Unit
      */
     protected const DEFAULT_FORMAT = 'application/json';
 
-    /**
-     * @return void
-     */
     public function testSkipWhenContentIsAlreadySet(): void
     {
         //Arrange
@@ -58,9 +55,6 @@ class ResponseFormatterTest extends Unit
         $this->assertSame('test', $glueResponse->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testDefaultStatusCodeIsSet(): void
     {
         //Arrange
@@ -77,9 +71,6 @@ class ResponseFormatterTest extends Unit
         $this->assertSame('test', $glueResponse->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testAlreadySetStatusCodeIsNotOverwritten(): void
     {
         //Arrange
@@ -97,9 +88,6 @@ class ResponseFormatterTest extends Unit
         $this->assertSame('test', $glueResponse->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testResponseExpander(): void
     {
         //Arrange
@@ -121,9 +109,6 @@ class ResponseFormatterTest extends Unit
         $this->assertSame('[{"attribute1":"Foo","attribute2":"Bar"}]', $glueResponse->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testResponseExpanderFollowsConventionWithEnabledSingleResponseProperty(): void
     {
         //Arrange
@@ -148,9 +133,6 @@ class ResponseFormatterTest extends Unit
         $this->assertSame('{"attribute1":"Foo","attribute2":"Bar"}', $glueResponse->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testResponseExpanderDoesNotFollowConventionWithDisabledSingleResponseProperty(): void
     {
         //Arrange
@@ -175,9 +157,6 @@ class ResponseFormatterTest extends Unit
         $this->assertSame('[{"attribute1":"Foo","attribute2":"Bar"}]', $glueResponse->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testEmptyResponse(): void
     {
         //Arrange
@@ -194,9 +173,6 @@ class ResponseFormatterTest extends Unit
         $this->assertSame('[]', $glueResponse->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testNoAcceptingEncoder(): void
     {
         //Arrange
@@ -252,11 +228,6 @@ class ResponseFormatterTest extends Unit
         return $configMock;
     }
 
-    /**
-     * @param string $method
-     *
-     * @return \Generated\Shared\Transfer\GlueResourceTransfer
-     */
     protected function createGlueResourceTransfer(string $method): GlueResourceTransfer
     {
         return (new GlueResourceTransfer())

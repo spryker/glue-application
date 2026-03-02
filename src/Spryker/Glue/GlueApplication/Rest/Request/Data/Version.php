@@ -19,27 +19,17 @@ class Version implements VersionInterface
      */
     protected $minor;
 
-    /**
-     * @param int $major
-     * @param int $minor
-     */
     public function __construct(int $major, int $minor)
     {
         $this->major = $major;
         $this->minor = $minor;
     }
 
-    /**
-     * @return int
-     */
     public function getMajor(): int
     {
         return $this->major;
     }
 
-    /**
-     * @return int
-     */
     public function getMinor(): int
     {
         return $this->minor;

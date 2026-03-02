@@ -12,9 +12,6 @@ use Symfony\Component\Console\Helper\DescriptorHelper as BaseDescriptorHelper;
 
 class DescriptorHelper extends BaseDescriptorHelper
 {
-    /**
-     * @param \Spryker\Glue\GlueApplication\Descriptor\TextDescriptor $textDescriptor
-     */
     public function __construct(TextDescriptor $textDescriptor)
     {
         parent::__construct();

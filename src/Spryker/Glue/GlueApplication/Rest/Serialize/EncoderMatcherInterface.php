@@ -12,10 +12,5 @@ use Spryker\Glue\GlueApplication\Serialize\Encoder\EncoderInterface;
 
 interface EncoderMatcherInterface
 {
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     *
-     * @return \Spryker\Glue\GlueApplication\Serialize\Encoder\EncoderInterface|null
-     */
     public function match(MetadataInterface $metadata): ?EncoderInterface;
 }

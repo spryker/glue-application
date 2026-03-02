@@ -33,9 +33,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ResponseHeadersTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testAddHeadersShouldAddBaseHeaders(): void
     {
         $formatResponseHeaderPlugin = $this->createFormatResponseHeadersPluginMock();

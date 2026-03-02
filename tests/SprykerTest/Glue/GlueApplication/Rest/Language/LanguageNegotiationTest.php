@@ -34,9 +34,6 @@ class LanguageNegotiationTest extends Unit
      */
     protected $locales = ['de' => 'de_DE', 'en' => 'en_US'];
 
-    /**
-     * @return void
-     */
     public function testGetLanguageIsoCodeShouldReturnBaseWhenSelected(): void
     {
         $languageNegotiation = $this->createLanguageNegotiation();
@@ -46,9 +43,6 @@ class LanguageNegotiationTest extends Unit
         $this->assertSame('en_US', $isoCode);
     }
 
-    /**
-     * @return void
-     */
     public function testGetLanguageIsoCodeShouldReturnBasedOnPriority(): void
     {
         $languageNegotiation = $this->createLanguageNegotiation();
@@ -60,9 +54,6 @@ class LanguageNegotiationTest extends Unit
         $this->assertSame('en_US', $isoCode);
     }
 
-    /**
-     * @return void
-     */
     public function testGetLanguageWhenNoHeaderProviderMustReturnFirstLocale(): void
     {
         $languageNegotiation = $this->createLanguageNegotiation();
@@ -71,9 +62,6 @@ class LanguageNegotiationTest extends Unit
         $this->assertSame('de_DE', $isoCode);
     }
 
-    /**
-     * @return void
-     */
     public function testGetLanguageWhenHeaderInvalidFormatterMustReturnFirstLocale(): void
     {
         $languageNegotiation = $this->createLanguageNegotiation();
@@ -82,9 +70,6 @@ class LanguageNegotiationTest extends Unit
         $this->assertSame('de_DE', $isoCode);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\Language\LanguageNegotiationInterface
-     */
     protected function createLanguageNegotiation(): LanguageNegotiationInterface
     {
         return new LanguageNegotiation($this->createStoreClientMock(), $this->createLocaleServiceMock());
@@ -108,9 +93,6 @@ class LanguageNegotiationTest extends Unit
         return $storeClientMock;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Dependency\Service\GlueApplicationToLocaleServiceInterface
-     */
     protected function createLocaleServiceMock(): GlueApplicationToLocaleServiceInterface
     {
         return new GlueApplicationToLocaleServiceBridge(

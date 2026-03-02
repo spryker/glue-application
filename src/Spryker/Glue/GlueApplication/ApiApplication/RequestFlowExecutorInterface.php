@@ -14,13 +14,6 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInte
 
 interface RequestFlowExecutorInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication $apiApplication
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface|null $conventionPlugin
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function executeRequestFlow(
         GlueRequestTransfer $glueRequestTransfer,
         RequestFlowAwareApiApplication $apiApplication,

@@ -83,14 +83,8 @@ interface RequestBuilderInterface
      */
     public function addHttpRequest(Request $httpRequest);
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function getResource(): RestResourceInterface;
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface
-     */
     public function build(): RestRequestInterface;
 
     /**

@@ -28,9 +28,6 @@ class GlueStorefrontFallbackApiApplicationTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testApplicationIsBooted(): void
     {
         $glueBackendApiApplication = new GlueStorefrontFallbackApiApplication($this->tester->getContainer(), []);

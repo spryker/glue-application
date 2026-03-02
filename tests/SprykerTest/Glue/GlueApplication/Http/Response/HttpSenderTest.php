@@ -64,9 +64,6 @@ class HttpSenderTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testSendResponse(): void
     {
         //Arrange
@@ -124,9 +121,6 @@ class HttpSenderTest extends Unit
         return $reflectionProperty->getValue($httpSender);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Http\Response\HttpSenderInterface
-     */
     protected function createHttpSender(): HttpSenderInterface
     {
         return new HttpSender(

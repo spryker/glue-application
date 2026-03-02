@@ -30,11 +30,6 @@ class ResourceRelationshipCollection implements ResourceRelationshipCollectionIn
         return $this;
     }
 
-    /**
-     * @param string $resourceType
-     *
-     * @return bool
-     */
     public function hasRelationships(string $resourceType): bool
     {
         return isset($this->relationships[$resourceType]);

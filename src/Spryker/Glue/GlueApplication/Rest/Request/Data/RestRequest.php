@@ -81,20 +81,6 @@ class RestRequest implements RestRequestInterface
      */
     protected $httpRequest;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface $resource
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     * @param array $filters
-     * @param array $sort
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\PageInterface|null $page
-     * @param array $routeContext
-     * @param array $parentResources
-     * @param array $include
-     * @param array $fields
-     * @param bool $excludeRelationship
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\UserInterface|null $user
-     */
     public function __construct(
         RestResourceInterface $resource,
         Request $httpRequest,
@@ -123,11 +109,6 @@ class RestRequest implements RestRequestInterface
         $this->excludeRelationship = $excludeRelationship;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface|null
-     */
     public function findParentResourceByType(string $type): ?RestResourceInterface
     {
         if (!isset($this->parentResources[$type])) {
@@ -137,9 +118,6 @@ class RestRequest implements RestRequestInterface
         return $this->parentResources[$type];
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function getResource(): RestResourceInterface
     {
         return $this->resource;
@@ -153,21 +131,11 @@ class RestRequest implements RestRequestInterface
         return $this->filters;
     }
 
-    /**
-     * @param string $resource
-     *
-     * @return bool
-     */
     public function hasFilters(string $resource): bool
     {
         return isset($this->filters[$resource]);
     }
 
-    /**
-     * @param string $resource
-     *
-     * @return array
-     */
     public function getFiltersByResource(string $resource): array
     {
         return $this->filters[$resource];
@@ -181,9 +149,6 @@ class RestRequest implements RestRequestInterface
         return $this->sort;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\PageInterface|null
-     */
     public function getPage(): ?PageInterface
     {
         return $this->page;
@@ -197,37 +162,21 @@ class RestRequest implements RestRequestInterface
         return $this->fields;
     }
 
-    /**
-     * @param string $resource
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\SparseFieldInterface
-     */
     public function getField(string $resource): SparseFieldInterface
     {
         return $this->fields[$resource];
     }
 
-    /**
-     * @param string $resource
-     *
-     * @return bool
-     */
     public function hasField(string $resource): bool
     {
         return isset($this->fields[$resource]);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface
-     */
     public function getMetadata(): MetadataInterface
     {
         return $this->metadata;
     }
 
-    /**
-     * @return array
-     */
     public function getRouteContext(): array
     {
         return $this->routeContext;
@@ -241,9 +190,6 @@ class RestRequest implements RestRequestInterface
         return $this->parentResources;
     }
 
-    /**
-     * @return array
-     */
     public function getInclude(): array
     {
         return $this->include;
@@ -314,25 +260,16 @@ class RestRequest implements RestRequestInterface
         $this->restUser = $restUserTransfer;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\RestUserTransfer|null
-     */
     public function getRestUser(): ?RestUserTransfer
     {
         return $this->restUser;
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
     public function getHttpRequest(): Request
     {
         return $this->httpRequest;
     }
 
-    /**
-     * @return bool
-     */
     public function getExcludeRelationship(): bool
     {
         return $this->excludeRelationship;
@@ -350,11 +287,6 @@ class RestRequest implements RestRequestInterface
         return $this->httpRequest->attributes->get(RestResourceInterface::RESOURCE_DATA)[RestResourceInterface::RESOURCE_ATTRIBUTES];
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\PageInterface $page
-     *
-     * @return void
-     */
     public function setPage(PageInterface $page): void
     {
         $this->page = $page;

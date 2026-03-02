@@ -57,9 +57,6 @@ abstract class AbstractGlueBootstrap
         $this->setUpSession();
     }
 
-    /**
-     * @return \Spryker\Shared\Kernel\Communication\Application
-     */
     protected function getBaseApplication(): Application
     {
         $application = new Application();
@@ -71,11 +68,6 @@ abstract class AbstractGlueBootstrap
         return $application;
     }
 
-    /**
-     * @param \Spryker\Shared\Kernel\Communication\Application $application
-     *
-     * @return void
-     */
     protected function unsetSilexExceptionHandler(Application $application): void
     {
         unset($application['exception_handler']);
@@ -112,9 +104,6 @@ abstract class AbstractGlueBootstrap
     {
     }
 
-    /**
-     * @return void
-     */
     protected function setUpSession(): void
     {
         (new SessionClient())->setContainer(
@@ -124,12 +113,6 @@ abstract class AbstractGlueBootstrap
         );
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\AbstractBundleDependencyProvider $dependencyProvider
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function provideExternalDependencies(
         AbstractBundleDependencyProvider $dependencyProvider,
         Container $container
@@ -139,9 +122,6 @@ abstract class AbstractGlueBootstrap
         return $container;
     }
 
-    /**
-     * @return void
-     */
     protected function setupApplication(): void
     {
         foreach ($this->getApplicationPlugins() as $applicationPlugin) {

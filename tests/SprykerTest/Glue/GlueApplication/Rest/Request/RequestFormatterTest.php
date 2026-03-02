@@ -35,9 +35,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RequestFormatterTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testFormatRequestShouldSetRestRequest(): void
     {
         $requestFormatter = $this->createRequestFormatter(new RestResourceBuilder(), $this->createGlueApplicationConfigMock());
@@ -60,9 +57,6 @@ class RequestFormatterTest extends Unit
         $this->assertResource($restRequest);
     }
 
-    /**
-     * @return void
-     */
     public function testFormatRequestWhenIncludeEmptyShouldExcludeRelationships(): void
     {
         $requestFormatter = $this->createRequestFormatter(new RestResourceBuilder(), $this->createGlueApplicationConfigMock());
@@ -87,9 +81,6 @@ class RequestFormatterTest extends Unit
         $this->assertTrue($restRequest->getExcludeRelationship());
     }
 
-    /**
-     * @return void
-     */
     public function testFormatRequestWhenEagerRelatedResourcesInclusionDisabledShouldExcludeRelationships(): void
     {
         $requestFormatter = $this->createRequestFormatter(new RestResourceBuilder(), $this->createGlueApplicationConfigMock(false));
@@ -112,9 +103,6 @@ class RequestFormatterTest extends Unit
         $this->assertTrue($restRequest->getExcludeRelationship());
     }
 
-    /**
-     * @return void
-     */
     public function testFormatRequestWhenEagerRelatedResourcesInclusionEnabledShouldNotExcludeRelationships(): void
     {
         $requestFormatter = $this->createRequestFormatter(new RestResourceBuilder(), $this->createGlueApplicationConfigMock(true));
@@ -137,9 +125,6 @@ class RequestFormatterTest extends Unit
         $this->assertNotTrue($restRequest->getExcludeRelationship());
     }
 
-    /**
-     * @return void
-     */
     public function testFormatRequestWhenEagerRelatedResourcesInclusionDisabledAndIncludeNotEmptyShouldNotExcludeRelationships(): void
     {
         $requestFormatter = $this->createRequestFormatter(new RestResourceBuilder(), $this->createGlueApplicationConfigMock(false));
@@ -164,12 +149,6 @@ class RequestFormatterTest extends Unit
         $this->assertNotTrue($restRequest->getExcludeRelationship());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResourceBuilderMock
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $glueApplicationConfigMock
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\RequestFormatterInterface
-     */
     protected function createRequestFormatter(
         RestResourceBuilderInterface $restResourceBuilderMock,
         GlueApplicationConfig $glueApplicationConfigMock
@@ -220,9 +199,6 @@ class RequestFormatterTest extends Unit
         return $glueApplicationConfigMock;
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Request
-     */
     protected function createRequest(): Request
     {
         return Request::create(
@@ -252,11 +228,6 @@ class RequestFormatterTest extends Unit
         );
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return void
-     */
     protected function assertItems(RestRequestInterface $restRequest): void
     {
         $this->assertCount(1, $restRequest->getFields());
@@ -267,11 +238,6 @@ class RequestFormatterTest extends Unit
         $this->assertSame('items', $restRequest->getField('items')->getResource());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return void
-     */
     protected function assertFilters(RestRequestInterface $restRequest): void
     {
         $this->assertCount(1, $restRequest->getFilters());
@@ -283,11 +249,6 @@ class RequestFormatterTest extends Unit
         $this->assertCount(1, $restRequest->getFiltersByResource('items'));
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return void
-     */
     protected function assertMetadata(RestRequestInterface $restRequest): void
     {
         $this->assertSame('json', $restRequest->getMetadata()->getAcceptFormat());
@@ -298,22 +259,12 @@ class RequestFormatterTest extends Unit
         $this->assertSame(1, $restRequest->getMetadata()->getVersion()->getMinor());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return void
-     */
     protected function assertPage(RestRequestInterface $restRequest): void
     {
         $this->assertSame(1, $restRequest->getPage()->getLimit());
         $this->assertSame(10, $restRequest->getPage()->getOffset());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return void
-     */
     protected function assertSort(RestRequestInterface $restRequest): void
     {
         $this->assertCount(2, $restRequest->getSort());
@@ -323,11 +274,6 @@ class RequestFormatterTest extends Unit
         $this->assertSame('DESC', $restRequest->getSort()[1]->getDirection());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return void
-     */
     protected function assertInclude(RestRequestInterface $restRequest): void
     {
         $this->assertCount(2, $restRequest->getInclude());
@@ -335,11 +281,6 @@ class RequestFormatterTest extends Unit
         $this->assertArrayHasKey('resource2', $restRequest->getInclude());
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return void
-     */
     protected function assertResource(RestRequestInterface $restRequest): void
     {
         $this->assertSame('tests', $restRequest->getResource()->getType());

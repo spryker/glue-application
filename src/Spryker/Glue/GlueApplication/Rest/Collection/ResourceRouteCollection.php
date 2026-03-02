@@ -32,21 +32,11 @@ class ResourceRouteCollection implements ResourceRouteCollectionInterface
      */
     protected $actions = [];
 
-    /**
-     * @param string $method
-     *
-     * @return bool
-     */
     public function has(string $method): bool
     {
         return isset($this->actions[$method]);
     }
 
-    /**
-     * @param string $method
-     *
-     * @return array
-     */
     public function get(string $method): array
     {
         return $this->actions[$method];
@@ -108,22 +98,11 @@ class ResourceRouteCollection implements ResourceRouteCollectionInterface
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getAvailableMethods(): array
     {
         return array_keys($this->actions);
     }
 
-    /**
-     * @param string $method
-     * @param string $action
-     * @param bool $isProtected
-     * @param array $context
-     *
-     * @return void
-     */
     protected function addAction(string $method, string $action, bool $isProtected, array $context): void
     {
         $this->actions[$method] = [

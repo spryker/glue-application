@@ -36,9 +36,6 @@ class GlueRouterTest extends Unit
      */
     protected const ERROR_ROUTE = 'GlueApplication/ErrorRest/resource-not-found';
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -51,9 +48,6 @@ class GlueRouterTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testMatchRequestReturnsResourceNotFoundRouteWhenNoPluginRouteMatched(): void
     {
         $glueRouterPlugin = $this->createGlueRouterPlugin();
@@ -68,9 +62,6 @@ class GlueRouterTest extends Unit
         $this->assertSame(static::ERROR_ROUTE, $routeConfiguration['_route']);
     }
 
-    /**
-     * @return void
-     */
     public function testMatchRequestReturnsResourceNotFoundRouteWhenMethodDoesNotExists(): void
     {
         $glueRouterPlugin = $this->createGlueRouterPlugin();
@@ -85,9 +76,6 @@ class GlueRouterTest extends Unit
         $this->assertSame(static::ERROR_ROUTE, $routeConfiguration['_route']);
     }
 
-    /**
-     * @return void
-     */
     public function testMatchRequestWhenResourceRouteExistShouldReturnValidRoute(): void
     {
         $glueRouterPlugin = $this->createGlueRouterPlugin();
@@ -104,9 +92,6 @@ class GlueRouterTest extends Unit
         $this->assertArrayHasKey('_route', $routeConfiguration);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Plugin\Rest\GlueRouterPlugin
-     */
     public function createGlueRouterPlugin(): GlueRouterPlugin
     {
         return new GlueRouterPlugin();

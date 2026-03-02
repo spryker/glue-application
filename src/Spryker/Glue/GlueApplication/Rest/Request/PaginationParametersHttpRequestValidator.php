@@ -19,11 +19,6 @@ class PaginationParametersHttpRequestValidator implements PaginationParametersHt
      */
     protected const ERROR_MESSAGE_INVALID_PAGE_PARAMETERS = 'Pagination parameters are invalid.';
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer|null
-     */
     public function validate(Request $request): ?RestErrorMessageTransfer
     {
         $queryParameters = $request->query->all();
@@ -49,12 +44,6 @@ class PaginationParametersHttpRequestValidator implements PaginationParametersHt
         return null;
     }
 
-    /**
-     * @param string|null $offset
-     * @param string|null $limit
-     *
-     * @return bool
-     */
     protected function checkParameters(?string $offset, ?string $limit): bool
     {
         if ($offset && !filter_var($offset, FILTER_VALIDATE_INT)) {

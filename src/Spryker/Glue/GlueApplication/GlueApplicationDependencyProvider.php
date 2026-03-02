@@ -206,11 +206,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
      */
     public const SERVICE_LOCALE = 'SERVICE_LOCALE';
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addUtilEncodingService($container);
@@ -257,11 +252,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addGlueApplication(Container $container): Container
     {
         $container->set(static::APPLICATION_GLUE, function (Container $container) {
@@ -271,11 +261,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addUtilEncodingService(Container $container): Container
     {
         $container->set(static::SERVICE_UTIL_ENCODING, function (Container $container) {
@@ -285,11 +270,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addResourceRoutePlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_RESOURCE_ROUTES, function (Container $container) {
@@ -299,11 +279,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addResourceRelationshipPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_RESOURCE_RELATIONSHIP, function (Container $container) {
@@ -313,11 +288,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addValidateHttpRequestPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_VALIDATE_HTTP_REQUEST, function (Container $container) {
@@ -327,11 +297,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addFormattedControllerBeforeActionTerminatePlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_FORMATTED_CONTROLLER_BEFORE_ACTION, function (Container $container) {
@@ -341,11 +306,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addValidateRestRequestPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_VALIDATE_REST_REQUEST, function (Container $container) {
@@ -355,11 +315,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRestUserValidatorPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_VALIDATE_REST_USER, function (Container $container) {
@@ -369,11 +324,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRestRequestValidatorPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_REST_REQUEST_VALIDATOR, function (Container $container) {
@@ -383,11 +333,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addFormatRequestPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_FORMAT_REQUEST, function (Container $container) {
@@ -397,11 +342,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addFormatResponseDataPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_FORMAT_RESPONSE_DATA, function (Container $container) {
@@ -411,11 +351,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addFormatResponseHeadersPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_FORMAT_RESPONSE_HEADERS, function (Container $container) {
@@ -425,11 +360,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addStoreClient(Container $container): Container
     {
         $container->set(static::CLIENT_STORE, function (Container $container) {
@@ -439,11 +369,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addControllerBeforeActionPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_CONTROLLER_BEFORE_ACTION, function (Container $container) {
@@ -453,11 +378,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addControllerAfterActionPlugins(Container $container): Container
     {
         $container->set(static::PLUGIN_CONTROLLER_AFTER_ACTION, function (Container $container) {
@@ -467,11 +387,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addApplicationPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_APPLICATION, function (Container $container): array {
@@ -481,11 +396,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRestUserFinderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_REST_USER_FINDER, function (Container $container) {
@@ -495,11 +405,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRouterParameterExpanderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_ROUTER_PARAMETER_EXPANDER, function (Container $container) {
@@ -650,11 +555,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addGlueApplicationBootstrapPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_GLUE_APPLICATION_BOOTSTRAP, function (Container $container) {
@@ -748,11 +648,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addConventionPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_CONVENTION, function () {
@@ -786,11 +681,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addControllerConfigurationCacheCollectorPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_CONTROLLER_CONFIGURATION_CACHE_COLLECTOR, function () {
@@ -818,11 +708,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addFilesystem(Container $container): Container
     {
         $container->set(static::FILESYSTEM, function () {
@@ -832,11 +717,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addGlueApplicationRouterProviderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_GLUE_APPLICATION_ROUTER_PROVIDER, function () {
@@ -854,11 +734,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRoutesProviderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_ROUTES_PROVIDER, function () {
@@ -876,11 +751,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addResourcesProviderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_RESOURCES_PROVIDER, function () {
@@ -898,11 +768,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addTableColumnExpanderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_TABLE_COLUMN_EXPANDER, function () {
@@ -920,11 +785,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRequestBuilderPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_REQUEST_BUILDER, function () {
@@ -942,11 +802,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRequestValidatorPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_REQUEST_VALIDATOR, function () {
@@ -964,11 +819,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRequestAfterRoutingValidatorPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_REQUEST_AFTER_ROUTING_VALIDATOR, function () {
@@ -986,11 +836,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addResponseFormatterPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_RESPONSE_FORMATTER, function () {
@@ -1008,11 +853,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addInflector(Container $container): Container
     {
         $container->set(static::INFLECTOR, function () {
@@ -1022,11 +862,6 @@ class GlueApplicationDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addLocaleService(Container $container): Container
     {
         $container->set(static::SERVICE_LOCALE, function (Container $container) {

@@ -35,9 +35,6 @@ class RouterDebugConsoleTest extends Unit
      */
     protected const APPLICATION_NAME_STOREFRONT = 'storefront';
 
-    /**
-     * @return void
-     */
     public function testCommandIsExecutableForBackend(): void
     {
         //Arrange
@@ -52,9 +49,6 @@ class RouterDebugConsoleTest extends Unit
         $this->assertSame(RouterDebugGlueApplicationConsole::CODE_SUCCESS, $commandTester->getStatusCode());
     }
 
-    /**
-     * @return void
-     */
     public function testCommandIsExecutableForStorefront(): void
     {
         //Arrange
@@ -69,9 +63,6 @@ class RouterDebugConsoleTest extends Unit
         $this->assertSame(RouterDebugGlueApplicationConsole::CODE_SUCCESS, $commandTester->getStatusCode());
     }
 
-    /**
-     * @return \Symfony\Component\Console\Tester\CommandTester
-     */
     protected function getExecutableCommandTester(): CommandTester
     {
         $routerDebugConsole = new RouterDebugGlueApplicationConsole();

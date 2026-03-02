@@ -22,12 +22,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class GlueRestControllerListenerEventDispatcherPlugin extends AbstractPlugin implements EventDispatcherPluginInterface
 {
-    /**
-     * @param \Spryker\Shared\EventDispatcher\EventDispatcherInterface $eventDispatcher
-     * @param \Spryker\Service\Container\ContainerInterface $container
-     *
-     * @return \Spryker\Shared\EventDispatcher\EventDispatcherInterface
-     */
     public function extend(EventDispatcherInterface $eventDispatcher, ContainerInterface $container): EventDispatcherInterface
     {
         $eventDispatcher->addListener(KernelEvents::CONTROLLER, function (ControllerEvent $event) {
@@ -37,11 +31,6 @@ class GlueRestControllerListenerEventDispatcherPlugin extends AbstractPlugin imp
         return $eventDispatcher;
     }
 
-    /**
-     * @param \Symfony\Component\HttpKernel\Event\ControllerEvent $event
-     *
-     * @return void
-     */
     protected function onKernelController(ControllerEvent $event): void
     {
         $currentController = $event->getController();
@@ -64,13 +53,6 @@ class GlueRestControllerListenerEventDispatcherPlugin extends AbstractPlugin imp
         $event->setController($apiController);
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Controller\AbstractController $controller
-     * @param string $action
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function filter(AbstractController $controller, string $action, Request $request): Response
     {
         return $this->getFactory()->createRestControllerFilter()->filter($controller, $action, $request);

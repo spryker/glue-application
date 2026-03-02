@@ -35,9 +35,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ApiApplicationProxyTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testBootIsExecutedOnBootBootstrapPlugin(): void
     {
         $apiApplicationConventionMock = $this->createMock(ConventionPluginInterface::class);
@@ -83,9 +80,6 @@ class ApiApplicationProxyTest extends Unit
         $apiApplicationProxy->boot();
     }
 
-    /**
-     * @return void
-     */
     public function testRunIsExecutedOnRequestFlowAgnosticBootstrapPlugin(): void
     {
         $apiApplicationConventionMock = $this->createMock(ConventionPluginInterface::class);
@@ -137,9 +131,6 @@ class ApiApplicationProxyTest extends Unit
         $apiApplicationProxy->run();
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteRequestIsExecutedOnRequestFlowAwareApiApplicationPluginIfCommunicationProtocolIsDefined(): void
     {
         $apiApplicationConventionMock = $this->createMock(ConventionPluginInterface::class);
@@ -200,9 +191,6 @@ class ApiApplicationProxyTest extends Unit
         $apiApplicationProxy->run();
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteRequestIsExecutedOnRequestFlowAwareApiApplicationPluginThoughDefaultHttpProtocolIfCommunicationPluginNotApplicable(): void
     {
         $apiApplicationConventionMock = $this->createMock(ConventionPluginInterface::class);
@@ -259,9 +247,6 @@ class ApiApplicationProxyTest extends Unit
         $apiApplicationProxy->run();
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteRequestIsExecutedOnRequestFlowAwareApiApplicationPluginThoughDefaultHttpProtocol(): void
     {
         $apiApplicationConventionMock = $this->createMock(ConventionPluginInterface::class);
@@ -316,9 +301,6 @@ class ApiApplicationProxyTest extends Unit
         $apiApplicationProxy->run();
     }
 
-    /**
-     * @return void
-     */
     public function testExceptionIsThrownIfNeitherRequestFlowAwareNorAgnosticIsImplemented(): void
     {
         $apiApplicationConventionMock = $this->createMock(ConventionPluginInterface::class);
@@ -346,9 +328,6 @@ class ApiApplicationProxyTest extends Unit
         $apiApplicationProxy->run();
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\ContentNegotiator\ContentNegotiatorInterface
-     */
     protected function createContentNegotiatorMock(): ContentNegotiatorInterface
     {
         $contentNegotiatorMock = $this->createMock(ContentNegotiatorInterface::class);

@@ -12,10 +12,5 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 interface RequestFormatterInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface
-     */
     public function formatRequest(HttpRequest $request): RestRequestInterface;
 }

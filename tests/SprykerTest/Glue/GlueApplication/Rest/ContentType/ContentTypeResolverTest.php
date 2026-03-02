@@ -98,9 +98,6 @@ class ContentTypeResolverTest extends Unit
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testAddResponseHeaderShouldAddJsonApiContentType(): void
     {
         $contentTypeResolver = $this->createContentTypeResolver();
@@ -115,9 +112,6 @@ class ContentTypeResolverTest extends Unit
         $this->assertSame($this->contentType, $contentType);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\ContentType\ContentTypeResolverInterface
-     */
     protected function createContentTypeResolver(): ContentTypeResolverInterface
     {
         return new ContentTypeResolver();

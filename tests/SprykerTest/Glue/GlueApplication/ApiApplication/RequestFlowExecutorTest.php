@@ -35,9 +35,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class RequestFlowExecutorTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testRequestFlowIsExecutedOnRequestFlowAwareApiApplicationPlugin(): void
     {
         $apiConventionPluginMock = $this->createBaseApiConventionPluginMock();
@@ -71,9 +68,6 @@ class RequestFlowExecutorTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testRequestFlowSendsResponseOnConventionValidationError(): void
     {
         $expectedValidationResult = (new GlueRequestValidationTransfer())
@@ -127,9 +121,6 @@ class RequestFlowExecutorTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testRequestFlowSendsResponseOnApplicationValidationError(): void
     {
         $requestValidatorPluginMock = $this->createMock(RequestValidatorPluginInterface::class);
@@ -183,9 +174,6 @@ class RequestFlowExecutorTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testRequestFlowSendsResponseOnRoutingError(): void
     {
         $this->executeRequestFlowExecutorWithRoutingError(
@@ -193,11 +181,6 @@ class RequestFlowExecutorTest extends Unit
         );
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\MissingResourceInterface $expectedResource
-     *
-     * @return void
-     */
     protected function executeRequestFlowExecutorWithRoutingError(MissingResourceInterface $expectedResource): void
     {
         $apiConventionPluginMock = $this->createBaseApiConventionPluginMock();
@@ -243,9 +226,6 @@ class RequestFlowExecutorTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testRequestFlowSendsResponseOnConventionValidationErrorAfterRouting(): void
     {
         $expectedValidationResult = (new GlueRequestValidationTransfer())
@@ -291,9 +271,6 @@ class RequestFlowExecutorTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testRequestFlowSendsResponseOnApplicationValidationErrorAfterRouting(): void
     {
         $requestAfterRoutingValidatorPluginMock = $this->createMock(RequestAfterRoutingValidatorPluginInterface::class);
@@ -403,9 +380,6 @@ class RequestFlowExecutorTest extends Unit
         );
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\GlueApplicationFactory
-     */
     protected function createFactory(): GlueApplicationFactory
     {
         return new GlueApplicationFactory();

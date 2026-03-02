@@ -123,9 +123,6 @@ class GlueApplicationTester extends Actor
         ];
     }
 
-    /**
-     * @return void
-     */
     public function removeCacheFile(): void
     {
         if (file_exists(Configuration::dataDir() . DIRECTORY_SEPARATOR . GlueApplicationConfig::API_CONTROLLER_CACHE_FILENAME)) {
@@ -139,9 +136,6 @@ class GlueApplicationTester extends Actor
         }
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     public function createGlueRequestTransfer(): GlueRequestTransfer
     {
         $glueRequestTransfer = (new GlueRequestTransfer())->setQueryFields([
@@ -165,9 +159,6 @@ class GlueApplicationTester extends Actor
         return $glueRequestTransfer;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function createGlueResponseTransfer(): GlueResponseTransfer
     {
         $glueResponseTransfer = (new GlueResponseTransfer())
@@ -178,9 +169,6 @@ class GlueApplicationTester extends Actor
         return $glueResponseTransfer;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function createErrorGlueResponseTransfer(): GlueResponseTransfer
     {
         $glueErrorTransfer = (new GlueErrorTransfer())
@@ -201,9 +189,6 @@ class GlueApplicationTester extends Actor
         return json_decode(trim($this->loadJsonFile()), true);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication
-     */
     public function createRequestFlowAwareApiApplicationMock(): RequestFlowAwareApiApplication
     {
         return Stub::makeEmpty(RequestFlowAwareApiApplication::class);
@@ -217,9 +202,6 @@ class GlueApplicationTester extends Actor
         return Stub::makeEmpty(Request::class);
     }
 
-    /**
-     * @return array
-     */
     public function createOperation(): array
     {
         return [
@@ -274,9 +256,6 @@ class GlueApplicationTester extends Actor
         ];
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueResourceTransfer
-     */
     protected function createGlueResourceTransfer(): GlueResourceTransfer
     {
         return (new GlueResourceTransfer())
@@ -284,9 +263,6 @@ class GlueApplicationTester extends Actor
             ->setId('1');
     }
 
-    /**
-     * @return string
-     */
     protected function loadJsonFile(): string
     {
         return file_get_contents(codecept_data_dir() . 'schema.json.example');

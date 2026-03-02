@@ -24,10 +24,6 @@ class TestResourceWithParentRoutePlugin extends AbstractPlugin implements Resour
      */
     private $parentResourceType;
 
-    /**
-     * @param string $resourceType
-     * @param string $parentResourceType
-     */
     public function __construct(string $resourceType = 'tests', string $parentResourceType = 'test-parent')
     {
         $this->resourceType = $resourceType;

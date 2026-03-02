@@ -11,10 +11,5 @@ use Spryker\Glue\GlueApplication\Router\CustomRouteRouter\RouterInterface;
 
 interface RouterBuilderInterface
 {
-    /**
-     * @param string $apiApplicationName
-     *
-     * @return \Spryker\Glue\GlueApplication\Router\CustomRouteRouter\RouterInterface|null
-     */
     public function buildRouter(string $apiApplicationName): ?RouterInterface;
 }

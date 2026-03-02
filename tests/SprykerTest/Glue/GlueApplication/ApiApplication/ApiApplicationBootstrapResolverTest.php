@@ -30,9 +30,6 @@ class ApiApplicationBootstrapResolverTest extends Unit
      */
     protected $tester;
 
-    /**
-     * @return void
-     */
     public function testResolveWithNoApiApplicationBootstrapsWillThrowAnException(): void
     {
         $apiApplicationResolver = new ApiApplicationBootstrapResolver([], []);
@@ -40,9 +37,6 @@ class ApiApplicationBootstrapResolverTest extends Unit
         $apiApplicationResolver->resolveApiApplicationBootstrap((new GlueApiContextTransfer()));
     }
 
-    /**
-     * @return void
-     */
     public function testInjectingBootstrapPluginNameWillBeOnlyBootstrapPluginsToBeConsideredInResolving(): void
     {
         $servingApiApplicationBootstrap = $this->createMock(GlueApplicationBootstrapPluginInterface::class);
@@ -63,9 +57,6 @@ class ApiApplicationBootstrapResolverTest extends Unit
         $resolvedApiApplication = $apiApplicationResolver->resolveApiApplicationBootstrap((new GlueApiContextTransfer()));
     }
 
-    /**
-     * @return void
-     */
     public function testResolveSkipsNonServingApiApplications(): void
     {
         $nonServingApiApplication = $this->createMock(GlueApplicationBootstrapPluginInterface::class);

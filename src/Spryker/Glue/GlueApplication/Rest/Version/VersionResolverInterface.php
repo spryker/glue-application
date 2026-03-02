@@ -12,17 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface VersionResolverInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Generated\Shared\Transfer\RestVersionTransfer
-     */
     public function findVersion(Request $request): RestVersionTransfer;
 
-    /**
-     * @param string $urlString
-     *
-     * @return array
-     */
     public function getUrlVersionMatches(string $urlString): array;
 }

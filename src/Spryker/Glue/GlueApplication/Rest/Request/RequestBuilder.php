@@ -74,9 +74,6 @@ class RequestBuilder implements RequestBuilderInterface
      */
     protected $excludeRelationship = false;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface $resource
-     */
     public function __construct(RestResourceInterface $resource)
     {
         $this->resource = $resource;
@@ -208,17 +205,11 @@ class RequestBuilder implements RequestBuilderInterface
         return $this;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function getResource(): RestResourceInterface
     {
         return $this->resource;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface
-     */
     public function build(): RestRequestInterface
     {
         return new RestRequest(

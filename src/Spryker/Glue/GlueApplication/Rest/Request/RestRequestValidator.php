@@ -52,12 +52,6 @@ class RestRequestValidator implements RestRequestValidatorInterface
         $this->restRequestValidatorPlugins = $restRequestValidatorPlugins;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Generated\Shared\Transfer\RestErrorCollectionTransfer|null
-     */
     public function validate(Request $httpRequest, RestRequestInterface $restRequest): ?RestErrorCollectionTransfer
     {
         $restErrorCollectionTransfer = $this->validateRequest($restRequest);
@@ -72,11 +66,6 @@ class RestRequestValidator implements RestRequestValidatorInterface
         return $restErrorCollectionTransfer;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Generated\Shared\Transfer\RestErrorCollectionTransfer|null
-     */
     protected function validateRequest(RestRequestInterface $restRequest): ?RestErrorCollectionTransfer
     {
         $method = $restRequest->getMetadata()->getMethod();
@@ -102,11 +91,6 @@ class RestRequestValidator implements RestRequestValidatorInterface
         return null;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Generated\Shared\Transfer\RestErrorCollectionTransfer|null
-     */
     protected function validateResourceIdSpecified(RestRequestInterface $restRequest): ?RestErrorCollectionTransfer
     {
         $method = $restRequest->getMetadata()->getMethod();
@@ -130,11 +114,6 @@ class RestRequestValidator implements RestRequestValidatorInterface
         return (new RestErrorCollectionTransfer())->addRestError($restErrorMessageTransfer);
     }
 
-    /**
-     * @param array $resources
-     *
-     * @return bool
-     */
     protected function checkResourcesHaveId(array $resources): bool
     {
         foreach ($resources as $resource) {
@@ -146,12 +125,6 @@ class RestRequestValidator implements RestRequestValidatorInterface
         return true;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Generated\Shared\Transfer\RestErrorCollectionTransfer|null
-     */
     protected function executeRestRequestValidatorPlugins(
         Request $httpRequest,
         RestRequestInterface $restRequest
@@ -173,11 +146,6 @@ class RestRequestValidator implements RestRequestValidatorInterface
         return null;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return bool
-     */
     protected function isResourceTypeValid(RestRequestInterface $restRequest): bool
     {
         return $restRequest->getResource()->getType() === $restRequest->getHttpRequest()->attributes->get(RestResourceInterface::RESOURCE_TYPE);

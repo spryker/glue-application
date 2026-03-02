@@ -28,20 +28,11 @@ class ResponsePagination implements ResponsePaginationInterface
      */
     public const HARD_LIMIT = 500;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $config
-     */
     public function __construct(GlueApplicationConfig $config)
     {
         $this->config = $config;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return array
-     */
     public function buildPaginationLinks(
         RestResponseInterface $restResponse,
         RestRequestInterface $restRequest
@@ -75,12 +66,6 @@ class ResponsePagination implements ResponsePaginationInterface
         );
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     *
-     * @return \Generated\Shared\Transfer\RestPageOffsetsTransfer|null
-     */
     protected function calculatePaginationOffset(
         RestRequestInterface $restRequest,
         RestResponseInterface $restResponse
@@ -105,12 +90,6 @@ class ResponsePagination implements ResponsePaginationInterface
             ->setPrevOffset($prevOffset);
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     *
-     * @return int
-     */
     protected function getLimit(RestRequestInterface $restRequest, RestResponseInterface $restResponse): int
     {
         $inputPageLimit = static::HARD_LIMIT;
@@ -121,13 +100,6 @@ class ResponsePagination implements ResponsePaginationInterface
         return $restResponse->getLimit() ?: $inputPageLimit;
     }
 
-    /**
-     * @param int $offset
-     * @param int $limit
-     * @param int $totalPages
-     *
-     * @return int
-     */
     protected function calculateNextOffset(int $offset, int $limit, int $totalPages): int
     {
         $nextOffset = $offset + $limit;
@@ -138,12 +110,6 @@ class ResponsePagination implements ResponsePaginationInterface
         return $nextOffset;
     }
 
-    /**
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return int
-     */
     protected function calculatePreviousOffset(int $offset, int $limit): int
     {
         $prevOffset = $offset - $limit;
@@ -154,33 +120,16 @@ class ResponsePagination implements ResponsePaginationInterface
         return $prevOffset;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param int $limit
-     *
-     * @return int
-     */
     protected function calculateTotalPages(RestResponseInterface $restResponse, int $limit): int
     {
         return ceil($restResponse->getTotals() / $limit);
     }
 
-    /**
-     * @param int $limit
-     * @param int $totalPages
-     *
-     * @return int
-     */
     protected function calculateLastOffset(int $limit, int $totalPages): int
     {
         return $limit * ($totalPages - 1);
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return string
-     */
     protected function buildResourceLink(RestRequestInterface $restRequest): string
     {
         $queryString = $restRequest->getQueryString([RequestConstantsInterface::QUERY_PAGE]);
@@ -201,11 +150,6 @@ class ResponsePagination implements ResponsePaginationInterface
         );
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\RestPageOffsetsTransfer $pageOffsetsTransfer
-     *
-     * @return string
-     */
     protected function buildLimitParameter(RestPageOffsetsTransfer $pageOffsetsTransfer): string
     {
         $limit = '';
@@ -221,11 +165,6 @@ class ResponsePagination implements ResponsePaginationInterface
         return $limit;
     }
 
-    /**
-     * @param int $offset
-     *
-     * @return string
-     */
     protected function buildOffsetParameter(int $offset): string
     {
         return sprintf(
@@ -236,13 +175,6 @@ class ResponsePagination implements ResponsePaginationInterface
         );
     }
 
-    /**
-     * @param string $domain
-     * @param int $offset
-     * @param string $limit
-     *
-     * @return string
-     */
     protected function getPaginationLink(string $domain, int $offset, string $limit): string
     {
         return sprintf('%s%s%s', $domain, $this->buildOffsetParameter($offset), $limit);

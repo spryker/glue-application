@@ -61,11 +61,6 @@ class ResourceRouteMatcher implements RouteMatcherInterface
         $this->requestResourcePluginFilter = $requestResourcePluginFilter;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface
-     */
     public function route(GlueRequestTransfer $glueRequestTransfer): ResourceInterface
     {
         $resources = $this->uriParser->parse($glueRequestTransfer->getPath());
@@ -134,12 +129,6 @@ class ResourceRouteMatcher implements RouteMatcherInterface
         return $mainResource;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface $resource
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return bool
-     */
     protected function isParentResourceMatching(ResourceInterface $resource, GlueRequestTransfer $glueRequestTransfer): bool
     {
         if (!$resource instanceof ResourceWithParentPluginInterface) {
@@ -202,12 +191,6 @@ class ResourceRouteMatcher implements RouteMatcherInterface
         return $resourcePlugin;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueResourceTransfer $glueResourceTransfer
-     * @param string|null $mainResourceName
-     *
-     * @return bool
-     */
     protected function isMainResource(
         GlueResourceTransfer $glueResourceTransfer,
         ?string $mainResourceName = null
@@ -215,11 +198,6 @@ class ResourceRouteMatcher implements RouteMatcherInterface
         return $mainResourceName !== null && $glueResourceTransfer->getResourceName() === $mainResourceName;
     }
 
-    /**
-     * @param string $apiApplicationName
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourcesProviderPluginInterface|null
-     */
     protected function findResourcesProvider(string $apiApplicationName): ?ResourcesProviderPluginInterface
     {
         foreach ($this->resourcesProviderPlugins as $resourcesProviderPlugin) {

@@ -87,19 +87,6 @@ class ControllerFilter implements ControllerFilterInterface
      */
     protected $formattedControllerBeforeAction;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RequestFormatterInterface $requestFormatter
-     * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponseFormatterInterface $responseFormatter
-     * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponseHeadersInterface $responseHeaders
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\HttpRequestValidatorInterface $httpRequestValidator
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\RestRequestValidatorInterface $restRequestValidator
-     * @param \Spryker\Glue\GlueApplication\Rest\User\RestUserValidatorInterface $restUserValidator
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResourceBuilder
-     * @param \Spryker\Glue\GlueApplication\Rest\ControllerCallbacksInterface $controllerCallbacks
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $applicationConfig
-     * @param \Spryker\Glue\GlueApplication\Rest\User\UserProviderInterface $userProvider
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\FormattedControllerBeforeActionInterface $formattedControllerBeforeAction
-     */
     public function __construct(
         RequestFormatterInterface $requestFormatter,
         ResponseFormatterInterface $responseFormatter,
@@ -126,13 +113,6 @@ class ControllerFilter implements ControllerFilterInterface
         $this->formattedControllerBeforeAction = $formattedControllerBeforeAction;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Controller\AbstractController $controller
-     * @param string $action
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function filter(AbstractController $controller, string $action, Request $httpRequest): Response
     {
         try {
@@ -167,14 +147,6 @@ class ControllerFilter implements ControllerFilterInterface
         }
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Generated\Shared\Transfer\RestErrorCollectionTransfer|null $restErrorCollectionTransfer
-     * @param \Spryker\Glue\Kernel\Controller\AbstractController $controller
-     * @param string $action
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     protected function getRestResponse(
         RestRequestInterface $restRequest,
         ?RestErrorCollectionTransfer $restErrorCollectionTransfer,
@@ -194,13 +166,6 @@ class ControllerFilter implements ControllerFilterInterface
         return $this->createErrorResponse($restErrorCollectionTransfer);
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Controller\AbstractController $controller
-     * @param string $action
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     protected function processResource(
         AbstractController $controller,
         string $action,
@@ -209,13 +174,6 @@ class ControllerFilter implements ControllerFilterInterface
         return $controller->$action($restRequest, $restRequest->getResource()->getAttributes());
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Controller\AbstractController $controller
-     * @param string $action
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     protected function executeAction(
         AbstractController $controller,
         string $action,
@@ -255,23 +213,11 @@ class ControllerFilter implements ControllerFilterInterface
         );
     }
 
-    /**
-     * @param \Exception $exception
-     *
-     * @return void
-     */
     protected function logException(Exception $exception): void
     {
         $this->getLogger()->error($exception->getMessage(), ['trace' => $exception->getTraceAsString()]);
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Controller\AbstractController $controller
-     * @param \Symfony\Component\HttpFoundation\Request $httpRequest
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Generated\Shared\Transfer\RestErrorCollectionTransfer|null
-     */
     protected function validateRequest(AbstractController $controller, Request $httpRequest, RestRequestInterface $restRequest): ?RestErrorCollectionTransfer
     {
         $restErrorCollectionTransfer = null;
@@ -293,11 +239,6 @@ class ControllerFilter implements ControllerFilterInterface
         return $restErrorCollectionTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\RestErrorCollectionTransfer $restErrorCollectionTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     protected function createErrorResponse(RestErrorCollectionTransfer $restErrorCollectionTransfer): RestResponseInterface
     {
         $restResponse = $this->restResourceBuilder->createRestResponse();

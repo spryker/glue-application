@@ -34,11 +34,5 @@ interface ResponseRelationshipInterface
      */
     public function processIncluded(array $resources, RestRequestInterface $restRequest): array;
 
-    /**
-     * @param string $resourceType
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return bool
-     */
     public function hasRelationship(string $resourceType, RestRequestInterface $restRequest): bool;
 }

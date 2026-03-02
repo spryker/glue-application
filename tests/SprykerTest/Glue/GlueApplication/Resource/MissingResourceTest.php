@@ -24,9 +24,6 @@ use Spryker\Glue\GlueApplication\Resource\MissingResource;
  */
 class MissingResourceTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testGetResourceResponse(): void
     {
         $expectedErrorCode = 404;

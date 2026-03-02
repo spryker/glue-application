@@ -14,13 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface HttpSenderInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueResponseTransfer $glueResponseTransfer
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication $apiApplication
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function sendResponse(
         GlueResponseTransfer $glueResponseTransfer,
         Request $request,

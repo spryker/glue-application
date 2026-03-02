@@ -26,9 +26,6 @@ use SprykerTest\Glue\GlueApplication\Stub\RestTestAttributesTransfer;
  */
 class RestResourceTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testToArrayShouldReturnResourceAsArray(): void
     {
         $restTestAttributesTransfer = new RestTestAttributesTransfer();

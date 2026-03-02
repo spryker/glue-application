@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ErrorRestController extends AbstractController implements ErrorControllerInterface
 {
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function badRequestAction(): RestResponseInterface
     {
         $response = new RestResponse();
@@ -31,9 +28,6 @@ class ErrorRestController extends AbstractController implements ErrorControllerI
         return $response;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function resourceNotFoundAction(): RestResponseInterface
     {
         $response = new RestResponse();

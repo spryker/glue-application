@@ -23,14 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RequestFlowExecutor implements RequestFlowExecutorInterface
 {
-    /**
-     * @param \Spryker\Glue\GlueApplication\Executor\ResourceExecutorInterface $resourceExecutor
-     * @param \Spryker\Glue\GlueApplication\Router\RouteMatcherInterface $routeMatcher
-     * @param \Spryker\Glue\GlueApplication\Builder\RequestBuilderInterface $requestBuilder
-     * @param \Spryker\Glue\GlueApplication\Validator\RequestValidatorInterface $requestValidator
-     * @param \Spryker\Glue\GlueApplication\Formatter\ResponseFormatterInterface $responseFormatter
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     */
     public function __construct(
         protected ResourceExecutorInterface $resourceExecutor,
         protected RouteMatcherInterface $routeMatcher,
@@ -41,13 +33,6 @@ class RequestFlowExecutor implements RequestFlowExecutorInterface
     ) {
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication $apiApplication
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface|null $conventionPlugin
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function executeRequestFlow(
         GlueRequestTransfer $glueRequestTransfer,
         RequestFlowAwareApiApplication $apiApplication,
@@ -102,14 +87,6 @@ class RequestFlowExecutor implements RequestFlowExecutorInterface
         );
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Generated\Shared\Transfer\GlueRequestValidationTransfer $glueRequestValidationTransfer
-     * @param \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication $apiApplication
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface|null $apiConvention
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     protected function sendValidationErrorResponse(
         GlueRequestTransfer $glueRequestTransfer,
         GlueRequestValidationTransfer $glueRequestValidationTransfer,
@@ -128,14 +105,6 @@ class RequestFlowExecutor implements RequestFlowExecutorInterface
         );
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\MissingResourceInterface $missingResource
-     * @param \Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication $apiApplication
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface|null $apiConvention
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     protected function sendMissingResourceResponse(
         GlueRequestTransfer $glueRequestTransfer,
         MissingResourceInterface $missingResource,

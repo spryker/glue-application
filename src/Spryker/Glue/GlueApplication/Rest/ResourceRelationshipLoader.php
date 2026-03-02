@@ -16,9 +16,6 @@ class ResourceRelationshipLoader implements ResourceRelationshipLoaderInterface
      */
     protected $resourceRelationship;
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRelationshipCollectionInterface $resourceRelationshipCollection
-     */
     public function __construct(ResourceRelationshipCollectionInterface $resourceRelationshipCollection)
     {
         $this->resourceRelationship = $resourceRelationshipCollection;

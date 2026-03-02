@@ -20,20 +20,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class GlueServiceProviderPlugin extends AbstractPlugin implements ServiceProviderInterface
 {
-    /**
-     * @param \Silex\Application $app
-     *
-     * @return void
-     */
     public function register(Application $app): void
     {
     }
 
-    /**
-     * @param \Silex\Application $app
-     *
-     * @return void
-     */
     public function boot(Application $app): void
     {
         $eventDispatcher = $this->getEventDispatcher($app);
@@ -47,11 +37,6 @@ class GlueServiceProviderPlugin extends AbstractPlugin implements ServiceProvide
         );
     }
 
-    /**
-     * @param \Silex\Application $app
-     *
-     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
-     */
     protected function getEventDispatcher(Application $app): EventDispatcherInterface
     {
         return $app['dispatcher'];

@@ -19,9 +19,6 @@ class RequestResourcePluginFilter implements RequestResourcePluginFilterInterfac
      */
     protected ConventionResourceFilterInterface $conventionResourceFilter;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Router\ResourceRouter\ConventionResourceFilterInterface $conventionResourceFilter
-     */
     public function __construct(ConventionResourceFilterInterface $conventionResourceFilter)
     {
         $this->conventionResourceFilter = $conventionResourceFilter;

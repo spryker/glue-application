@@ -41,13 +41,6 @@ class GlueControllerListenerPlugin extends AbstractPlugin
         return null;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Controller\AbstractController $controller
-     * @param string $action
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function filter(AbstractController $controller, string $action, Request $request): Response
     {
         return $this->getFactory()->createRestControllerFilter()->filter($controller, $action, $request);

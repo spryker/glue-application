@@ -31,11 +31,6 @@ class GlueRouterPlugin extends AbstractPlugin implements RequestMatcherInterface
     {
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return array
-     */
     protected function executeMatchRequest(Request $request): array
     {
         return $this->getFactory()

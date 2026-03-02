@@ -9,10 +9,5 @@ namespace Spryker\Glue\GlueApplication\Cache\Writer;
 
 interface ControllerCacheWriterInterface
 {
-    /**
-     * @param string|null $apiApplication
-     *
-     * @return void
-     */
     public function cache(?string $apiApplication = null): void;
 }

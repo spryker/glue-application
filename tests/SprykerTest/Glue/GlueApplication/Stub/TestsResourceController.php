@@ -17,11 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TestsResourceController extends AbstractController
 {
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function getAction(RestRequestInterface $restRequest): RestResponseInterface
     {
         $restResponse = $this->createRestResourceBuilder()->createRestResponse(20);
@@ -37,12 +32,6 @@ class TestsResourceController extends AbstractController
         return $restResponse;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \SprykerTest\Glue\GlueApplication\Stub\RestTestAttributesTransfer $restTestAttributesTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function postAction(RestRequestInterface $restRequest, RestTestAttributesTransfer $restTestAttributesTransfer): RestResponseInterface
     {
         $restResponse = $this->createRestResourceBuilder()->createRestResponse();
@@ -72,28 +61,16 @@ class TestsResourceController extends AbstractController
         return $restResponse;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function deleteAction(): RestResponseInterface
     {
         return $this->createRestResourceBuilder()->createRestResponse();
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \SprykerTest\Glue\GlueApplication\Stub\RestTestAttributesTransfer $restTestAttributesTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function patchAction(RestRequestInterface $restRequest, RestTestAttributesTransfer $restTestAttributesTransfer): RestResponseInterface
     {
         return $this->postAction($restRequest, $restTestAttributesTransfer);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface
-     */
     protected function createRestResourceBuilder(): RestResourceBuilderInterface
     {
         return new RestResourceBuilder();

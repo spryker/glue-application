@@ -36,9 +36,6 @@ class PreFlightResource extends AbstractResourcePlugin implements ResourceInterf
      */
     protected ResourceInterface|null $resource;
 
-    /**
-     * @param \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceInterface|null $resource
-     */
     public function __construct(?ResourceInterface $resource = null)
     {
         $this->resource = $resource;
@@ -70,33 +67,21 @@ class PreFlightResource extends AbstractResourcePlugin implements ResourceInterf
         };
     }
 
-    /**
-     * @return string
-     */
     public function getController(): string
     {
         return $this->resource ? $this->resource->getController() : '';
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->resource ? $this->resource->getType() : '';
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueResourceMethodCollectionTransfer
-     */
     public function getDeclaredMethods(): GlueResourceMethodCollectionTransfer
     {
         return $this->resource ? $this->resource->getDeclaredMethods() : $this->getDeclaredMethodsForEmptyResource();
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\GlueResourceMethodCollectionTransfer
-     */
     protected function getDeclaredMethodsForEmptyResource(): GlueResourceMethodCollectionTransfer
     {
         $glueResourceMethodConfigurationTransfer = new GlueResourceMethodConfigurationTransfer();

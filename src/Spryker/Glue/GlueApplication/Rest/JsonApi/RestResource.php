@@ -42,11 +42,6 @@ class RestResource implements RestResourceInterface
      */
     protected $payload;
 
-    /**
-     * @param string $type
-     * @param string|null $id
-     * @param \Spryker\Shared\Kernel\Transfer\AbstractTransfer|null $attributes
-     */
     public function __construct(string $type, ?string $id = null, ?AbstractTransfer $attributes = null)
     {
         $this->type = $type;
@@ -54,11 +49,6 @@ class RestResource implements RestResourceInterface
         $this->attributes = $attributes;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface $restResource
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function addRelationship(RestResourceInterface $restResource): RestResourceInterface
     {
         if ($restResource->getId()) {
@@ -82,21 +72,11 @@ class RestResource implements RestResourceInterface
         return $this->relationships[$type];
     }
 
-    /**
-     * @return array
-     */
     public function getRelationships(): array
     {
         return $this->relationships;
     }
 
-    /**
-     * @param string $name
-     * @param string $resourceUri
-     * @param array $meta
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function addLink(string $name, string $resourceUri, array $meta = []): RestResourceInterface
     {
         $this->links[] = new RestLink($name, $resourceUri, $meta);
@@ -104,11 +84,6 @@ class RestResource implements RestResourceInterface
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     public function hasLink(string $name): bool
     {
         foreach ($this->links as $link) {
@@ -120,33 +95,21 @@ class RestResource implements RestResourceInterface
         return false;
     }
 
-    /**
-     * @return string|null
-     */
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return \Spryker\Shared\Kernel\Transfer\AbstractTransfer|null
-     */
     public function getAttributes(): ?AbstractTransfer
     {
         return $this->attributes;
     }
 
-    /**
-     * @return array
-     */
     public function getLinks(): array
     {
         return $this->links;
@@ -194,19 +157,11 @@ class RestResource implements RestResourceInterface
         return $this;
     }
 
-    /**
-     * @return \Spryker\Shared\Kernel\Transfer\AbstractTransfer|null
-     */
     public function getPayload(): ?AbstractTransfer
     {
         return $this->payload;
     }
 
-    /**
-     * @param array $response
-     *
-     * @return array
-     */
     protected function addLinksDataToResponse(array $response): array
     {
         if ($this->links) {
@@ -219,9 +174,6 @@ class RestResource implements RestResourceInterface
         return $response;
     }
 
-    /**
-     * @return array
-     */
     protected function toArrayRelationships(): array
     {
         $relationships = [];
@@ -257,11 +209,6 @@ class RestResource implements RestResourceInterface
         return $this->transformEmptyArrayObjectToArray($transferData);
     }
 
-    /**
-     * @param array $transferData
-     *
-     * @return array
-     */
     private function transformEmptyArrayObjectToArray(array $transferData): array
     {
         foreach ($transferData as $key => $item) {

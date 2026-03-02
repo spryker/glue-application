@@ -24,11 +24,6 @@ class Filter implements FilterInterface
      */
     protected $field;
 
-    /**
-     * @param string $resource
-     * @param string $field
-     * @param string $value
-     */
     public function __construct(string $resource, string $field, string $value)
     {
         $this->resource = $resource;
@@ -36,25 +31,16 @@ class Filter implements FilterInterface
         $this->value = $value;
     }
 
-    /**
-     * @return string
-     */
     public function getResource(): string
     {
         return $this->resource;
     }
 
-    /**
-     * @return string
-     */
     public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
     public function getField(): string
     {
         return $this->field;

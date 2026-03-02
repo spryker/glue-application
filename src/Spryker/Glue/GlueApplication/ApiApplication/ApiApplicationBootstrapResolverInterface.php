@@ -12,10 +12,5 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBoots
 
 interface ApiApplicationBootstrapResolverInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueApiContextTransfer $apiApplicationContext
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface
-     */
     public function resolveApiApplicationBootstrap(GlueApiContextTransfer $apiApplicationContext): GlueApplicationBootstrapPluginInterface;
 }

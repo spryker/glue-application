@@ -144,13 +144,6 @@ class ResourceRouter implements ResourceRouterInterface
         return $this->buildRouteParameters($route, $resourceType, $resources);
     }
 
-    /**
-     * @param string $module
-     * @param string $controller
-     * @param string $action
-     *
-     * @return array
-     */
     protected function createRoute(string $module, string $controller, string $action): array
     {
         $routerResolver = new RouteNameResolver($module, $controller, $action);
@@ -168,30 +161,16 @@ class ResourceRouter implements ResourceRouterInterface
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function createResourceNotFoundRoute(): array
     {
         return $this->createRoute('GlueApplication', 'ErrorRest', 'resource-not-found');
     }
 
-    /**
-     * @param array $resources
-     *
-     * @return array
-     */
     protected function getMainResource(array $resources): array
     {
         return $resources[count($resources) - 1];
     }
 
-    /**
-     * @param array $resources
-     * @param array $currentResource
-     *
-     * @return bool
-     */
     protected function isValidPath(array $resources, array $currentResource): bool
     {
         foreach ($resources as $resourceNr => $resource) {
@@ -205,13 +184,6 @@ class ResourceRouter implements ResourceRouterInterface
         return false;
     }
 
-    /**
-     * @param array $resources
-     * @param array $currentResource
-     * @param int $resourceNr
-     *
-     * @return bool
-     */
     protected function isValidChildParent(array $resources, array $currentResource, int $resourceNr): bool
     {
         $nextResource = $resources[$resourceNr + 1] ?? null;
@@ -226,13 +198,6 @@ class ResourceRouter implements ResourceRouterInterface
         return false;
     }
 
-    /**
-     * @param array $route
-     * @param array $resource
-     * @param array $resources
-     *
-     * @return array
-     */
     protected function buildRouteParameters(array $route, array $resource, array $resources): array
     {
         $routeParams = $this->createRoute(
@@ -259,12 +224,6 @@ class ResourceRouter implements ResourceRouterInterface
         return $routeParams;
     }
 
-    /**
-     * @param array $resourceType
-     * @param array $resources
-     *
-     * @return array
-     */
     protected function createOptionsRoute(array $resourceType, array $resources): array
     {
         $route = $this->createRoute('GlueApplication', 'Options', 'resource-options');
@@ -274,12 +233,6 @@ class ResourceRouter implements ResourceRouterInterface
         return $route;
     }
 
-    /**
-     * @param array $route
-     * @param array $resources
-     *
-     * @return bool
-     */
     protected function isParentValid(array $route, array $resources): bool
     {
         if (isset($route[RequestConstantsInterface::ATTRIBUTE_PARENT_RESOURCE]) && count($resources) > 1) {

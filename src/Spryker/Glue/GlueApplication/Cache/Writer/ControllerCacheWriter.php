@@ -50,11 +50,6 @@ class ControllerCacheWriter implements ControllerCacheWriterInterface
         $this->controllerConfigurationCacheCollectorPlugins = $controllerConfigurationCacheCollectorPlugins;
     }
 
-    /**
-     * @param string|null $apiApplication
-     *
-     * @return void
-     */
     public function cache(?string $apiApplication = null): void
     {
         $apiControllerConfigurationTransfersData = [];

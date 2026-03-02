@@ -44,9 +44,6 @@ class ResourceRouteLoaderTest extends Unit
      */
     protected const TEST_PARENT_RESOURCE_TYPE = 'test-parent-resource-type';
 
-    /**
-     * @return void
-     */
     public function testLoadShouldConfigureExistingRoute(): void
     {
         $versionResolverMock = $this->createVersionResolverMock();
@@ -67,9 +64,6 @@ class ResourceRouteLoaderTest extends Unit
         $this->assertSame(RestTestAttributesTransfer::class, $route[RequestConstantsInterface::ATTRIBUTE_RESOURCE_FQCN]);
     }
 
-    /**
-     * @return void
-     */
     public function testLoadUsingVersionableRouteShouldLoadLatest(): void
     {
         $versionResolverMock = $this->createVersionResolverMock();
@@ -99,9 +93,6 @@ class ResourceRouteLoaderTest extends Unit
         $this->assertSame(2, $route[RequestConstantsInterface::ATTRIBUTE_RESOURCE_VERSION]->getMajor());
     }
 
-    /**
-     * @return void
-     */
     public function testLoadUsingVersionableRouteShouldLoadRequestedPlugin(): void
     {
         $versionResolverMock = $this->createVersionResolverMock(1, 0);
@@ -131,9 +122,6 @@ class ResourceRouteLoaderTest extends Unit
         $this->assertSame(1, $route[RequestConstantsInterface::ATTRIBUTE_RESOURCE_VERSION]->getMajor());
     }
 
-    /**
-     * @return void
-     */
     public function testLoadUsingSameResourceNameWithDifferentParents(): void
     {
         $versionResolverMock = $this->createVersionResolverMock();
@@ -163,9 +151,6 @@ class ResourceRouteLoaderTest extends Unit
         $this->assertSame('testsRestApi', $route[RequestConstantsInterface::ATTRIBUTE_MODULE]);
     }
 
-    /**
-     * @return void
-     */
     public function testLoadWithVersioningAndResourcesWithParentsShouldReturnRouteWithParent(): void
     {
         // Arrange

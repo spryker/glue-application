@@ -23,11 +23,6 @@ class Router extends SymfonyRouter implements RouterInterface, WarmableInterface
      */
     protected $configCacheFactory;
 
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     public function routeRequest(GlueRequestTransfer $glueRequestTransfer): GlueRequestTransfer
     {
         $this->setContext(

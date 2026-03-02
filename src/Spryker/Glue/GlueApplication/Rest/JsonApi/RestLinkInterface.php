@@ -49,13 +49,7 @@ interface RestLinkInterface
      */
     public const KEY_META = 'meta';
 
-    /**
-     * @return string
-     */
     public function getName(): string;
 
-    /**
-     * @return array
-     */
     public function toArray(): array;
 }

@@ -15,11 +15,6 @@ use Symfony\Component\Routing\RequestContext;
  */
 trait GlueRouterPluginTraitCommon
 {
- /**
-  * @param \Symfony\Component\HttpFoundation\Request $request
-  *
-  * @return array
-  */
     abstract protected function executeMatchRequest(Request $request): array;
 
     /**
@@ -29,12 +24,5 @@ trait GlueRouterPluginTraitCommon
      */
     abstract protected function executeGetContext(): RequestContext;
 
-    /**
-     * @param string $name
-     * @param array $parameters
-     * @param int $referenceType
-     *
-     * @return string
-     */
     abstract protected function executeGenerate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string;
 }

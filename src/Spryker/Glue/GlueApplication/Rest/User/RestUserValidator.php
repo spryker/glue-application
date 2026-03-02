@@ -25,11 +25,6 @@ class RestUserValidator implements RestUserValidatorInterface
         $this->restUserValidatorPlugins = $restUserValidatorPlugins;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Generated\Shared\Transfer\RestErrorCollectionTransfer|null
-     */
     public function validate(RestRequestInterface $restRequest): ?RestErrorCollectionTransfer
     {
         $restErrorCollectionTransfer = new RestErrorCollectionTransfer();

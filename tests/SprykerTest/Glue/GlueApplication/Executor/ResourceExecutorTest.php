@@ -36,9 +36,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ResourceExecutorTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testGetResourceExecutesResourceWithControllerAndAction(): void
     {
         // Arrange
@@ -75,9 +72,6 @@ class ResourceExecutorTest extends Unit
         $this->assertCount(1, $glueResponseTransfer->getResources());
     }
 
-    /**
-     * @return void
-     */
     public function testGetResourceExecutesResourceByResourceId(): void
     {
         // Arrange
@@ -116,9 +110,6 @@ class ResourceExecutorTest extends Unit
         $this->assertSame('FOO', $resource->getId());
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteResourceExecutesIfContentExistsAndFirstArgumentDoesNotExist(): void
     {
         // Arrange
@@ -163,9 +154,6 @@ class ResourceExecutorTest extends Unit
         $this->assertSame($glueResponseTransfer->getContent(), $glueRequestTransfer->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteResourceExecutesMethodInUpperCase(): void
     {
         // Arrange
@@ -203,9 +191,6 @@ class ResourceExecutorTest extends Unit
         $this->assertSame($glueResponseTransfer->getContent(), $glueRequestTransfer->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteResourceExecutesIfContentAndFirstArgumentExist(): void
     {
         // Arrange
@@ -251,9 +236,6 @@ class ResourceExecutorTest extends Unit
         $this->assertSame($glueResponseTransfer->getContent(), $glueRequestTransfer->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteResourceDoesNotExecuteIfControllerDoesNotExist(): void
     {
         // Arrange
@@ -288,9 +270,6 @@ class ResourceExecutorTest extends Unit
             ->executeResource($resourceMock, $glueRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteResourceThrowsExceptionIfCachedDataDoesNotExist(): void
     {
         // Arrange
@@ -328,9 +307,6 @@ class ResourceExecutorTest extends Unit
             ->executeResource($resourceMock, $glueRequestTransfer);
     }
 
-    /**
-     * @return void
-     */
     public function testExecuteResourceWarmsUpCacheForTheConfiguredRoutes(): void
     {
         // Arrange

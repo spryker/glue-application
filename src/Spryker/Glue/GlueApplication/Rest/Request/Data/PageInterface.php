@@ -9,13 +9,7 @@ namespace Spryker\Glue\GlueApplication\Rest\Request\Data;
 
 interface PageInterface
 {
-    /**
-     * @return int
-     */
     public function getOffset(): int;
 
-    /**
-     * @return int
-     */
     public function getLimit(): int;
 }

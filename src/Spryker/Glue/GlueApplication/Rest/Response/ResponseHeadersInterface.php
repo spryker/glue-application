@@ -13,23 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface ResponseHeadersInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Response $httpResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function addHeaders(
         Response $httpResponse,
         RestResponseInterface $restResponse,
         RestRequestInterface $restRequest
     ): Response;
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Response $httpResponse
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function addCorsAllowOriginHeader(Response $httpResponse): Response;
 }

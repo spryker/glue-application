@@ -43,9 +43,6 @@ class RestRequestTest extends Unit
         error_reporting(error_reporting() & E_USER_DEPRECATED);
     }
 
-    /**
-     * @return void
-     */
     public function testSetUserForUserException(): void
     {
         // Arrange
@@ -59,9 +56,6 @@ class RestRequestTest extends Unit
         $restRequest->setUser('10', 'test', []);
     }
 
-    /**
-     * @return void
-     */
     public function testSetUserForRestUserException(): void
     {
         // Arrange
@@ -75,9 +69,6 @@ class RestRequestTest extends Unit
         $restRequest->setUser('10', 'test', []);
     }
 
-    /**
-     * @return void
-     */
     public function testSetRestUserException(): void
     {
         // Arrange
@@ -91,9 +82,6 @@ class RestRequestTest extends Unit
         $restRequest->setRestUser((new RestUserTransfer()));
     }
 
-    /**
-     * @return void
-     */
     public function testGetRestUserWithSetUser(): void
     {
         // Arrange
@@ -108,9 +96,6 @@ class RestRequestTest extends Unit
         $this->assertSame(10, $restUserTransfer->getSurrogateIdentifier());
     }
 
-    /**
-     * @return void
-     */
     public function testRestUserAndUserDataIsTheSame(): void
     {
         // Arrange

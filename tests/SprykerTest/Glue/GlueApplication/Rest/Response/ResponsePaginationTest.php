@@ -30,9 +30,6 @@ use SprykerTest\Glue\GlueApplication\Stub\RestResponse;
  */
 class ResponsePaginationTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testBuildPaginationLinksShouldReturnPaginationLinks(): void
     {
         $responsePagination = $this->createResponsePagination();
@@ -48,9 +45,6 @@ class ResponsePaginationTest extends Unit
         $this->assertArrayHasKey(RestLinkInterface::LINK_PREV, $pagination);
     }
 
-    /**
-     * @return void
-     */
     public function testBuildPaginationLinksShouldNotReturnNextPaginationLink(): void
     {
         $responsePagination = $this->createResponsePagination();
@@ -62,9 +56,6 @@ class ResponsePaginationTest extends Unit
         $this->assertArrayNotHasKey(RestLinkInterface::LINK_NEXT, $pagination);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\Response\ResponsePaginationInterface
-     */
     public function createResponsePagination(): ResponsePaginationInterface
     {
         return new ResponsePagination(new GlueApplicationConfig());

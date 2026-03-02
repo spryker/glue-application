@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class GlueStorefrontFallbackApiApplication extends RequestFlowAgnosticApiApplication
 {
-    /**
-     * @return \Spryker\Shared\Application\ApplicationInterface
-     */
     public function boot(): ApplicationInterface
     {
         $this->setUpSession();
@@ -25,9 +22,6 @@ class GlueStorefrontFallbackApiApplication extends RequestFlowAgnosticApiApplica
         return parent::boot();
     }
 
-    /**
-     * @return void
-     */
     protected function setUpSession(): void
     {
         (new SessionClient())->setContainer(

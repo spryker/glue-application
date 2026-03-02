@@ -67,9 +67,6 @@ class CorsResponseTest extends Unit
      */
     protected const REQUEST_METHOD = 'OPTIONS';
 
-    /**
-     * @return void
-     */
     public function testCorsHeadersShouldReturnAllowMethodsWhenResourceTypeExists(): void
     {
         // Arrange
@@ -87,9 +84,6 @@ class CorsResponseTest extends Unit
         $this->assertNotEmpty($restResponse->getHeaders()[RequestConstantsInterface::HEADER_ACCESS_CONTROL_ALLOW_METHODS]);
     }
 
-    /**
-     * @return void
-     */
     public function testCorsHeadersShouldNotReturnAllowMethodsWhenResourceTypeDoesNotExist(): void
     {
         // Arrange
@@ -107,9 +101,6 @@ class CorsResponseTest extends Unit
         $this->assertEmpty($restResponse->getHeaders()[RequestConstantsInterface::HEADER_ACCESS_CONTROL_ALLOW_METHODS]);
     }
 
-    /**
-     * @return void
-     */
     public function testCorsHeadersShouldReturnAllowMethodsWhenParentResourceTypeExists(): void
     {
         // Arrange
@@ -127,9 +118,6 @@ class CorsResponseTest extends Unit
         $this->assertNotEmpty($restResponse->getHeaders()[RequestConstantsInterface::HEADER_ACCESS_CONTROL_ALLOW_METHODS]);
     }
 
-    /**
-     * @return void
-     */
     public function testCorsHeadersShouldNotReturnAllowMethodsWhenParentResourceTypeDoesNotExist(): void
     {
         // Arrange
@@ -147,9 +135,6 @@ class CorsResponseTest extends Unit
         $this->assertEmpty($restResponse->getHeaders()[RequestConstantsInterface::HEADER_ACCESS_CONTROL_ALLOW_METHODS]);
     }
 
-    /**
-     * @return void
-     */
     public function testCorsHeadersShouldReturnAllowMethodsWhenParentResourceTypeAndTheSameResourceTypeNameExist(): void
     {
         // Arrange
@@ -168,32 +153,16 @@ class CorsResponseTest extends Unit
         $this->assertNotEmpty($restResponse->getHeaders()[RequestConstantsInterface::HEADER_ACCESS_CONTROL_ALLOW_METHODS]);
     }
 
-    /**
-     * @param string $resourceType
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface
-     */
     protected function createResourceRoutePlugin(string $resourceType): ResourceRoutePluginInterface
     {
         return new TestResourceRoutePlugin($resourceType);
     }
 
-    /**
-     * @param string $resourceType
-     * @param string $parentResourceType
-     *
-     * @return \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ResourceRoutePluginInterface
-     */
     protected function createResourceWithParentRoutePlugin(string $resourceType, string $parentResourceType): ResourceRoutePluginInterface
     {
         return new TestResourceWithParentRoutePlugin($resourceType, $parentResourceType);
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\ResourceRouteLoaderInterface $resourceRouteLoader
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Cors\CorsResponseInterface
-     */
     protected function createCorsResponse(ResourceRouteLoaderInterface $resourceRouteLoader): CorsResponseInterface
     {
         $glueApplicationConfig = new GlueApplicationConfig();
@@ -205,21 +174,11 @@ class CorsResponseTest extends Unit
         return new CorsResponse($resourceRouteLoader, $glueApplicationConfig, $uriParser);
     }
 
-    /**
-     * @param string $method
-     * @param string $resourceType
-     * @param string $uri
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface
-     */
     protected function createRestRequest(string $method, string $resourceType, string $uri): RestRequestInterface
     {
         return (new RestRequest())->createRestRequest($method, $resourceType, $uri);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     protected function createRestResponse(): RestResponseInterface
     {
         return (new RestResponse())->createRestResponse();
@@ -238,17 +197,11 @@ class CorsResponseTest extends Unit
         return new ResourceRouteLoader($resourceRoutePlugins, $versionResolverMock, []);
     }
 
-    /**
-     * @return string
-     */
     protected function getUri(): string
     {
         return sprintf('/%s/%s', static::RESOURCE_TYPE, static::RESOURCE_ID);
     }
 
-    /**
-     * @return string
-     */
     protected function getUriWithParentResource(): string
     {
         return sprintf(

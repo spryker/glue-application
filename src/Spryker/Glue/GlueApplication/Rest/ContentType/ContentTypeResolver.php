@@ -24,11 +24,6 @@ class ContentTypeResolver implements ContentTypeResolverInterface
      */
     protected const RESPONSE_CONTENT_TYPE = 'application/vnd.api+%s';
 
-    /**
-     * @param string $contentType
-     *
-     * @return array
-     */
     public function matchContentType(string $contentType): array
     {
         $contentTypeParts = [];
@@ -37,12 +32,6 @@ class ContentTypeResolver implements ContentTypeResolverInterface
         return $contentTypeParts;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param \Symfony\Component\HttpFoundation\Response $httpResponse
-     *
-     * @return void
-     */
     public function addResponseHeaders(RestRequestInterface $restRequest, Response $httpResponse): void
     {
         $contentType = sprintf(
@@ -58,12 +47,6 @@ class ContentTypeResolver implements ContentTypeResolverInterface
         $httpResponse->headers->set(RequestConstantsInterface::HEADER_CONTENT_TYPE, $contentType);
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\VersionInterface $version
-     * @param string $contentType
-     *
-     * @return string
-     */
     protected function addVersion(VersionInterface $version, string $contentType): string
     {
         $contentType .= '; version=' . $version->getMajor() . '.' . $version->getMinor();

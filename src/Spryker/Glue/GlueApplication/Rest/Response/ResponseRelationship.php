@@ -22,9 +22,6 @@ class ResponseRelationship implements ResponseRelationshipInterface
      */
     protected $alreadyLoadedResources = [];
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\ResourceRelationshipLoaderInterface $resourceRelationshipProviderLoader
-     */
     public function __construct(ResourceRelationshipLoaderInterface $resourceRelationshipProviderLoader)
     {
         $this->resourceRelationshipProviderLoader = $resourceRelationshipProviderLoader;
@@ -78,13 +75,6 @@ class ResponseRelationship implements ResponseRelationshipInterface
         return array_values($included);
     }
 
-    /**
-     * @param array $resourceRelationships
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param array $included
-     *
-     * @return void
-     */
     protected function processRelationships(
         array $resourceRelationships,
         RestRequestInterface $restRequest,
@@ -125,12 +115,6 @@ class ResponseRelationship implements ResponseRelationshipInterface
         return !$resource->getRelationships();
     }
 
-    /**
-     * @param string $resourceType
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return bool
-     */
     public function hasRelationship(string $resourceType, RestRequestInterface $restRequest): bool
     {
         if ($restRequest->getResource()->getType() === $resourceType) {
@@ -142,13 +126,6 @@ class ResponseRelationship implements ResponseRelationshipInterface
         return ($includes && isset($includes[$resourceType])) || (!$includes && !$restRequest->getExcludeRelationship());
     }
 
-    /**
-     * @param string $resourceName
-     * @param array $resources
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return array
-     */
     protected function applyRelationshipPlugins(string $resourceName, array $resources, RestRequestInterface $restRequest): array
     {
         $relationshipPlugins = $this->resourceRelationshipProviderLoader->load($resourceName);
@@ -163,13 +140,6 @@ class ResponseRelationship implements ResponseRelationshipInterface
         return $resources;
     }
 
-    /**
-     * @param string $resourceType
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     * @param string|null $parentResourceId
-     *
-     * @return bool
-     */
     protected function canLoadResource(
         string $resourceType,
         RestRequestInterface $restRequest,

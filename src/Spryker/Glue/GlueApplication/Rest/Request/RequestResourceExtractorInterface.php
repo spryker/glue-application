@@ -13,12 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface RequestResourceExtractorInterface
 {
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\MetadataInterface $metadata
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function extract(Request $request, MetadataInterface $metadata): RestResourceInterface;
 
     /**

@@ -9,13 +9,7 @@ namespace Spryker\Glue\GlueApplication\Rest\Request\Data;
 
 interface VersionInterface
 {
-    /**
-     * @return int
-     */
     public function getMajor(): int;
 
-    /**
-     * @return int
-     */
     public function getMinor(): int;
 }

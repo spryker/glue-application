@@ -12,10 +12,5 @@ use Symfony\Component\Routing\RouterInterface as SymfonyRouterInterface;
 
 interface RouterInterface extends SymfonyRouterInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueRequestTransfer
-     */
     public function routeRequest(GlueRequestTransfer $glueRequestTransfer): GlueRequestTransfer;
 }

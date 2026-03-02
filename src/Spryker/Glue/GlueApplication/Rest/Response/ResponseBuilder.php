@@ -31,11 +31,6 @@ class ResponseBuilder implements ResponseBuilderInterface
      */
     protected $responseRelationship;
 
-    /**
-     * @param string $domainName
-     * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponsePaginationInterface $responsePagination
-     * @param \Spryker\Glue\GlueApplication\Rest\Response\ResponseRelationshipInterface $responseRelationship
-     */
     public function __construct(
         string $domainName,
         ResponsePaginationInterface $responsePagination,
@@ -46,12 +41,6 @@ class ResponseBuilder implements ResponseBuilderInterface
         $this->responseRelationship = $responseRelationship;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface $restResponse
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return array
-     */
     public function buildResponse(
         RestResponseInterface $restResponse,
         RestRequestInterface $restRequest
@@ -142,13 +131,6 @@ class ResponseBuilder implements ResponseBuilderInterface
         return $data;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface $restResource
-     * @param bool $includeRelations
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return array
-     */
     protected function resourceToArray(
         RestResourceInterface $restResource,
         bool $includeRelations,
@@ -174,11 +156,6 @@ class ResponseBuilder implements ResponseBuilderInterface
         return $data;
     }
 
-    /**
-     * @param array $links
-     *
-     * @return array
-     */
     protected function formatLinks(array $links): array
     {
         $formattedLinks = [];
@@ -196,11 +173,6 @@ class ResponseBuilder implements ResponseBuilderInterface
         return $formattedLinks;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return array
-     */
     protected function buildCollectionLink(RestRequestInterface $restRequest): array
     {
         $method = $restRequest->getMetadata()->getMethod();
@@ -226,12 +198,6 @@ class ResponseBuilder implements ResponseBuilderInterface
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface $resource
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return string
-     */
     protected function buildQueryString(RestResourceInterface $resource, RestRequestInterface $restRequest): string
     {
         if ($resource->getType() !== $restRequest->getResource()->getType()) {
@@ -277,11 +243,6 @@ class ResponseBuilder implements ResponseBuilderInterface
         return $data;
     }
 
-    /**
-     * @param string|null $idResource
-     *
-     * @return bool
-     */
     protected function isCurrentUserCollectionResource(?string $idResource): bool
     {
         return $idResource === GlueApplicationConfig::COLLECTION_IDENTIFIER_CURRENT_USER;

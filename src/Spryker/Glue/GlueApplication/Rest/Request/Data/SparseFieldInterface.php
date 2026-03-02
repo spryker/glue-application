@@ -9,13 +9,7 @@ namespace Spryker\Glue\GlueApplication\Rest\Request\Data;
 
 interface SparseFieldInterface
 {
-    /**
-     * @return string
-     */
     public function getResource(): string;
 
-    /**
-     * @return array
-     */
     public function getAttributes(): array;
 }

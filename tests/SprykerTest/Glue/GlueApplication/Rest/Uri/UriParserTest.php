@@ -27,9 +27,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UriParserTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testParseSingleResourceShouldExtractResource(): void
     {
         $uriParser = $this->creteUriParser();
@@ -42,9 +39,6 @@ class UriParserTest extends Unit
         $this->assertSame('1', $resources[0][RequestConstantsInterface::ATTRIBUTE_ID]);
     }
 
-    /**
-     * @return void
-     */
     public function testParseMultipleResourceShouldExtractResources(): void
     {
         $uriParser = $this->creteUriParser();
@@ -60,9 +54,6 @@ class UriParserTest extends Unit
         $this->assertSame('sku123', $resources[1][RequestConstantsInterface::ATTRIBUTE_ID]);
     }
 
-    /**
-     * @return void
-     */
     public function testParseWillDropVersionFromUrl(): void
     {
         $versionMatches = [
@@ -85,9 +76,6 @@ class UriParserTest extends Unit
         $this->assertSame('sku123', $resources[1][RequestConstantsInterface::ATTRIBUTE_ID]);
     }
 
-    /**
-     * @return void
-     */
     public function testParseWillNotDropVersionFromUrlWhenVersionIsNotFound(): void
     {
         $versionMatches = [];
@@ -107,9 +95,6 @@ class UriParserTest extends Unit
         $this->assertSame('eleven', $resources[1][RequestConstantsInterface::ATTRIBUTE_TYPE]);
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\Uri\UriParserInterface
-     */
     public function creteUriParser(): UriParserInterface
     {
         $versionResolverMock = $this->getMockBuilder(VersionResolverInterface::class)->getMock();

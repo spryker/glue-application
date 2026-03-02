@@ -31,9 +31,6 @@ use Spryker\Shared\Application\ApplicationInterface;
  */
 class GlueBootstrapTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testEmptyApiContextWillBeAssembled(): void
     {
         $apiContextExpanderPluginMock = $this->createMock(GlueContextExpanderPluginInterface::class);
@@ -53,9 +50,6 @@ class GlueBootstrapTest extends Unit
         $this->assertInstanceOf(ApplicationInterface::class, $glueBootstrap->boot());
     }
 
-    /**
-     * @return void
-     */
     public function testEmptyApiContextWillBeAssembledByDefaultIfContextExpanderIsNotDefined(): void
     {
         $glueBootstrap = $this->createGlueBootstrap(
@@ -67,9 +61,6 @@ class GlueBootstrapTest extends Unit
         $this->assertInstanceOf(ApplicationInterface::class, $glueBootstrap->boot());
     }
 
-    /**
-     * @return void
-     */
     public function testProvidedApiPluginsWillBePrefered(): void
     {
         $apiApplicationMock = $this->createMock(ApplicationInterface::class);

@@ -13,11 +13,6 @@ use Spryker\Glue\Kernel\Controller\AbstractController;
 
 class ResourceController extends AbstractController
 {
-    /**
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function getCollectionAction(GlueRequestTransfer $glueRequestTransfer): GlueResponseTransfer
     {
         return (new GlueResponseTransfer())
@@ -25,12 +20,6 @@ class ResourceController extends AbstractController
             ->addResource($glueRequestTransfer->getResource());
     }
 
-    /**
-     * @param \SprykerTest\Glue\GlueApplication\Stub\AttributesTransfer $attributesTransfer
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function postAction(
         AttributesTransfer $attributesTransfer,
         GlueRequestTransfer $glueRequestTransfer
@@ -40,12 +29,6 @@ class ResourceController extends AbstractController
             ->setContent($glueRequestTransfer->getContent());
     }
 
-    /**
-     * @param string $resourceId
-     * @param \Generated\Shared\Transfer\GlueRequestTransfer $glueRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\GlueResponseTransfer
-     */
     public function getByIdAction(string $resourceId, GlueRequestTransfer $glueRequestTransfer): GlueResponseTransfer
     {
         return (new GlueResponseTransfer())

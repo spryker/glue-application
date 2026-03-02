@@ -93,11 +93,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
      */
     protected $config;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Dependency\External\GlueApplicationToInflectorInterface $inflector
-     * @param \Spryker\Glue\GlueApplication\Formatter\Schema\RestApiSchemaParametersFormatterInterface $restApiSchemaParametersFormatter
-     * @param \Spryker\Glue\GlueApplication\GlueApplicationConfig $config
-     */
     public function __construct(
         GlueApplicationToInflectorInterface $inflector,
         RestApiSchemaParametersFormatterInterface $restApiSchemaParametersFormatter,
@@ -135,11 +130,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
         return $formattedData;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-     */
     protected function checkIfResourceHasConvention(string $path): bool
     {
         $interfaces = $this->getImplementedInterfaces($path);
@@ -298,11 +288,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
         return $contentTypes;
     }
 
-    /**
-     * @param string $resourceType
-     *
-     * @return string
-     */
     protected function getPathFromResourceType(string $resourceType): string
     {
         $resourceTypeExploded = explode('-', $resourceType);
@@ -328,21 +313,11 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
         ];
     }
 
-    /**
-     * @param string $resourceType
-     *
-     * @return string
-     */
     protected function getCollectionResourcePath(string $resourceType): string
     {
         return sprintf('/%s', $resourceType);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AnnotationTransfer $annotationTransfer
-     *
-     * @return string
-     */
     protected function getResponseAttributesClassName(AnnotationTransfer $annotationTransfer): string
     {
         /** @var string $responseAttributesClassName */
@@ -354,11 +329,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
         return $responseAttributesClassName;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\AnnotationTransfer $annotationTransfer
-     *
-     * @return string
-     */
     protected function getRequestAttributesClassName(AnnotationTransfer $annotationTransfer): string
     {
         /** @var string $requestAttributesClassName */
@@ -370,13 +340,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
         return $requestAttributesClassName;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\PathAnnotationTransfer $pathAnnotationTransfer
-     * @param string $methodName
-     * @param bool $isCollection
-     *
-     * @return \Generated\Shared\Transfer\AnnotationTransfer
-     */
     protected function resolveAnnotationTransfer(
         PathAnnotationTransfer $pathAnnotationTransfer,
         string $methodName,
@@ -394,11 +357,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
         return $pathAnnotationTransfer->$annotationPropertyName();
     }
 
-    /**
-     * @param string $transferClassName
-     *
-     * @return string
-     */
     protected function getResponseAttributesName(string $transferClassName): string
     {
         return str_replace(
@@ -408,11 +366,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
         );
     }
 
-    /**
-     * @param string $transferClassName
-     *
-     * @return string
-     */
     protected function getRequestAttributesName(string $transferClassName): string
     {
         return str_replace(
@@ -422,11 +375,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
         );
     }
 
-    /**
-     * @param string $transferClassName
-     *
-     * @return string
-     */
     protected function getTransferClassNamePartial(string $transferClassName): string
     {
         $transferClassNameExploded = explode('\\', $transferClassName);
