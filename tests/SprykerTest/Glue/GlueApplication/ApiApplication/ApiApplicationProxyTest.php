@@ -8,6 +8,8 @@
 namespace SprykerTest\Glue\GlueApplication\ApiApplication;
 
 use Codeception\Test\Unit;
+use Generated\Shared\Transfer\GlueRequestTransfer;
+use Generated\Shared\Transfer\GlueResponseTransfer;
 use Spryker\Glue\GlueApplication\ApiApplication\ApiApplicationProxy;
 use Spryker\Glue\GlueApplication\ApiApplication\RequestFlowExecutorInterface;
 use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAgnosticApiApplication;
@@ -22,6 +24,7 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInte
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface;
 use Spryker\Shared\Application\ApplicationInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Auto-generated group annotations
@@ -326,6 +329,60 @@ class ApiApplicationProxyTest extends Unit
             $configMock,
         );
         $apiApplicationProxy->run();
+    }
+
+    public function testRunPreservesNotFoundStatusWhenApiPlatformKernelFallbackFails(): void
+    {
+        // Arrange
+        $glueResponseTransfer = (new GlueResponseTransfer())
+            ->setHttpStatus(Response::HTTP_NOT_FOUND)
+            ->setHasExecutableResource(false);
+
+        $requestFlowExecutorMock = $this->createMock(RequestFlowExecutorInterface::class);
+        $requestFlowExecutorMock
+            ->method('executeRequestFlow')
+            ->willReturn($glueResponseTransfer);
+
+        $applicationMock = $this->createMock(RequestFlowAwareApiApplication::class);
+
+        $bootstrapPluginMock = $this->createMock(GlueApplicationBootstrapPluginInterface::class);
+        $bootstrapPluginMock->method('getApplication')->willReturn($applicationMock);
+
+        $capturedGlueResponse = null;
+        $httpSenderMock = $this->createMock(HttpSenderInterface::class);
+        $httpSenderMock
+            ->expects($this->once())
+            ->method('sendResponse')
+            ->willReturnCallback(function (GlueResponseTransfer $glueResponse) use (&$capturedGlueResponse): Response {
+                $capturedGlueResponse = $glueResponse;
+
+                return new Response();
+            });
+
+        $requestBuilderMock = $this->createMock(RequestBuilderInterface::class);
+        $requestBuilderMock->method('extract')->willReturn(new GlueRequestTransfer());
+
+        $configMock = $this->createMock(GlueApplicationConfig::class);
+        $configMock->method('isTerminationEnabled')->willReturn(false);
+
+        $apiApplicationProxy = new ApiApplicationProxy(
+            $bootstrapPluginMock,
+            $requestFlowExecutorMock,
+            [],
+            [],
+            $requestBuilderMock,
+            $httpSenderMock,
+            $this->createContentNegotiatorMock(),
+            $this->createMock(Request::class),
+            $configMock,
+        );
+
+        // Act
+        $apiApplicationProxy->run();
+
+        // Assert
+        $this->assertNotNull($capturedGlueResponse);
+        $this->assertSame(Response::HTTP_NOT_FOUND, $capturedGlueResponse->getHttpStatus());
     }
 
     protected function createContentNegotiatorMock(): ContentNegotiatorInterface
