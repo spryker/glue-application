@@ -131,18 +131,20 @@ class ResourceRouteMatcher implements RouteMatcherInterface
 
     protected function isParentResourceMatching(ResourceInterface $resource, GlueRequestTransfer $glueRequestTransfer): bool
     {
+        $parentResourceTransfers = $glueRequestTransfer->getParentResources()->getArrayCopy();
+
         if (!$resource instanceof ResourceWithParentPluginInterface) {
-            return true;
+            return $parentResourceTransfers === [];
         }
 
-        $parentResourceTransfers = $glueRequestTransfer->getParentResources()->getArrayCopy();
+        if ($parentResourceTransfers === []) {
+            return false;
+        }
+
         /** @var \Generated\Shared\Transfer\GlueResourceTransfer $previousParentTransfer */
         $previousParentTransfer = end($parentResourceTransfers);
-        if ($resource->getParentResourceType() === $previousParentTransfer->getTypeOrFail()) {
-            return true;
-        }
 
-        return false;
+        return $resource->getParentResourceType() === $previousParentTransfer->getTypeOrFail();
     }
 
     /**
