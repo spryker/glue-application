@@ -89,6 +89,11 @@
         <property name="scopes" type="string[]" singular="scope"/>
     </transfer>
 
+    <transfer name="Customer">
+        <property name="idCustomer" type="int"/>
+        <property name="customerReference" type="string"/>
+    </transfer>
+
     <transfer name="Store">
         <property name="availableLocaleIsoCodes" type="array" singular="availableLocaleCode"/>
         <property name="defaultLocaleIsoCode" type="string"/>

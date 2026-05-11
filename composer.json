@@ -24,6 +24,7 @@
         "symfony/framework-bundle": "^6.0.0 || ^7.0.0"
     },
     "require-dev": {
+        "spryker/api-platform": "^1.0.0",
         "spryker/code-sniffer": "*",
         "spryker/config": "*",
         "spryker/event-dispatcher": "*",
@@ -31,6 +32,7 @@
         "spryker/testify": "*"
     },
     "suggest": {
+        "spryker/api-platform": "If you want migrated endpoints to replay legacy ControllerBeforeAction and RestUserValidator plugin chains via the API Platform compatibility bridge.",
         "spryker/config": "If you want to use Config.",
         "spryker/event-dispatcher": "If you want to use the EventDispatcher plugin.",
         "spryker/silex": "If you want to use ServiceProvider."
