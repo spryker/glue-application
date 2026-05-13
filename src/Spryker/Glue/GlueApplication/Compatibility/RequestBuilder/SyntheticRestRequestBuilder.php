@@ -84,6 +84,23 @@ class SyntheticRestRequestBuilder implements SyntheticRestRequestBuilderInterfac
             $restUserTransfer->setNaturalIdentifier($customerTransfer->getCustomerReference());
         }
 
+        // Carry company-user identifiers so legacy validators (e.g. CompanyUserRestUserValidatorPlugin)
+        // can recognize an authenticated company user on API Platform-served endpoints.
+        // CustomerTransfer.companyUserTransfer is populated upstream by CompanyUserIdentityRequestSubscriber.
+        $companyUserTransfer = $customerTransfer->getCompanyUserTransfer();
+
+        if ($companyUserTransfer === null) {
+            return $restUserTransfer;
+        }
+
+        if ($companyUserTransfer->getIdCompanyUser() !== null) {
+            $restUserTransfer->setIdCompanyUser($companyUserTransfer->getIdCompanyUser());
+        }
+
+        if ($companyUserTransfer->getFkCompany() !== null) {
+            $restUserTransfer->setIdCompany($companyUserTransfer->getFkCompany());
+        }
+
         return $restUserTransfer;
     }
 }
