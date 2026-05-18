@@ -101,6 +101,10 @@ class SyntheticRestRequestBuilder implements SyntheticRestRequestBuilderInterfac
             $restUserTransfer->setIdCompany($companyUserTransfer->getFkCompany());
         }
 
+        if ($companyUserTransfer->getFkCompanyBusinessUnit() !== null) {
+            $restUserTransfer->setIdCompanyBusinessUnit($companyUserTransfer->getFkCompanyBusinessUnit());
+        }
+
         return $restUserTransfer;
     }
 }
