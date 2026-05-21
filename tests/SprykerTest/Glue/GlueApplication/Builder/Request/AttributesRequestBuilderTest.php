@@ -71,6 +71,18 @@ class AttributesRequestBuilderTest extends Unit
         $this->assertArrayNotHasKey(static::ATTRIBUTES_SECOND_KEY, $glueRequestTransfer->getAttributes());
     }
 
+    public function testAttributesRequestBuilderDoesNotSetAttributesWhenContentIsJsonScalar(): void
+    {
+        // Arrange: JSON number is valid JSON but not an object/array
+        $glueRequestTransfer = (new GlueRequestTransfer())->setContent('1234567890');
+
+        // Act
+        $glueRequestTransfer = $this->extractAttributesRequest($glueRequestTransfer);
+
+        // Assert
+        $this->assertEmpty($glueRequestTransfer->getAttributes());
+    }
+
     public function testAttributesRequestBuilderWithContentData(): void
     {
         //Arrange
