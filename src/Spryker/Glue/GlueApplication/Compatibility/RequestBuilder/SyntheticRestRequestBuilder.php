@@ -15,6 +15,7 @@ use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResource;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\Metadata;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequest;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
+use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,6 +28,10 @@ use Symfony\Component\HttpFoundation\Request;
  *   - rest user (customer surrogate identifier + customer reference)
  *   - the original Symfony request
  *   - default empty filter / sort / include collections
+ *   - resource attributes (populated from the request body using the class map from
+ *     {@see GlueApplicationConfig::getResourceTypeAttributesClassMap()}, required for
+ *     `getRestRequestValidatorPlugins` validators that read body attributes via
+ *     `$restRequest->getResource()->getAttributes()`)
  *
  * Plugins that mutate the request via setters (`setRestUser`, `setPage`, etc.)
  * receive a writable instance — mutations apply to this synthetic object only,
@@ -36,12 +41,18 @@ class SyntheticRestRequestBuilder implements SyntheticRestRequestBuilderInterfac
 {
     protected const string DEFAULT_FORMAT = 'application/vnd.api+json';
 
+    protected const string JSON_API_KEY_DATA = 'data';
+
+    protected const string JSON_API_KEY_ATTRIBUTES = 'attributes';
+
     public function build(
         Request $httpRequest,
         ?CustomerTransfer $customerTransfer,
-        string $resourceShortName
+        string $resourceShortName,
+        ?string $attributesClass = null,
     ): RestRequestInterface {
-        $resource = new RestResource($resourceShortName);
+        $attributesTransfer = $this->buildAttributesTransfer($httpRequest, $attributesClass);
+        $resource = new RestResource($resourceShortName, null, $attributesTransfer);
         $metadata = new Metadata(
             static::DEFAULT_FORMAT,
             static::DEFAULT_FORMAT,
@@ -70,6 +81,26 @@ class SyntheticRestRequestBuilder implements SyntheticRestRequestBuilderInterfac
         }
 
         return $restRequest;
+    }
+
+    protected function buildAttributesTransfer(Request $httpRequest, ?string $attributesClass): ?AbstractTransfer
+    {
+        if ($attributesClass === null) {
+            return null;
+        }
+
+        if (!class_exists($attributesClass) || !is_subclass_of($attributesClass, AbstractTransfer::class)) {
+            return null;
+        }
+
+        $body = json_decode((string)$httpRequest->getContent(), true);
+        $attributes = is_array($body) ? ($body[static::JSON_API_KEY_DATA][static::JSON_API_KEY_ATTRIBUTES] ?? []) : [];
+
+        /** @var \Spryker\Shared\Kernel\Transfer\AbstractTransfer $transfer */
+        $transfer = new $attributesClass();
+        $transfer->fromArray($attributes, true);
+
+        return $transfer;
     }
 
     protected function buildRestUserTransfer(CustomerTransfer $customerTransfer): RestUserTransfer

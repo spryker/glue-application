@@ -18,6 +18,7 @@ interface SyntheticRestRequestBuilderInterface
     public function build(
         Request $httpRequest,
         ?CustomerTransfer $customerTransfer,
-        string $resourceShortName
+        string $resourceShortName,
+        ?string $attributesClass = null,
     ): RestRequestInterface;
 }
