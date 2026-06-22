@@ -67,7 +67,7 @@ class AttributesTransfer extends AbstractTransfer
     /**
      * @param string $attribute1
      *
-     * @return \SprykerTest\Glue\GlueRestApiConvention\Stub\AttributesTransfer
+     * @return $this
      */
     public function setAttribute1(string $attribute1)
     {

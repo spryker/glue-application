@@ -2,7 +2,7 @@
 // phpcs:ignoreFile
 // Mock plugin  for test
 
-namespace SprykerTest\Glue\GlueRestApiConvention\Stub;
+namespace SprykerTest\Glue\GlueApplication\Stub;
 
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Generated\Shared\Transfer\GlueResourceMethodCollectionTransfer;
