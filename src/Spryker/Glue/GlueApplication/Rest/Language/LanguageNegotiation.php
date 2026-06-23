@@ -41,16 +41,30 @@ class LanguageNegotiation implements LanguageNegotiationInterface
             return $defaultLocaleIsoCode;
         }
 
-        $acceptLanguageTransfer = $this->localeService->getAcceptLanguage($acceptLanguage, array_keys($storeLocaleCodes));
+        // The Negotiation library matches BCP-47 language tags (e.g. `de-DE`). Store locale codes
+        // may be keyed either by language code (`de`) or by full locale (`de_DE`, dynamic store),
+        // both using underscores. Index the original keys by their normalized (hyphenated,
+        // lower-cased) form so the negotiated result can be mapped back regardless of the keying.
+        $storeKeyByNormalizedCode = [];
+        foreach (array_keys($storeLocaleCodes) as $localeCode) {
+            $storeKeyByNormalizedCode[strtolower(str_replace('_', '-', $localeCode))] = $localeCode;
+        }
+
+        $acceptLanguageTransfer = $this->localeService->getAcceptLanguage(
+            $acceptLanguage,
+            array_keys($storeKeyByNormalizedCode),
+        );
 
         if (!$acceptLanguageTransfer || $acceptLanguageTransfer->getType() === null) {
             return $defaultLocaleIsoCode;
         }
 
-        if (!isset($storeLocaleCodes[$acceptLanguageTransfer->getType()])) {
+        $normalizedType = strtolower($acceptLanguageTransfer->getType());
+
+        if (!isset($storeKeyByNormalizedCode[$normalizedType])) {
             return $defaultLocaleIsoCode;
         }
 
-        return $storeLocaleCodes[$acceptLanguageTransfer->getType()];
+        return $storeLocaleCodes[$storeKeyByNormalizedCode[$normalizedType]];
     }
 }
