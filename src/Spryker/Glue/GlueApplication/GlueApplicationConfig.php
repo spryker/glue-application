@@ -14,6 +14,8 @@ use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 class GlueApplicationConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @var string
      */
     public const COLLECTION_IDENTIFIER_CURRENT_USER = 'mine';
@@ -124,6 +126,8 @@ class GlueApplicationConfig extends AbstractBundleConfig
     protected const HEADER_PERMISSIONS_POLICY_VALUE = '';
 
     /**
+     * @api
+     *
      * @var bool
      */
     public const VALIDATE_REQUEST_HEADERS = true;
