@@ -44,6 +44,10 @@ class GlueRestControllerListenerEventDispatcherPlugin extends AbstractPlugin imp
 
         [$controller, $action] = $currentController;
 
+        if (!$controller instanceof AbstractController) {
+            return;
+        }
+
         $request = $event->getRequest();
 
         $apiController = function () use ($controller, $action, $request) {
