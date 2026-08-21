@@ -92,7 +92,6 @@ class Router extends SymfonyRouter implements RouterInterface, WarmableInterface
     {
         $routerReflectionClass = new ReflectionClass(SymfonyRouter::class);
         $cacheProperty = $routerReflectionClass->getProperty('cache');
-        $cacheProperty->setAccessible(true);
         $cacheProperty->setValue(null, null);
     }
 }

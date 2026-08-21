@@ -116,7 +116,6 @@ class HttpSenderTest extends Unit
     {
         $reflection = new ReflectionClass($httpSender);
         $reflectionProperty = $reflection->getProperty('response');
-        $reflectionProperty->setAccessible(true);
 
         return $reflectionProperty->getValue($httpSender);
     }
