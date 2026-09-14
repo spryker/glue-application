@@ -24,10 +24,8 @@ class GlueRouterPlugin extends AbstractPlugin implements RequestMatcherInterface
      * Sets the request context.
      *
      * @param \Symfony\Component\Routing\RequestContext $context The context
-     *
-     * @return void
      */
-    public function setContext(RequestContext $context)
+    public function setContext(RequestContext $context): void
     {
     }
 

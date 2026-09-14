@@ -70,10 +70,11 @@ class Router extends SymfonyRouter implements RouterInterface, WarmableInterface
 
     /**
      * @param string $cacheDir
+     * @param string|null $buildDir
      *
      * @return array<string>
      */
-    public function warmUp(string $cacheDir): array
+    public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         $this->clearRouterStaticCache();
 

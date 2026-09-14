@@ -21,7 +21,7 @@
         "spryker/symfony": "^3.5.0",
         "spryker/transfer": "^3.27.0",
         "spryker/util-encoding": "^2.0.0",
-        "symfony/framework-bundle": "^6.0.0 || ^7.0.0"
+        "symfony/framework-bundle": "^6.0.0 || ^7.4.0"
     },
     "require-dev": {
         "spryker/api-platform": "^1.0.0",
