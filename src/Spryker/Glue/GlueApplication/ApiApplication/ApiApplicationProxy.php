@@ -9,6 +9,7 @@ namespace Spryker\Glue\GlueApplication\ApiApplication;
 
 use Generated\Shared\Transfer\GlueErrorTransfer;
 use Generated\Shared\Transfer\GlueRequestTransfer;
+use Generated\Shared\Transfer\GlueResponseTransfer;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
 use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAgnosticApiApplication;
 use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAwareApiApplication;
@@ -23,13 +24,25 @@ use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBoots
 use Spryker\Service\Container\ContainerInterface;
 use Spryker\Shared\Application\ApplicationInterface;
 use Spryker\Shared\Application\Kernel;
+use Spryker\Shared\Log\LoggerTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 use Throwable;
 
 class ApiApplicationProxy implements ApplicationInterface
 {
+    use LoggerTrait;
+
+    protected const string REQUEST_ATTRIBUTE_API_PLATFORM_REQUEST = 'api-platform-request';
+
+    protected const string CONTAINER_KEY_DEBUG = 'debug';
+
+    protected const string RESPONSE_FORMAT_JSON_API = 'application/vnd.api+json';
+
+    protected const string ERROR_DETAIL_INTERNAL_SERVER_ERROR = 'Internal Server Error';
+
     /**
      * @var \Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface
      */
@@ -150,7 +163,7 @@ class ApiApplicationProxy implements ApplicationInterface
 
         /** @phpstan-ignore instanceof.alwaysTrue */
         if ($container instanceof ContainerInterface) {
-            $kernel = new Kernel($container);
+            $kernel = $this->createKernel($container);
             $kernel->setApplication($bootstrapApplication);
             $kernel->boot();
         }
@@ -207,7 +220,7 @@ class ApiApplicationProxy implements ApplicationInterface
                 try {
                     // We create the request object from scratch as the original one may no longer have content (emptied when first requested)
                     $apiPlatformRequest = Request::createFromGlobals();
-                    $apiPlatformRequest->attributes->set('api-platform-request', true);
+                    $apiPlatformRequest->attributes->set(static::REQUEST_ATTRIBUTE_API_PLATFORM_REQUEST, true);
 
                     $response = $kernel->handle($apiPlatformRequest);
                     $glueResponseTransfer->setHttpStatus($response->getStatusCode());
@@ -216,7 +229,7 @@ class ApiApplicationProxy implements ApplicationInterface
 
                     $glueResponseTransfer->setFormat(null);
                 } catch (Throwable $throwable) {
-                    $glueResponseTransfer->addError((new GlueErrorTransfer())->setMessage('Tried to use API Platform to handle the request, but it failed with: ' . $throwable->getMessage()));
+                    $glueResponseTransfer = $this->handleApiPlatformFailure($glueResponseTransfer, $throwable);
                 }
             }
 
@@ -236,6 +249,52 @@ class ApiApplicationProxy implements ApplicationInterface
             RequestFlowAgnosticApiApplication::class,
             RequestFlowAwareApiApplication::class,
         ));
+    }
+
+    protected function createKernel(ContainerInterface $container): Kernel
+    {
+        $isDebug = $container->has(static::CONTAINER_KEY_DEBUG) && (bool)$container->get(static::CONTAINER_KEY_DEBUG);
+
+        return new Kernel($container, $isDebug);
+    }
+
+    /**
+     * HTTP exceptions keep the original Glue response on purpose: a route the API Platform kernel does not know
+     * must still answer with the legacy not-found format (for example the dynamic entity API).
+     */
+    protected function handleApiPlatformFailure(GlueResponseTransfer $glueResponseTransfer, Throwable $throwable): GlueResponseTransfer
+    {
+        $this->getLogger()->critical(
+            sprintf(
+                'API Platform kernel failed for "%s %s" with %s: %s in %s:%d',
+                $this->request->getMethod(),
+                $this->request->getPathInfo(),
+                $throwable::class,
+                $throwable->getMessage(),
+                $throwable->getFile(),
+                $throwable->getLine(),
+            ),
+            ['exception' => $throwable],
+        );
+
+        $glueResponseTransfer->addError((new GlueErrorTransfer())->setMessage($throwable->getMessage()));
+
+        if ($throwable instanceof HttpExceptionInterface) {
+            return $glueResponseTransfer;
+        }
+
+        return $glueResponseTransfer
+            ->setHttpStatus(Response::HTTP_INTERNAL_SERVER_ERROR)
+            ->setFormat(static::RESPONSE_FORMAT_JSON_API)
+            ->setMeta([])
+            ->setContent((string)json_encode([
+                'errors' => [
+                    [
+                        'status' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                        'detail' => static::ERROR_DETAIL_INTERNAL_SERVER_ERROR,
+                    ],
+                ],
+            ]));
     }
 
     protected function terminateApplication(RequestFlowAwareApiApplication $bootstrapApplication, Response $response): void

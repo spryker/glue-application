@@ -10,6 +10,10 @@ namespace SprykerTest\Glue\GlueApplication\ApiApplication;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Generated\Shared\Transfer\GlueResponseTransfer;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use ReflectionProperty;
+use RuntimeException;
 use Spryker\Glue\GlueApplication\ApiApplication\ApiApplicationProxy;
 use Spryker\Glue\GlueApplication\ApiApplication\RequestFlowExecutorInterface;
 use Spryker\Glue\GlueApplication\ApiApplication\Type\RequestFlowAgnosticApiApplication;
@@ -22,9 +26,15 @@ use Spryker\Glue\GlueApplication\Http\Response\HttpSenderInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\CommunicationProtocolPluginInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ConventionPluginInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\GlueApplicationBootstrapPluginInterface;
+use Spryker\Service\Container\Container;
+use Spryker\Service\Container\ContainerInterface;
 use Spryker\Shared\Application\ApplicationInterface;
+use Spryker\Shared\Application\Kernel;
+use Spryker\Shared\Log\Config\LoggerConfigInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 /**
  * Auto-generated group annotations
@@ -334,6 +344,67 @@ class ApiApplicationProxyTest extends Unit
     public function testRunPreservesNotFoundStatusWhenApiPlatformKernelFallbackFails(): void
     {
         // Arrange
+        $capturedGlueResponse = null;
+        $apiApplicationProxy = $this->createApiApplicationProxyWithFailingKernel(new NotFoundHttpException(), $capturedGlueResponse);
+
+        // Act
+        $apiApplicationProxy->run();
+
+        // Assert
+        $this->assertNotNull($capturedGlueResponse);
+        $this->assertSame(Response::HTTP_NOT_FOUND, $capturedGlueResponse->getHttpStatus());
+    }
+
+    public function testRunAnswersInternalServerErrorWhenApiPlatformKernelFailsWithoutHttpException(): void
+    {
+        // Arrange
+        $capturedGlueResponse = null;
+        $apiApplicationProxy = $this->createApiApplicationProxyWithFailingKernel(new RuntimeException('provider blew up'), $capturedGlueResponse);
+
+        // Act
+        $apiApplicationProxy->run();
+
+        // Assert
+        $this->assertNotNull($capturedGlueResponse);
+        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $capturedGlueResponse->getHttpStatus());
+        $this->assertSame('application/vnd.api+json', $capturedGlueResponse->getFormat());
+        $this->assertSame(
+            ['errors' => [['status' => Response::HTTP_INTERNAL_SERVER_ERROR, 'detail' => 'Internal Server Error']]],
+            json_decode((string)$capturedGlueResponse->getContent(), true),
+        );
+        $this->assertSame('provider blew up', $capturedGlueResponse->getErrors()[0]->getMessage());
+    }
+
+    public function testCreateKernelPropagatesTheDebugValueOfTheApplicationContainer(): void
+    {
+        // Arrange
+        $container = new Container(['debug' => true]);
+        $apiApplicationProxy = new class (
+            $this->createMock(GlueApplicationBootstrapPluginInterface::class),
+            $this->createMock(RequestFlowExecutorInterface::class),
+            [],
+            [],
+            $this->createMock(RequestBuilderInterface::class),
+            $this->createMock(HttpSenderInterface::class),
+            $this->createContentNegotiatorMock(),
+            $this->createMock(Request::class),
+            $this->createMock(GlueApplicationConfig::class),
+        ) extends ApiApplicationProxy {
+            public function createKernelForContainer(ContainerInterface $container): Kernel
+            {
+                return $this->createKernel($container);
+            }
+        };
+
+        // Act
+        $kernel = $apiApplicationProxy->createKernelForContainer($container);
+
+        // Assert
+        $this->assertTrue((new ReflectionProperty(Kernel::class, 'debug'))->getValue($kernel));
+    }
+
+    protected function createApiApplicationProxyWithFailingKernel(Throwable $throwable, ?GlueResponseTransfer &$capturedGlueResponse): ApiApplicationProxy
+    {
         $glueResponseTransfer = (new GlueResponseTransfer())
             ->setHttpStatus(Response::HTTP_NOT_FOUND)
             ->setHasExecutableResource(false);
@@ -344,11 +415,11 @@ class ApiApplicationProxyTest extends Unit
             ->willReturn($glueResponseTransfer);
 
         $applicationMock = $this->createMock(RequestFlowAwareApiApplication::class);
+        $applicationMock->method('getContainer')->willReturn($this->createMock(ContainerInterface::class));
 
         $bootstrapPluginMock = $this->createMock(GlueApplicationBootstrapPluginInterface::class);
         $bootstrapPluginMock->method('getApplication')->willReturn($applicationMock);
 
-        $capturedGlueResponse = null;
         $httpSenderMock = $this->createMock(HttpSenderInterface::class);
         $httpSenderMock
             ->expects($this->once())
@@ -365,7 +436,11 @@ class ApiApplicationProxyTest extends Unit
         $configMock = $this->createMock(GlueApplicationConfig::class);
         $configMock->method('isTerminationEnabled')->willReturn(false);
 
-        $apiApplicationProxy = new ApiApplicationProxy(
+        $kernelMock = $this->createMock(Kernel::class);
+        $kernelMock->method('handle')->willThrowException($throwable);
+
+        return new class (
+            $kernelMock,
             $bootstrapPluginMock,
             $requestFlowExecutorMock,
             [],
@@ -375,14 +450,22 @@ class ApiApplicationProxyTest extends Unit
             $this->createContentNegotiatorMock(),
             $this->createMock(Request::class),
             $configMock,
-        );
+        ) extends ApiApplicationProxy {
+            public function __construct(protected Kernel $kernelMock, mixed ...$arguments)
+            {
+                parent::__construct(...$arguments);
+            }
 
-        // Act
-        $apiApplicationProxy->run();
+            protected function createKernel(ContainerInterface $container): Kernel
+            {
+                return $this->kernelMock;
+            }
 
-        // Assert
-        $this->assertNotNull($capturedGlueResponse);
-        $this->assertSame(Response::HTTP_NOT_FOUND, $capturedGlueResponse->getHttpStatus());
+            protected function getLogger(?LoggerConfigInterface $loggerConfig = null): LoggerInterface
+            {
+                return new NullLogger();
+            }
+        };
     }
 
     protected function createContentNegotiatorMock(): ContentNegotiatorInterface
