@@ -98,7 +98,7 @@ class SyntheticRestRequestBuilder implements SyntheticRestRequestBuilderInterfac
 
         /** @var \Spryker\Shared\Kernel\Transfer\AbstractTransfer $transfer */
         $transfer = new $attributesClass();
-        $transfer->fromArray($attributes, true);
+        $transfer->fromArray(is_array($attributes) ? $attributes : [], true);
 
         return $transfer;
     }
