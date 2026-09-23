@@ -10,6 +10,7 @@ namespace SprykerTest\Glue\GlueApplication\Router\ResourceRouter;
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\GlueRequestTransfer;
 use Spryker\Glue\GlueApplication\Resource\MissingResource;
+use Spryker\Glue\GlueApplication\Resource\PreFlightResource;
 use Spryker\Glue\GlueApplication\Router\ResourceRouter\ConventionResourceFilter;
 use Spryker\Glue\GlueApplication\Router\ResourceRouter\RequestResourcePluginFilter;
 use Spryker\Glue\GlueApplication\Router\ResourceRouter\ResourceRouteMatcher;
@@ -208,6 +209,26 @@ class ResourceRouteMatcherTest extends Unit
 
         //Assert
         $this->assertNotInstanceOf(MissingResource::class, $resource);
+    }
+
+    /**
+     * URL under test: /parent-resources/{id}/child-resources (OPTIONS)
+     */
+    public function testRouteReturnsPreFlightResourceForOptionsRequestOnNestedPathWithNoResourcePlugins(): void
+    {
+        //Arrange
+        $resourceRouteMatcher = $this->createResourceRouteMatcher([]);
+
+        $glueRequestTransfer = (new GlueRequestTransfer())
+            ->setApplication(static::APPLICATION_NAME)
+            ->setPath(sprintf('/%s/%s/%s', static::RESOURCE_TYPE_PARENT, static::RESOURCE_ID, static::RESOURCE_TYPE_CHILD_WITH_PARENT))
+            ->setMethod(Request::METHOD_OPTIONS);
+
+        //Act
+        $resource = $resourceRouteMatcher->route($glueRequestTransfer);
+
+        //Assert
+        $this->assertInstanceOf(PreFlightResource::class, $resource);
     }
 
     /**

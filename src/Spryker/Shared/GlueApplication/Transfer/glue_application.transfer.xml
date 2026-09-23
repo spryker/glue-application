@@ -87,11 +87,16 @@
         <property name="naturalIdentifier" type="string"/>
         <property name="surrogateIdentifier" type="int"/>
         <property name="scopes" type="string[]" singular="scope"/>
+        <property name="idCompanyUser" type="int"/>
+        <property name="idCompany" type="int"/>
+        <property name="uuidCompanyUser" type="string" description="The universally unique identifier for a company user."/>
+        <property name="idCompanyBusinessUnit" type="int"/>
     </transfer>
 
     <transfer name="Customer">
         <property name="idCustomer" type="int"/>
         <property name="customerReference" type="string"/>
+        <property name="companyUserTransfer" type="CompanyUser"/>
     </transfer>
 
     <transfer name="Store">
@@ -191,5 +196,12 @@
 
     <transfer name="AcceptLanguage" strict="true">
         <property name="type" type="string"/>
+    </transfer>
+
+    <transfer name="CompanyUser">
+        <property name="idCompanyUser" type="int"/>
+        <property name="fkCompany" type="int"/>
+        <property name="fkCompanyBusinessUnit" type="int"/>
+        <property name="uuid" type="string" description="A Universally Unique Identifier for an entity."/>
     </transfer>
 </transfers>
