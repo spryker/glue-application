@@ -11,12 +11,14 @@ namespace Spryker\Glue\GlueApplication\Compatibility\RequestBuilder;
 
 use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\RestUserTransfer;
+use InvalidArgumentException;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResource;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\Metadata;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequest;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
 use Spryker\Shared\Kernel\Transfer\AbstractTransfer;
 use Symfony\Component\HttpFoundation\Request;
+use TypeError;
 
 /**
  * Constructs a minimal {@see RestRequestInterface} from an API Platform Symfony
@@ -98,7 +100,15 @@ class SyntheticRestRequestBuilder implements SyntheticRestRequestBuilderInterfac
 
         /** @var \Spryker\Shared\Kernel\Transfer\AbstractTransfer $transfer */
         $transfer = new $attributesClass();
-        $transfer->fromArray(is_array($attributes) ? $attributes : [], true);
+
+        try {
+            $transfer->fromArray(is_array($attributes) ? $attributes : [], true);
+        } catch (InvalidArgumentException | TypeError) {
+            // The bridge runs ahead of API Platform validation, so a value the transfer cannot
+            // hold - a non-numeric decimal, say - is left to that validation to reject rather
+            // than answered as a 500 here.
+            return new $attributesClass();
+        }
 
         return $transfer;
     }
