@@ -12,6 +12,8 @@ namespace Spryker\Glue\GlueApplication\Compatibility\RequestBuilder;
 use Generated\Shared\Transfer\CustomerTransfer;
 use Generated\Shared\Transfer\RestUserTransfer;
 use InvalidArgumentException;
+use Spryker\Glue\GlueApplication\Compatibility\Transfer\NullCollectionNormalizer;
+use Spryker\Glue\GlueApplication\Compatibility\Transfer\NullCollectionNormalizerInterface;
 use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResource;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\Metadata;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequest;
@@ -46,6 +48,11 @@ class SyntheticRestRequestBuilder implements SyntheticRestRequestBuilderInterfac
     protected const string JSON_API_KEY_DATA = 'data';
 
     protected const string JSON_API_KEY_ATTRIBUTES = 'attributes';
+
+    public function __construct(
+        protected NullCollectionNormalizerInterface $nullCollectionNormalizer = new NullCollectionNormalizer(),
+    ) {
+    }
 
     public function build(
         Request $httpRequest,
@@ -102,7 +109,7 @@ class SyntheticRestRequestBuilder implements SyntheticRestRequestBuilderInterfac
         $transfer = new $attributesClass();
 
         try {
-            $transfer->fromArray(is_array($attributes) ? $attributes : [], true);
+            $transfer->fromArray(is_array($attributes) ? $this->nullCollectionNormalizer->normalize($attributesClass, $attributes) : [], true);
         } catch (InvalidArgumentException | TypeError) {
             // The bridge runs ahead of API Platform validation, so a value the transfer cannot
             // hold - a non-numeric decimal, say - is left to that validation to reject rather
