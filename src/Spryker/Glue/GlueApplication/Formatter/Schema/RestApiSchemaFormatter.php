@@ -118,7 +118,6 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
 
             // When the current resource is an instance of the `\Spryker\Glue\GlueJsonApiConventionExtension\Dependency\Plugin\JsonApiResourceInterface`
             // then skip this resource and continue with the next one.
-            // @ticket https://spryker.atlassian.net/browse/FRW-10925
             if ($this->checkIfResourceHasConvention($resourceContext->getResourcePluginName())) {
                 continue;
             }
@@ -238,6 +237,10 @@ class RestApiSchemaFormatter implements SchemaFormatterInterface
     {
         if (isset($operation['responses'])) {
             foreach ($operation['responses'] as $responseCode => $response) {
+                if (!isset($response['content'])) {
+                    continue;
+                }
+
                 if ((int)$responseCode >= Response::HTTP_BAD_REQUEST || $responseCode === static::DEFAULT_RESPONSE) {
                     $operation['responses'][$responseCode]['content'] = $this->addContent($response['content'], static::ERROR_MESSAGE);
 
