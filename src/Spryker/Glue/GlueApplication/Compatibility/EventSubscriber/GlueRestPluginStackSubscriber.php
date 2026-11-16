@@ -194,7 +194,7 @@ class GlueRestPluginStackSubscriber implements EventSubscriberInterface
 
     protected function buildSyntheticRestResponse(Response $httpResponse): RestResponseInterface
     {
-        $restResponse = new RestResponse();
+        $restResponse = (new RestResponse())->setStatus($httpResponse->getStatusCode());
         $body = json_decode((string)$httpResponse->getContent(), true);
 
         if (!is_array($body) || !isset($body[static::JSON_KEY_ERRORS])) {

@@ -20,12 +20,16 @@ use Generated\Shared\Transfer\CustomerTransfer;
 use PHPUnit\Framework\MockObject\MockObject;
 use Spryker\Glue\GlueApplication\Compatibility\EventSubscriber\GlueRestPluginStackSubscriber;
 use Spryker\Glue\GlueApplication\Compatibility\RequestBuilder\SyntheticRestRequestBuilderInterface;
+use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 use Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface;
+use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ControllerAfterActionPluginInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\ControllerBeforeActionPluginInterface;
 use Spryker\Glue\GlueApplicationExtension\Dependency\Plugin\RestRequestValidatorPluginInterface;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
@@ -61,6 +65,11 @@ class GlueRestPluginStackSubscriberTest extends Unit
      * @uses \Spryker\Glue\GlueApplication\Compatibility\EventSubscriber\GlueRestPluginStackSubscriber::ATTRIBUTE_CUSTOMER_TRANSFER
      */
     protected const string ATTRIBUTE_CUSTOMER_TRANSFER = 'CustomerTransfer';
+
+    /**
+     * @uses \Spryker\Glue\GlueApplication\Compatibility\EventSubscriber\GlueRestPluginStackSubscriber::ATTRIBUTE_SYNTHETIC_REST_REQUEST
+     */
+    protected const string ATTRIBUTE_SYNTHETIC_REST_REQUEST = '_bridge_synthetic_rest_request';
 
     public function testGivenARequestThatOptsOutOfTheGlueRestPluginStacksWhenItArrivesThenNoRequestValidatorPluginRuns(): void
     {
@@ -104,6 +113,84 @@ class GlueRestPluginStackSubscriberTest extends Unit
 
         // Act
         $this->createSubscriber($restRequestValidatorPluginMock, [$controllerBeforeActionPluginMock])->onKernelRequest($this->createRequestEvent($request));
+    }
+
+    /**
+     * After-action plugins tell a successful login from a failed one by the status, so it must be the real one.
+     */
+    public function testGivenASuccessfulResponseWhenItIsSentThenTheAfterActionPluginsReceiveItsRealStatus(): void
+    {
+        // Arrange
+        $capturingAfterActionPlugin = $this->createCapturingAfterActionPlugin();
+        $response = new Response('{"data":{"type":"access-tokens","attributes":{}}}', Response::HTTP_CREATED);
+
+        // Act
+        $this->createAfterActionSubscriber($capturingAfterActionPlugin)->onKernelResponse($this->createResponseEvent($response));
+
+        // Assert
+        $this->assertSame(Response::HTTP_CREATED, $capturingAfterActionPlugin->restResponse->getStatus());
+        $this->assertSame([], $capturingAfterActionPlugin->restResponse->getErrors());
+    }
+
+    public function testGivenAFailedResponseWhenItIsSentThenTheAfterActionPluginsReceiveItsRealStatusAndErrors(): void
+    {
+        // Arrange
+        $capturingAfterActionPlugin = $this->createCapturingAfterActionPlugin();
+        $response = new Response('{"errors":[{"status":401,"code":"003","detail":"Failed to authenticate user."}]}', Response::HTTP_UNAUTHORIZED);
+
+        // Act
+        $this->createAfterActionSubscriber($capturingAfterActionPlugin)->onKernelResponse($this->createResponseEvent($response));
+
+        // Assert
+        $this->assertSame(Response::HTTP_UNAUTHORIZED, $capturingAfterActionPlugin->restResponse->getStatus());
+        $this->assertCount(1, $capturingAfterActionPlugin->restResponse->getErrors());
+        $this->assertSame('003', $capturingAfterActionPlugin->restResponse->getErrors()[0]->getCode());
+    }
+
+    /**
+     * A non-JSON error page parses to "no errors"; only the status keeps it from looking like a success.
+     */
+    public function testGivenANonJsonServerErrorWhenItIsSentThenTheAfterActionPluginsReceiveItsRealStatus(): void
+    {
+        // Arrange
+        $capturingAfterActionPlugin = $this->createCapturingAfterActionPlugin();
+        $response = new Response('<html><body>Internal Server Error</body></html>', Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        // Act
+        $this->createAfterActionSubscriber($capturingAfterActionPlugin)->onKernelResponse($this->createResponseEvent($response));
+
+        // Assert
+        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $capturingAfterActionPlugin->restResponse->getStatus());
+        $this->assertSame([], $capturingAfterActionPlugin->restResponse->getErrors());
+    }
+
+    protected function createAfterActionSubscriber(ControllerAfterActionPluginInterface $controllerAfterActionPlugin): GlueRestPluginStackSubscriber
+    {
+        return new GlueRestPluginStackSubscriber(
+            $this->createMock(ResourceMetadataCollectionFactoryInterface::class),
+            $this->createMock(SyntheticRestRequestBuilderInterface::class),
+            controllerAfterActionPlugins: [$controllerAfterActionPlugin],
+        );
+    }
+
+    protected function createResponseEvent(Response $response): ResponseEvent
+    {
+        $request = Request::create('/access-tokens', Request::METHOD_POST);
+        $request->attributes->set(static::ATTRIBUTE_SYNTHETIC_REST_REQUEST, $this->createMock(RestRequestInterface::class));
+
+        return new ResponseEvent($this->createMock(HttpKernelInterface::class), $request, HttpKernelInterface::MAIN_REQUEST, $response);
+    }
+
+    protected function createCapturingAfterActionPlugin(): ControllerAfterActionPluginInterface
+    {
+        return new class implements ControllerAfterActionPluginInterface {
+            public RestResponseInterface $restResponse;
+
+            public function afterAction(string $action, RestRequestInterface $restRequest, RestResponseInterface $restResponse): void
+            {
+                $this->restResponse = $restResponse;
+            }
+        };
     }
 
     protected function createRestRequestValidatorPluginMock(): RestRequestValidatorPluginInterface&MockObject

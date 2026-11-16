@@ -82,12 +82,5 @@
         "rule": "GetterReturnTypeRule",
         "ruleset": "Spryker",
         "priority": "1"
-    },
-    {
-        "fileName": "src/Spryker/Glue/GlueApplication/Plugin/Rest/GlueRouterPlugin.php",
-        "description": "Method `Spryker\\Glue\\GlueApplication\\Plugin\\Rest\\GlueRouterPlugin::setContext()` must have return type.",
-        "rule": "ExternalMethodExtensionReturnTypeRule",
-        "ruleset": "Spryker",
-        "priority": "1"
     }
 ]
