@@ -258,16 +258,16 @@ class TextDescriptor extends Descriptor
         }
 
         if ($callable instanceof Closure) {
-            $r = new ReflectionFunction($callable);
-            if (strpos($r->name, '{closure}') !== false) {
+            $reflection = new ReflectionFunction($callable);
+            if (strpos($reflection->name, '{closure}') !== false) {
                 return 'Closure()';
             }
-            $class = $r->getClosureScopeClass();
+            $class = $reflection->getClosureScopeClass();
             if ($class !== null) {
-                return sprintf('%s::%s()', $class->name, $r->name);
+                return sprintf('%s::%s()', $class->name, $reflection->name);
             }
 
-            return $r->name . '()';
+            return $reflection->name . '()';
         }
 
         if (method_exists($callable, '__invoke')) {

@@ -14,5 +14,6 @@ parameters:
         - '#Trait .+ is used zero times and is not analysed#'
         -
             identifier: missingType.iterableValue
+        - '#PHPDoc tag @SuppressWarnings has invalid value#'
     excludePaths:
         - '%rootDir%/../../../src/Spryker/GlueApplication/src/Spryker/Glue/GlueApplication/Plugin/Rest/GlueRouterPluginTrait.php'

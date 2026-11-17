@@ -11,6 +11,9 @@ use Spryker\Glue\GlueApplication\Rest\RequestConstantsInterface;
 use Spryker\Glue\Kernel\AbstractBundleConfig;
 use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 
+/**
+ * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+ */
 class GlueApplicationConfig extends AbstractBundleConfig
 {
     /**

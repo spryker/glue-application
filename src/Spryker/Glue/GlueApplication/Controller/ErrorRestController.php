@@ -13,6 +13,9 @@ use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 use Spryker\Glue\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @SuppressWarnings(PHPMD.UndefinedVariable) PHPMD 2.x flags static property reads as undefined variables; fixed in PHPMD 3.x.
+ */
 class ErrorRestController extends AbstractController implements ErrorControllerInterface
 {
     public function badRequestAction(): RestResponseInterface

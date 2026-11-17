@@ -15,6 +15,9 @@ use Spryker\Glue\GlueApplication\Serialize\Encoder\EncoderInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @SuppressWarnings(PHPMD.UndefinedVariable) PHPMD 2.x flags static property reads as undefined variables; fixed in PHPMD 3.x.
+ */
 class ResponseFormatter implements ResponseFormatterInterface
 {
     /**
